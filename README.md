@@ -1,35 +1,16 @@
-<!DOCTYPE html>
-<!-- Based on Ashley theme by Brent Jackson (http://jxnblk.com) //-->
-<!-- Heavily modified by Mayuresh Kathe (http://kathe.in/) //-->
-<html lang="en">
-  <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Flow-based Programming</title>
-		<meta name="description" content="Official website for flow-based programming" />
-		<meta name="keywords" content="flow-based programming c c++ java c# lua dataflow componentry streams threads fbp flow-based distributed development multicore multithreading parallelism maintainability visual asynchronism asynchronous SOA MOM programming NoFlo flowhub dataflow simplicity productivity paradigm" />
-		<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
-		<meta name=viewport content='width=device-width, initial-scale=1'>
-		<link rel="stylesheet" type="text/css" href="../style.css">
-		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-	</head>
-	<body>
-		<header>
-			<h1>Flow-based Programming</h1>			
-<p><img src="panta.png" alt="Panta rhei" style="position:relative; bottom:-10px;"> <span style="font-size: 20px;font-style:italic">(Panta rhei)</span> <span style="font-size: 20px;"> - Everything flows.</span></p>
+# Flow-based Programming
 
-<p align="center"><img style="width: 650px; height: 389px;"
-        alt="Animation of simple diagram" src="fbp_anims.gif"><br>
-    </p>
-		</header>
+![Panta rhei](panta.png)
+<span style="font-size: 20px;font-style:italic">(Panta rhei)</span>
+<span style="font-size: 20px;"> - Everything flows.</span>
 
-		<div class="content wrap">
-			<section class="posts">
-				<article class="post text">
-				<p>
-        <!--iframe src="http://youtu.be/zZ3HVEdoie0?autoplay=1" width="500" height="281" frameborder="0"></iframe-->  
-        
-					<p>In computer programming, Flow-Based Programming (FBP) is a programming paradigm, discovered/invented by <a href="http://www.jpaulmorrison.com/">J. Paul Rodker Morrison</a> in the late '60s, that uses a "data processing factory" metaphor for designing and building applications.  FBP defines applications as networks of "black box" processes, which communicate via data chunks (called Information Packets) travelling across predefined connections (think "conveyor belts"), where the connections are specified externally to the processes. These black box processes can be reconnected endlessly to form different applications without having to be changed internally. FBP is thus naturally component-oriented.</p>
-					<p>FBP is a special case of <a href="https://en.wikipedia.org/wiki/Dataflow">dataflow</a> programming characterized by asynchronous, concurrent processes "under the covers", Information Packets with defined lifetimes, named ports, "bounded buffer" connections, and definition of connections external to the components - it has been found to support improved development time and maintainability, reusability, rapid prototyping, simulation, improved performance, and good communication among developers,  maintenance staff, users, systems people, and management - not to mention that FBP naturally takes advantage of multiple cores... without the programmer having to struggle with the intricacies of multitasking!</p> 
+![Animation of simple diagram](fbp_anims.gif)  
+
+<div class="content wrap">
+
+<div class="section posts">
+<p>In computer programming, Flow-Based Programming (FBP) is a programming paradigm, discovered/invented by <a href="http://www.jpaulmorrison.com/">J. Paul Rodker Morrison</a> in the late '60s, that uses a "data processing factory" metaphor for designing and building applications.  FBP defines applications as networks of "black box" processes, which communicate via data chunks (called Information Packets) travelling across predefined connections (think "conveyor belts"), where the connections are specified externally to the processes. These black box processes can be reconnected endlessly to form different applications without having to be changed internally. FBP is thus naturally component-oriented.</p>
+<p>FBP is a special case of <a href="https://en.wikipedia.org/wiki/Dataflow">dataflow</a> programming characterized by asynchronous, concurrent processes "under the covers", Information Packets with defined lifetimes, named ports, "bounded buffer" connections, and definition of connections external to the components - it has been found to support improved development time and maintainability, reusability, rapid prototyping, simulation, improved performance, and good communication among developers,  maintenance staff, users, systems people, and management - not to mention that FBP naturally takes advantage of multiple cores... without the programmer having to struggle with the intricacies of multitasking!</p> 
 <p> <div style="text-align: center"><img src="bottling_factory.png" alt="Bottling factory" height = "400"> </div>
 </p>
 <p>FBP is a very different paradigm from conventional programming, being more of an "assembly line" image of data processing.  It therefore involves a drastic "paradigm shift", which is not natural for the majority of programmers.  Over the last 40+ years, therefore, many companies have come out with FBP-like or "FBP-inspired" systems (to borrow Joe Witt of Hortonworks' term), which do not involve the required paradigm shift, including some of the biggest and most successful companies in the industry, such as IBM, Microsoft, Facebook, Google, and the New York Times (see <a href="http://www.jpaulmorrison.com/fbp/links_external.html">FBP External References</a>).  Unfortunately, without the FBP paradigm shift, these systems cannot fully achieve the advantages listed above, so we are now starting to call the true FBP architecture "classical" FBP.   It is hard for someone reading documentation to tell whether a given product calling itself "FBP- like" is "classical" or not,  but, in general, asynchronism is the litmus test.  Joe Witt's <a href="https://nifi.apache.org/">NiFi</a> is an example of a "classical" FBP implementation, while generally systems based on JavaScript will not be "classical"!    </p>
