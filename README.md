@@ -4,11 +4,13 @@
 <span style="font-size: 20px;font-style:italic">(Panta rhei)</span>
 <span style="font-size: 20px;"> - Everything flows.</span>
 
+
 ![Animation of simple diagram](fbp_anims.gif)  
 
 <div class="content wrap">
 
 <div class="section posts">
+
 <p>In computer programming, Flow-Based Programming (FBP) is a programming paradigm, discovered/invented by <a href="http://www.jpaulmorrison.com/">J. Paul Rodker Morrison</a> in the late '60s, that uses a "data processing factory" metaphor for designing and building applications.  FBP defines applications as networks of "black box" processes, which communicate via data chunks (called Information Packets) travelling across predefined connections (think "conveyor belts"), where the connections are specified externally to the processes. These black box processes can be reconnected endlessly to form different applications without having to be changed internally. FBP is thus naturally component-oriented.</p>
 <p>FBP is a special case of <a href="https://en.wikipedia.org/wiki/Dataflow">dataflow</a> programming characterized by asynchronous, concurrent processes "under the covers", Information Packets with defined lifetimes, named ports, "bounded buffer" connections, and definition of connections external to the components - it has been found to support improved development time and maintainability, reusability, rapid prototyping, simulation, improved performance, and good communication among developers,  maintenance staff, users, systems people, and management - not to mention that FBP naturally takes advantage of multiple cores... without the programmer having to struggle with the intricacies of multitasking!</p> 
 <p> <div style="text-align: center"><img src="bottling_factory.png" alt="Bottling factory" height = "400"> </div>
@@ -17,13 +19,9 @@
 
 <p>FBP is described in J. Paul Morrison's book <a href="http://www.jpaulmorrison.com/fbp/book.html">"Flow-Based Programming: A New Approach to Application Development"</a>, now in its 2nd edition, which can be obtained in paperback form from <a href="http://www.amazon.com/Flow-Based-Programming-2nd-Application-Development/dp/1451542321">Amazon</a>, or in 2 e-book formats: <a href="http://www.amazon.com/Flow-Based-Programming-J-Paul-Morrison-ebook/dp/B004PLO66O">Kindle</a> and <a href="http://www.lulu.com/shop/j-paul-morrison/flow-based-programming-2nd-edition/ebook/product-21172063.html">epub</a>.</p>
 <p>Further down on this web page you will find a bunch of useful links, including a list of currently supported programming languages (on <a href="https://github.com/jpaulm">GitHub</a>), and some videos demonstrating the use of the FBP diagramming tool, <a href="..\graphicsstuff\index.shtml">DrawFBP</a>.  During FBP's early days, networks were coded by hand, and initially we used pencil and paper, followed by more sophisticated graphical tools, whether or not they played well with FBP software.  However, with the advent of good graphical support, we now have a powerful graphical tool (<a href="..\graphicsstuff\index.shtml">DrawFBP</a>), and in recent years the emphasis has been shifting to doing the diagramming on-line, and then generating the networks (we can see this progression with other flow tools on the market).  Now that compile and run functions have been added to DrawFBP, the developer can do much of the development graphically, and on-line.  
-</p>
-				
+</p> 
 
-
-        <!--/article> 
-        <article class="post text"-->
-            <p>If you have come across Flow-Based Programming by way of NoFlo or Flowhub, it is recommended that you read <a href="noflo.html"><i>FBP vs. FBP-inspired Systems</i></a>, which attempts to highlight the differences and similarities between FBP proper, or "classical" FBP, (the subject of this web site) on the one hand, and NoFlo and other similar FBP-inspired systems on the other.  FBP does involve a significant paradigm shift for the majority of programmers, which may be why a number of systems such as NoFlo have appeared in recent years that appear to be a halfway house between FBP and conventional programming.  While the FBP paradigm shift may cause some trouble at first, given the prevalence of the older programming approaches, in fact it embodies a simple mental model (not "simple" as in easy but
+<p>If you have come across Flow-Based Programming by way of NoFlo or Flowhub, it is recommended that you read <a href="noflo.html"><i>FBP vs. FBP-inspired Systems</i></a>, which attempts to highlight the differences and similarities between FBP proper, or "classical" FBP, (the subject of this web site) on the one hand, and NoFlo and other similar FBP-inspired systems on the other.  FBP does involve a significant paradigm shift for the majority of programmers, which may be why a number of systems such as NoFlo have appeared in recent years that appear to be a halfway house between FBP and conventional programming.  While the FBP paradigm shift may cause some trouble at first, given the prevalence of the older programming approaches, in fact it embodies a simple mental model (not "simple" as in easy but
 "simple" as in elegant, to quote Joe Witt), and has proven over several decades to result in applications that are more understandable and maintainable than those built using the conventional (von Neumann) paradigm.</p>
 
 <p>For those of you who do not have the patience to wade through the whole book (TL;DR!), I would strongly advise reading at least <a href="http://www.jpaulmorrison.com/fbp/concepts_book.shtml">Chapter 3, Basic Concepts</a>, as this describes the fundamental concepts of FBP.  This chapter will answer many of your basic questions about FBP, and act as a starting point if you wish to dig deeper. </p>
@@ -71,10 +69,12 @@
 					 </p>
 					 
 					 <p>
-       <iframe src="http://www.youtube.com/embed/up2yhNTsaDs" width="500" height="420" frameborder="0" allowfullscreen=true></iframe> </p>
+
+<iframe src="http://www.youtube.com/embed/up2yhNTsaDs" width="500" height="420" frameborder="0" allowfullscreen=true></iframe> </p>
 <p><i>Video Interview with J. Paul Rodker Morrison, Summer 2013 </i></p>
         
-					 <p>In addition, there are six Youtube videos on  <a href="..\graphicsstuff\index.shtml">DrawFBP</a>, illustrating a number of basic ("classical") FBP concepts (what we are now calling "FBP-inspired" or "FBP-like" systems do not necessarily contain all of these, although DrawFBP should be able to support most of these systems):
+
+<p>In addition, there are six Youtube videos on  <a href="..\graphicsstuff\index.shtml">DrawFBP</a>, illustrating a number of basic ("classical") FBP concepts (what we are now calling "FBP-inspired" or "FBP-like" systems do not necessarily contain all of these, although DrawFBP should be able to support most of these systems):
 					 <ol><li><a href="https://www.youtube.com/watch?v=OrKenPOV4Js">DrawFBP video #1</a></li>
 					 <li><a href="https://www.youtube.com/watch?v=9NXYNxDjFWY">DrawFBP video #2</a></li>
 					 <li><a href="https://www.youtube.com/watch?v=-AmzfhV2hIU">DrawFBP video #3</a></li>
@@ -85,15 +85,19 @@
 					 </p>
 					 <p>Finally, a <a href="http://player.vimeo.com/video/79329015">video</a> presentation at a Meetup in Toronto in Sept. 2013 organized by Paul Tarvydas, CEO of Tarvydas-Sanford Controls Inc., and Dann Toliver, also containing a few jokes and reminiscences...
 </p>
-					<p>Google group on <a href="http://groups.google.com/group/flow-based-programming">Flow-Based Programming</a></p>
+
+<p>Google group on <a href="http://groups.google.com/group/flow-based-programming">Flow-Based Programming</a></p>
 					
-					<p>C2-style <a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl">Flow-Based Programming Wiki</a> (last maintained in 2010)</p>
+
+<p>C2-style <a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl">Flow-Based Programming Wiki</a> (last maintained in 2010)</p>
 					
-                                                    <p>More general <a href="https://github.com/flowbased/flowbased.org/wiki">FBP Wiki</a> by Vladimir Sibirov, et al., intended to cover both "classical" FBP and FBP-inspired approaches (still under development )</p>
+
+<p>More general <a href="https://github.com/flowbased/flowbased.org/wiki">FBP Wiki</a> by Vladimir Sibirov, et al., intended to cover both "classical" FBP and FBP-inspired approaches (still under development )</p>
 					<p><a href="https://flow-based.org/">FBP Specification wiki</a> - under development by Vladimir Sibirov 					
 					
 					<p></p>      
-					<p>Twitter hashtag: <a href="https://twitter.com/search?q=%23FlowBased&src=hash">#FlowBased</a></p>
+
+<p>Twitter hashtag: <a href="https://twitter.com/search?q=%23FlowBased&src=hash">#FlowBased</a></p>
 				
        
          
