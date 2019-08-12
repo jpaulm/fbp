@@ -1,11 +1,6 @@
 # Flow-based Programming
 
 
-![Panta rhei](panta.png)
-<span style="font-size: 20px;font-style:italic">(Panta rhei)</span>
-<span style="font-size: 20px;"> - Everything flows.</span>
-
-
-![Animation of simple diagram](fbp_anims.gif)  
-
 [Link to main FBP index file](docs/index.shtml)
+
+[J. Paul Morrison](https://www.jpaulmorrison.com)
