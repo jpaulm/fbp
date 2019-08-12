@@ -1,6 +1,8 @@
 # Flow-based Programming
 
+---
 permalink: docs/index.html
+---
 
 ![Panta rhei](panta.png)
 <span style="font-size: 20px;font-style:italic">(Panta rhei)</span>
