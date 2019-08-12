@@ -1,6 +1,6 @@
 # Flow-based Programming
 
 
-[Link to main FBP index file](https://github.com/jpaulm/fbp/blob/master/docs/index.html)
+[Link to main FBP index file](https://jpaulm.github.io/fbp/)
 
 [J. Paul Morrison](https://www.jpaulmorrison.com)
