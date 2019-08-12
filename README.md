@@ -7,4 +7,4 @@
 
 ![Animation of simple diagram](fbp_anims.gif)  
 
-[Link to main FBP index file](index.shtml)
+[Link to main FBP index file](docs/index.shtml)
