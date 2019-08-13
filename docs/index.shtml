@@ -71,7 +71,7 @@
 						</li>
 						<li><a href="software.html#JSFBP">JSFBP</a> (JavaScript FBP, using Marcel Laverdet's <a href="https://github.com/laverdet/node-fibers">node-fibers</a>)
 						</li>
-						<li><a href="..\graphicsstuff\index.shtml">DrawFBP</a>
+						<li><a href="https://github.com/jpaulm/drawfbp/">DrawFBP</a>
 						</li>
 						</ul></li>
 						<br/>
@@ -82,10 +82,10 @@
 						<li><a href="noflo.html">FBP vs. FBP-inspired Systems</a></li>
 						<li><a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl">Old C2-style FBP Wiki</a></li>
 						<li><a href="biblio.html">Bibliography</a></li>
-						<li><a href="1stedchaps.html">Chapters from the first edition - online</a></li>
+						<!-- <li><a href="1stedchaps.html">Chapters from the first edition - online</a></li> -->
 						
 						<li><a href="links_external.html">External links</a></li>
-						<li><a href="https://github.com/jpaulm">FBP on GitHub</a>: The implementations are listed above under "Software"</li>
+						<li><a href="https://github.com/jpaulm">FBP on GitHub</a>: Contains repositories for the packages listed above under "Software"</li>
 					</ol>
 					 </p>
 					 
