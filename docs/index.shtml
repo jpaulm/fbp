@@ -89,9 +89,12 @@
 					</ol>
 					 </p>
 					 
-					 <p>
-       <iframe src="http://www.youtube.com/embed/up2yhNTsaDs" width="500" height="420" frameborder="0" allowfullscreen=true></iframe> </p>
-<p><i>Video Interview with J. Paul Rodker Morrison, Summer 2013 </i></p>
+					 
+  <!-- <p> <iframe src="http://www.youtube.com/embed/up2yhNTsaDs" width="500" height="420" frameborder="0" allowfullscreen=true></iframe> </p> -->
+  
+  <p><object width="500" height="420" data="https://www.youtube.com/embed/up2yhNTsaDs"></object> </p>
+  
+  <p><i>Video Interview with J. Paul Rodker Morrison, Summer 2013 </i></p>
         
 					 <p>In addition, there are six Youtube videos on  <a href="..\graphicsstuff\index.shtml">DrawFBP</a>, illustrating a number of basic ("classical") FBP concepts (what we are now calling "FBP-inspired" or "FBP-like" systems do not necessarily contain all of these, although DrawFBP should be able to support most of these systems):
 					 <ol><li><a href="https://www.youtube.com/watch?v=OrKenPOV4Js">DrawFBP video #1</a></li>
