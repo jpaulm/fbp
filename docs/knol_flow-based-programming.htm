@@ -1,0 +1,908 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://www.w3.org/2005/10/profile">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="shortcut icon"
+ href="http://knol.google.com/k/3rcfjhor28t3o/_/rsrc/1331242810334/system/app/images/favicon.ico"
+ type="image/ico">
+  <script src="knol_flow-based-programming_files/ga.htm" async=""
+ type="text/javascript"></script>
+  <script type="text/javascript">
+// <![CDATA[
+
+  (function(){
+    function a(c){this.t={};this.tick=function(d,e,b){var f=b?b:(new Date).getTime();this.t[d]=[f,e]};this.tick("start",null,c)}var g=new a;window.jstiming={Timer:a,load:g};try{window.jstiming.pt=window.external.pageT}catch(h){};
+  })();
+
+// ]]>
+  </script>
+  <link rel="stylesheet" type="text/css"
+ href="knol_flow-based-programming_files/knol.css" media="screen">
+  <link rel="stylesheet" type="text/css"
+ href="knol_flow-based-programming_files/knol-print.css" media="print">
+  <title>Flow Based Programming - a knol by Justin Bozonier</title>
+  <meta name="robots" content="index,follow,noodp">
+  <meta name="verify-v1"
+ content="LvoPWX6agQCMTk8wmmaTHFoWjs1WMVrDfV4zjhq3wNQ=">
+  <link rel="canonical"
+ href="http://knol.google.com/k/flow-based-programming">
+  <link rel="alternate" type="application/atom+xml" title="ATOM"
+ href="http://knol.google.com/k/3rcfjhor28t3o/system/services/knol/2/feed?hl=en">
+  <meta name="description"
+ content="Flow based programming solves problems that, while they may currently be on the horizon, will soon present new...">
+  <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(
+                ['_setAccount', 'UA-7576468-1'],
+                ['_trackPageview']
+            );
+          </script>
+  <script type="text/javascript">
+      (function() {
+        var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  <link rel="stylesheet" type="text/css"
+ href="knol_flow-based-programming_files/zz_rating.css">
+  <style>zzIFramePanelAverageStarRating{height:40px;width:120px}zzIFramePanelRatingEditor,zzIFramePanelRatingDisplay{height:30px;width:100px}zzIFramePanelVotingEditor,zzIFramePanelVotingDisplay{height:30px;width:100px}zzIFramePanelAnnotationPanel{height:130px;width:460px}zzIFramePanelNumRating{height:25px;width:100px}zzIFramePanelRatingPanel{height:60px;width:300px}textarea.zzTextEditor,textarea.zzTextEditorSaving,textarea.zzTextEditorSaved{font-family:arial,sans-serif;font-size:12px;height:4em;width:100%;margin-bottom:4px}textarea.zzTextEditor{background-color:#fff}textarea.zzTextEditorSaving{background-color:azure}textarea.zzTextEditorSaved{background-color:azure}a.zzCommentPanelEditLink{text-decoration:underline;cursor:pointer}a.zzCommentPanelDeleteLink{text-decoration:underline;cursor:pointer;margin-left:10px}table.zzCommentPanelGadget{font-family:arial,helvetica,sans-serif;font-size:83%}input.zzCommentPanelGadgetSaveButton{font-weight:bold}input.zzCommentPanelGadgetCancelButton{margin-left:12px}td.zzCommentPanelMessageBox{color:red}span.zzVotingEdit{}span.zzVotingDisplay{}span.zzVotingEdit span.zzVoteAffirmative{text-decoration:underline;cursor:pointer}span.zzVotingEdit span.zzVoteAffirmativeActive{text-decoration:underline;cursor:pointer;font-weight:bold}span.zzVotingEdit span.zzVoteNegative{text-decoration:underline;cursor:pointer}span.zzVotingEdit span.zzVoteNegativeActive{text-decoration:underline;cursor:pointer;font-weight:bold}span.zzVotingDisplay span.zzVoteAffirmative{display:none}span.zzVotingDisplay span.zzVoteAffirmativeActive{display:inline}span.zzVotingDisplay span.zzVoteNegative{display:none}span.zzVotingEdit span.zzVoteNegativeActive{display:inline}ul.zzRatingDescription{list-style-type:none;display:inline}ul.zzRatingDescriptionTemplate{display:none}ul.zzRatingDescription li.zzRatingText{display:none}ul.zzRatingDescription li.zzRatingTextActive{display:inline}span.zzRatingDescription{font-family:arial,sans-serif}span.zzAggregateRatingStat{}span.zzAggregateRatingStatDescriptionText{margin-left:5px}span.zzRatingEdit img.zzLeftEdge{width:17px;height:16px;margin:0;padding:0;display:inline}span.zzRatingEdit img.zzLeftEdgeHidden{width:17px;height:16px;margin:0;padding:0;display:none}span.zzRatingEdit img.zzCancel{width:17px;height:16px;margin:0;padding:0;display:inline}span.zzRatingEdit img.zzCancelHidden{width:17px;height:16px;margin:0;padding:0;display:none}span.zzRatingEdit img.zzStar{width:11px;height:16px;margin:0;padding:0;display:inline}span.zzRatingEdit img.zzRightEdge{width:5px;height:16px;margin:0;padding:0;display:inline}span.zzRatingDisplay img.zzStar{width:10px;height:9px;margin:0;padding:0;display:inline}table.zzRatingPanel{font-family:arial,sans-serif;font-size:13px}table.zzRatingPanel span.zzRatingDescription{padding-left:18px}table.zzRatingPanel span.zzAggregateRatingStat,table.zzRatingPanel span.zzAggregateRatingStatDescription{color:#6F6F6F}table.zzRatingPanel td.zzAggregateRating{text-align:center}span.zzAggregateRating img.zzStar{width:16px;height:15px;margin:0;padding:0;display:inline}span.zzAggregateRating img.zzSmallStar{width:10px;height:9px;margin:0;padding:0;display:inline}div.zzCommentThreadGadget,div.zzCodeCommentThreadGadget{padding:0;padding-left:5px;padding-right:5px;background:#eff3f9;border:0;display:block}div.zzCodeCommentThreadGadget{border:0 solid #ccc;width:100%;background:#fff;background-color:#fff;padding:2px}div.zzCommentThreadSeparator,div.zzCodeCommentThreadSeparator{border-bottom:1px solid #aaa;height:1px;width:100%}div.zzCodeCommentThreadSeparator{border-bottom:0 solid #aaa}div.zzCommentList{padding:4px;overflow:auto;width:99%;height:auto;background:#eff3f9;border-bottom:0;margin-bottom:2px}div.zzCodeCommentList{padding:4px;background:#fff;background-color:#fff;border-bottom:0;margin-bottom:2px;overflow:auto}div.zzCommentListLoading{font-size:medium}div.zzCommentListPagination{background:#eee;border:1px solid gray;float:left;margin-top:5px;padding:2px 6px}div.zzCommentListPaginationMessage{float:left}div.zzCommentListNavLink{color:#00f;cursor:default;margin-left:8px;text-decoration:underline}div.zzCommentDisplay{padding-top:4px;padding-bottom:4px;border-bottom:1px solid #aaa;width:100%}span.zzCommentAuthorName{color:#000}p.zzCommentDisplayTimestampSpamLink{margin-bottom:2px;margin-top:2px}span.zzCommentDisplayTimestamp{color:green;margin-right:10px}span.zzReportSpamLink{color:#00f;cursor:default;text-decoration:underline}span.zzHideAnnotationLink{color:#00f;cursor:default;text-decoration:underline;margin-left:10px}div.zzCommentPoster{margin-bottom:4px;width:100%}div.zzCommentPosterSignInLink{}div.zzCommentPosterCollapseLink{color:#00f;cursor:default;padding-bottom:2px;text-decoration:underline}img.zzCommentPosterCollapseLinkImage{margin-right:3px}div.zzTabBar{background-color:#fff;display:block;padding:6px}div.zzTab,div.zzTabSelected{display:inline;padding:2px;margin:0;border:1px solid #c5d7ef;padding-left:4px;padding-right:4px;cursor:pointer;color:#36c;font-weight:bold}div.zzTab{background-color:#e5ecf9}div.zzTabSelected{background-color:#fff;border-bottom:0}div.zzTabSpacer,div.zzTabEndSpacer{display:inline;background-color:#fff;cursor:default;font-weight:bold;padding:2px;border:0;border-bottom:1px solid #c5d7ef}span.zzNumUsersFoundThisHelpful{display:none}span.zzNumUsersFoundThisHelpfulActive{display:inline}.zzLinkGadgetUI{color:#00c;text-decoration:underline;cursor:pointer}.zzLinkGadgetUINoLink{}.zzSearchResultsGadgetResults{padding:2px}.zzSearchResultsGadgetMessage{padding:2px}.zzBookUserReviewLayoutDescriptorContainer{margin:15px 20px 20px;border-collapse:collapse}.zzBookUserReviewLayoutDescriptorLineBreak{display:block;padding:5px}.zzBookThumbnailGadgetBoxeyBrown{float:left;height:193px;margin:7px 10px 5px 7px;text-align:center}.zzBookThumbnailGadgetDsb{background:#fff url(http://books.google.com/googlebooks/images/cover_shadow_bg.gif) no-repeat scroll right bottom;display:table-cell;float:left;margin:0;padding:0;position:relative}.zzBookThumbnailGadgetCornerT{background:transparent url(http://books.google.com/googlebooks/images/cover_shadow_topright.gif) no-repeat scroll right top;height:14px;position:absolute;right:0;top:0;width:14px}.zzBookThumbnailGadgetCornerB{background:transparent url(http://books.google.com/googlebooks/images/cover_shadow_bottomleft.gif) no-repeat scroll left bottom;bottom:0;height:12px;left:0;position:absolute;width:12px}.zzBookThumbnailGadgetCa{border:0 none;left:-7px;margin:0;position:relative;top:-7px}.zzBookThumbnailGadgetCal{background-color:#fff;border:1px solid #808080;margin:0;padding:0}.zzBookThumbnailGadgetImage{border:0}.zzBookThumbnailGadgetFCWrap{border:1px solid #808080;background:#00245D url(http://books.google.com/googlebooks/images/blue_leather_medium.gif) no-repeat scroll right bottom}.zzBookThumbnailGadgetFC{font-family:Georgia,"Times New Roman",Serif;font-size:12px;height:188px;margin:0 auto;overflow:hidden;padding:0;position:relative;width:133px}.zzBookThumbnailGadgetFC a:link,.zzBookThumbnailGadgetFC a:visited,.zzBookThumbnailGadgetFC a:active{font-family:Georgia,"Times New Roman",Serif;font-weight:normal;color:#b4947e;text-decoration:none}.zzBookThumbnailGadgetFCLink{height:188px;left:0;position:absolute;top:0;width:133px;z-index:3}.zzBookThumbnailGadgetFCTable{border:0;height:188px;width:133px}.zzBookThumbnailGadgetFCTableData{vertical-align:middle;text-align:center}.zzBookThumbnailGadgetFCContents{border:0 none;display:block;padding:5px 12px 5px 18px;font-family:Georgia,"Times New Roman",Serif;font-weight:normal;text-decoration:none;color:#b4947e}.zzBookThumbnailGadgetFCTitleText,.zzBookThumbnailGadgetFCSeparatorText,.zzBookThumbnailGadgetFCAuthorsText{overflow:hidden;text-decoration:none;width:103px;word-wrap:break-word}div.zzBookThumbnailGadgetFCTitleText{font-size:14px}div.zzBookThumbnailGadgetFCSeparatorText{font-size:20px;margin:6px 0 5px 0}div.zzBookThumbnailGadgetFCAuthorsText{font-size:10px}.zzBookMetadataGadgetBookTitle{color:#00c};.zzTitleGadgetLink{color:#00c;text-decoration:underline;cursor:pointer}.zzNicknameGadgetLink{color:#00c;text-decoration:underline;cursor:pointer}.zzReadReviewGadgetImage{margin-left:3px;margin-right:3px;cursor:pointer}.zzReadReviewGadgetLink{color:#00c;text-decoration:underline;cursor:pointer}.zzRecentReviewsGadgetContainer{border-collapse:collapse}.zzRecentReviewsGadgetFooter{color:#00c;padding:2px}.zzRecentReviewsGadgetPrevNext{padding:2px;text-align:right}.zzPrevNextGadgetPrev{text-decoration:underline;cursor:pointer;padding:2px}.zzPrevNextGadgetNext{text-decoration:underline;cursor:pointer;padding:2px}.zzCommentSnippetGadgetCommentText{}.zzCodeCommentDisplaySearchResult{font-size:small;padding:5px}.zzCodeCommentDisplaySearchResultHeading{}.zzCodeCommentDisplaySearchResultHeading .zzLinkGadgetUI{color:#00f}.zzCodeCommentDisplaySearchResultHeading .zzLinkGadgetUINoLink{color:#000}.zzCodeCommentDisplaySearchResultHeading .zzTextEditorReadOnly{padding:15px}.zzCodeCommentDisplayWasThisHelpful{padding-left:15px;color:gray}.zzCodeCommentDisplaySearchResultHeading .zzTextEditorReadOnly{white-space:pre}.zzTitleAndCommentEditorGadget{background:#fff;border:none;margin:1em 0 0;font-size:small;color:gray}.zzTitleAndCommentEditorGadget .zzTextEditor{width:400px;color:#000}.zzTextDisplayGadgetContainer{}</style>
+</head>
+<body>
+<div id="knol-doc" class="g-doc-1024">
+<div id="knol-doc-hd" class="knol-custom-bg">
+<div id="knol-header" class="knol-custom-bg knol-custom-bg-text">
+<div id="knol-header-menu"><span id="knol-header-menu-email-c"><span
+ id="knol-header-menu-email" class="knol-header-menu-login">jpaulmorr@gmail.com</span></span><span
+ style="" id="knol-header-my-profile-link-c"><a
+ class="knol-custom-bg-link"
+ href="http://knol.google.com/k/paul-morrison/-/2hk2xwmowe99j/0#knols"
+ id="knol-header-my-profile-link">My knols</a>&nbsp;|&nbsp;<a
+ href="http://knol.google.com/k/knol/Settings?back=3rcfjhor28t3o.2"
+ id="knol-header-prefs-link" class="knol-custom-bg-link">Preferences</a>&nbsp;|&nbsp;</span><a
+ href="http://knol.google.com/k" class="knol-custom-bg-link">Home</a>&nbsp;|&nbsp;<a
+ href="http://knol.google.com/k/knol/knol/Help"
+ name="knol-header-menu-help" class="knol-custom-bg-link">Help</a>&nbsp;|&nbsp;<span
+ id="knol-signout-link" style=""><a class="knol-custom-bg-link"
+ href="https://knol.google.com/k/_logout?continue=http%3A%2F%2Fknol.google.com%2Fk%2Fflow-based-programming">Sign
+out</a></span>&nbsp;</div>
+<div class="" id="knol-announcement-banner">
+</div>
+<div id="knol-sunset-banner">
+<div id="knol-inline-sunset-3rcfjhor28t3o.2" class="knol-inline-sunset"><span
+ id="knol-inline-sunset-message-3rcfjhor28t3o.2"
+ class="knol-inline-sunset-message">Knol will be discontinued on <span
+ id="knol-inline-sunset-time-end">May 1, 2012</span>. <a id=""
+ target="_blank" href="https://knol-redirects.appspot.com/faq.html">Learn
+more</a>. </span><span id="knol-sunset-banner-client"><span
+ id="knol-inline-sunset-message-3rcfjhor28t3o.2"
+ class="knol-inline-sunset-message"><a id="" target="_blank"
+ href="https://en.wordpress.com/signup?knol=true">Export your knols to
+Annotum on WordPress.com.</a> <a id="" target="_blank"
+ href="https://www.google.com/takeout/#custom:knol">Download your knols
+to a file.</a></span></span></div>
+</div>
+<div id="knol-inline-statements">
+</div>
+<div id="knol-throbber-c">
+<div id="knol-throbber" style="display: none;">
+<div id="knol-throbber-message"></div>
+</div>
+</div>
+<div id="knol-chatlog" style="display: none;"></div>
+<div id="knol-collection-submission-reviews" style="display: none;"></div>
+</div>
+<div id="knol-header-logo">
+<a href="http://knol.google.com/k"><img
+ src="knol_flow-based-programming_files/knol-logo.png" alt="Home"
+ title="Home" align="middle"></a></div>
+<div class="knol-top-container">
+<div id="knol-search">
+<div class="knol-advanced-search-link"><a class="knol-custom-bg-link"
+ href="http://knol.google.com/k/knol/system/knol/pages/SearchToolkitForm?&amp;back=3rcfjhor28t3o.2&amp;loc0=on&amp;loc1=on&amp;loc3=on&amp;loc4=on&amp;loc5=on&amp;loc7=on&amp;loc8=on">Search
+Toolkit</a></div>
+<form action="/k/knol/Search" id="knol-search-form"
+ name="knol-search-form"><input name="q" id="knol-query-box" size="30"
+ maxlength="2000" class="knol-search-input-box" type="text"><input
+ name="back" value="3rcfjhor28t3o.2" type="hidden"><input
+ id="knol-search-button" class="knol-search-submit" value="Search"
+ type="submit"></form>
+</div>
+</div>
+<div class="knol-clearer-div"></div>
+</div>
+<div id="knol-editor-toolbar">
+<div id="knol-editor-toolbar-rel-container"></div>
+</div>
+<div id="knol-doc-bd">
+<div class="g-section g-tpl-70-30" style="display: block;">
+<div class="g-unit g-first">
+<div id="knol-article" class="g-c">
+<div id="knol-float-console">
+<div class="" id="knol-inline-notifications"></div>
+<div id="knol-console"></div>
+<div id="knol-console-spacer"></div>
+</div>
+<div id="knol-suggestion-extras" style="display: none;"></div>
+<div class="knol-article-c">
+<div xmlns="http://www.google.com/ns/jotspot" id="knol-article-top">
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-title-message"
+ class="knol-title-message" style="display: none;"><span
+ class="knol-title-message-red">Note</span>: changing the title may
+cause links pointing to <a
+ href="http://knol.google.com/k/flow-based-programming">http://knol.google.com/k/flow-based-programming</a>
+to stop working, but links to <a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2">http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2</a>
+will always work.</div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+ class="knol-inline-editor knol-content-ltr">
+<h1 id="knol-title" class="knol-title"
+ title="Click on the &quot;Edit this knol&quot; button to switch to edit mode and change this field.">Flow
+Based Programming</h1>
+<input class="" dir="" id="knol-title-input" style="display: none;"
+ maxlength="250" type="text"></div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+ class="knol-inline-editor knol-content-ltr">
+<h2 id="knol-subtitle" class="knol-subtitle"
+ title="Click on the &quot;Edit this knol&quot; button to switch to edit mode and change this field.">A
+concurrent and parallel computing technology</h2>
+<input class="" dir="" id="knol-subtitle-input" style="display: none;"
+ maxlength="250" type="text"></div>
+<div class="knol-clearer-div"> </div>
+<div> </div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+ class="knol-inline-editor knol-content-ltr">
+<h2 id="knol-abstract" class="knol-abstract"
+ title="Click on the &quot;Edit this knol&quot; button to switch to edit mode and change this field.">Flow
+
+based programming solves problems that, while they may currently be on
+the horizon, will soon present new challenges to software developers.</h2>
+<textarea class="" dir="" id="knol-abstract-input"
+ style="display: none;"></textarea></div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-toc"
+ class="knol-element-toggle-level-max-6 knol-element-toggle-level-2"
+ style="">
+<h3>Contents</h3>
+<ul class="knol-toc-list" id="knol-toc-list">
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#Issues_with_Statement_Execution_Order" class="knol-toc-link">Issues
+with Statement Execution Order</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#Business_Logic" class="knol-toc-link">Business Logic</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a
+ href="#What_do_we_mean_by_Business_Logic%283F%29" class="knol-toc-link">What
+do we mean by Business Logic?</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a href="#Modeling_the_Domain"
+ class="knol-toc-link">Modeling the Domain</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a
+ href="#Communicating_the_Design_to_Product_Management"
+ class="knol-toc-link">Communicating the Design to Product Management</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#The_Main_Idea" class="knol-toc-link">The Main Idea</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#Composition_is_the_New_Inheritance" class="knol-toc-link">Composition
+is the New Inheritance</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#Managing_Object_State" class="knol-toc-link">Managing Object
+State</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a href="#Using_Domain_Objects"
+ class="knol-toc-link">Using Domain Objects</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a href="#State_Machines" class="knol-toc-link">State
+Machines</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a
+ href="#How_Does_FBP_Address_Object_State%283F%29" class="knol-toc-link">How
+Does FBP Address Object State?</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#Working_With_Threads" class="knol-toc-link">Working With Threads</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a href="#Difficulties_with_Threads"
+ class="knol-toc-link">Difficulties with Threads</a></li>
+  <li class="knol-toc-item-h3 knol-element-toggle-threshold-3"
+ style="display: none;"><a href="#Threads_in_FBP" class="knol-toc-link">Threads
+in FBP</a></li>
+  <li class="knol-toc-item-h2 knol-element-toggle-threshold-2"><a
+ href="#The_Best_of_Both_Worlds" class="knol-toc-link">The Best of Both
+Worlds</a></li>
+</ul>
+<a href="javascript:void(0)" id="knol-toc-collapse-handle"
+ class="knol-collapse-handle" style="display: none;">less</a><a
+ href="javascript:void(0)" id="knol-toc-expand-handle"
+ class="knol-expand-handle" style="">more</a></div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-viewlinks">
+<div style="display: none;" id="knol-viewlinks-link-element"
+ class="knol-viewlinks-link-element">
+<div>Permanent link to this knol:</div>
+<input size="75" name="link" id="knol-viewlinks-link-input"
+ autocomplete="off" readonly="readonly"
+ value="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2"
+ type="text"></div>
+<a id="knol-viewlinks-link-icon" class="knol-viewlinks-icon"
+ href="javascript:void(0)"><img alt="Link" class="knol-sprite-main-link"
+ src="knol_flow-based-programming_files/cleardot.gif"></a><a
+ id="knol-viewlinks-link" class="knol-viewlinks-link"
+ href="javascript:void(0)"><span>Link</span></a>
+<div style="display: none;" id="knol-citation" class="knol-citation"><textarea
+ name="citation" id="knol-citation-input-box" cols="70" rows="4"
+ autocomplete="off" readonly="readonly">Bozonier, Justin. Flow Based
+Programming:A concurrent and parallel computing technology [Internet].
+Version 2. Knol. 2008 Jul 29. Available from:
+http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2.</textarea></div>
+<a id="knol-viewlinks-citation-icon" class="knol-viewlinks-icon"
+ href="javascript:void(0)"><img alt="Citation"
+ class="knol-sprite-main-citation"
+ src="knol_flow-based-programming_files/cleardot.gif"></a><a
+ id="knol-viewlinks-citation" class="knol-viewlinks-link"
+ href="javascript:void(0)"><span>Citation</span></a><a
+ id="knol-viewlinks-email-icon" class="knol-viewlinks-icon"
+ href="javascript:void(0)"><img alt="Email"
+ class="knol-sprite-main-email"
+ src="knol_flow-based-programming_files/cleardot.gif"></a><a
+ id="knol-viewlinks-email" class="knol-viewlinks-link"
+ href="javascript:void(0)"><span>Email</span></a><a
+ id="knol-viewlinks-print-icon" class="knol-viewlinks-icon"
+ href="javascript:void(window.print())"><img alt="Print"
+ class="knol-sprite-main-print"
+ src="knol_flow-based-programming_files/cleardot.gif"></a><a
+ id="knol-viewlinks-print" class="knol-viewlinks-link"
+ href="javascript:void(window.print())"><span>Print</span></a><a
+ id="knol-viewlinks-favorite-icon" class="knol-viewlinks-icon"
+ href="javascript:void(0)"><img alt="Favorite"
+ class="knol-sprite-main-favorite-star-empty"
+ src="knol_flow-based-programming_files/favorite-star-empty.png"></a><a
+ id="knol-viewlinks-favorite" class="knol-viewlinks-link"
+ href="javascript:void(0)"><span>Favorite</span></a><a
+ id="knol-viewlinks-collect-icon" style="" class="knol-viewlinks-icon"
+ href="javascript:void(0)"><img alt="Collect this page"
+ class="knol-sprite-main-collect"
+ src="knol_flow-based-programming_files/cleardot.gif"></a><a
+ id="knol-viewlinks-collect" style="" class="knol-viewlinks-link"
+ href="javascript:void(0)"><span>Collect this page</span></a></div>
+<div class="knol-clearer-div"> </div>
+<hr id="knol-article-top-hr">
+<div class="knol-clearer-div"> </div>
+</div>
+<div xmlns="http://www.google.com/ns/jotspot" id="knol-content">
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-intro"></div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-content-body">
+<div id="knol-section-3rcfjhor28t3o.2">
+<div class="knol-content-wrapper"
+ id="knol-content-wrapper-3rcfjhor28t3o.2">
+<div class="knol-content knol-content-ltr knol-content-lang-en"
+ id="knol-content-3rcfjhor28t3o.2">
+<div dir="ltr">
+<div><b style="color: rgb(136, 68, 17); line-height: normal;">Introduction</b></div>
+Flow based programming is a development methodology invented by J. Paul
+Morrison in the 70's<span><a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2#references">[5]</a></span>&nbsp;wherein
+
+the resulting software is easily able to take advantage of many core
+processors and asynchronous processing. The framework consists of
+writing software as a set of "black boxes" that pass data between one
+another as messages. A side effect of this is that the these black
+boxes can be connected and rewired in a variety of ways thus enabling
+simple component reuse and increased developer productivity.
+<div><br>
+</div>
+<div><b style="color: rgb(136, 68, 17); line-height: normal;">The
+Problems with Standard Practices and the Solution</b></div>
+<span style="line-height: 16px;"><a
+ name="Issues_with_Statement_Execution_Order"
+ class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Issues
+with Statement Execution Order</h2>
+Synchronous execution can be very simple to wrap your head around. I'm
+sure everyone reading this book programs this way almost everyday (if
+not every day). What you're probably wondering is why I am saying
+synchronous execution has issues.<br>
+<br>
+It's easy, I tell the system the first task that needs to be done,
+then, when that's finished, I give it the next statement, and, once
+that's done, there are thousands more where that came from. From
+another angle, what if I wanted to have someone run several errands for
+me? After they complete each errand they would need to come back to me
+and I would stand in my place waiting for all of the errands to be done
+even though I'm not the one doing them! That's pretty wasteful.<br>
+<br>
+That's synchronous programming. Orderly, but extremely wasteful. To
+give an example that may hit a little closer to home imagine a user
+interface that is single threaded. When the user clicked a button to
+get your app to do anything, the app would need to freeze until all of
+its other actions are complete. Once it's done it would return control
+back to the user interface but what if your logic took a few seconds or
+a minute to execute? How does the user know your application is still
+working?<br>
+<br>
+To bring that example into the context of our earlier errand running
+example, imagine that as I stood there waiting for my worker to return
+from their errand I have other workers waiting for me to tell them what
+to do. Instead, I just stand there waiting for the first errand to get
+done. Before it was pretty wasteful but now we're just being obscenely
+so. Sometimes we need to wait for something to get done, but a lot of
+times that waiting is just a waste and usually the system is programmed
+that way because asynchronous threading is infamous for being difficult
+to manage.<br>
+<br>
+<a name="Business_Logic" class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Business
+Logic</h2>
+<a name="What_do_we_mean_by_Business_Logic(3F)"
+ class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">What
+do we mean by Business Logic?</h3>
+Business logic is any code we write that determines how a system
+executes a task that builds business value. Writing a method to sort a
+collection of strings is not business logic. Knowing how to place
+orders with data provided by the customer is business logic.<br>
+<br>
+There are a lot of different ways to go here. Some people use state
+machines, others use workflow systems, rules engines, etc. It's quite
+possible that you could be using FBP to manage all of the tasks you
+would normally do with the previously stated systems although there are
+definite times to use them, if you currently jump to one of those
+approaches first, FBP may end up becoming your new default tool for
+tackling complicated processes.<br>
+<br>
+<a name="Modeling_the_Domain" class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Modeling
+the Domain</h3>
+The OOP purists amongst us are always trying to get the classes we
+create to, at some level, closely represent the same objects in the
+real world. Done correctly, these systems can work just fine, usually
+however, they aren't done correctly. When these same systems have
+weathered many a last minute feature addition or other "must be done
+ASAP" feature or bug fix that causes people to make bad code design
+choices, you'll usually be left with brittle code.<br>
+<br>
+Ultimately though, we're just looking for a way to make reuseable
+software. Choosing to model your code so closely to the domain can have
+its issues [REF?]. Creating a class for a certain business entity is
+really a way of saying you think this entity will be used all over the
+place in a way that can be encapsulated. Sometimes that works, and
+other times, you find that the context in which you use the object
+confuses its design. You then end up with one off logic within your
+object to account for the context change.<br>
+<br>
+Once again, I am not saying that modeling your domain has to be this
+way but just that it's easy for developers to go down this route. I am
+positive we have all seen examples of people doing this with the
+different code we've worked with over the years. The question is, what
+other option do we have?<br>
+<br>
+<a name="Communicating_the_Design_to_Product_Management"
+ class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Communicating
+the Design to Product Management</h3>
+Martin Fowler routinely expresses his interest in what are known as
+Domain Specific Languages (<a
+ href="http://knol.google.com/k/void%280%29;"
+ style="color: rgb(0, 68, 187); text-decoration: none;"
+ title="The tiddler 'DSLs' doesn't yet exist">DSLs</a>&nbsp;for short).
+The value this brings to your code is that at some level in your code
+there is a fairly english like representation of what your code is
+doing for the business.<br>
+<br>
+Keep this concept in mind. While FBP isn't exactly a DSL it isn't a bad
+compromise either. It gets you fairly close to a very easily
+understandable and thus maintainable system.<br>
+<br>
+<a name="The_Main_Idea" class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">The
+Main Idea</h2>
+Flow Based Programming is centered around a few main ideas. Some of
+them are centered around object oriented design and others have their
+foundations outside of software engineering as a whole.<span><a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2#references">[4]</a></span><br>
+<br>
+You can think of Flow Based Programming as a way of viewing your system
+like a set of workers many of whom delegate tasks to other workers.
+Delegation has three key characteristics:<br>
+<ul style="margin-left: 0.5em; padding-left: 1.5em;">
+  <li>Allocating authority to issue orders.</li>
+  <li>Entrusting tasks to subordinates.</li>
+  <li>Allocating decision making in defined areas.</li>
+</ul>
+Each of these characteristics help to ensure a strong separation of
+responsibilities or, in the software world, concerns.<br>
+<br>
+In OOP today we create classes that try to completely own their data.
+The idea being that an object should be the only thing to know about
+the state of its data and it should be the only thing that can change
+the state of that data as well, with some exceptions. In OOP, as Flow
+Based Programming contends, we get the most value from pushing our data
+from class to class. Coupling our data and classes together isn't
+necessary to achieve an easily effective reusable system.<br>
+<br>
+If I give a task to Bob and another to Dale, I am only effectively
+delegating a task if I can trust that each person will do what they
+need to do with the information I've given them.<br>
+<br>
+Let's say I run a restaurant. Bob is a cook and Dale is a waiter.
+Dale's task is to wait on every customer that comes through the door.
+In order to get that done, Dale will seat the customers at a table and
+take their order, he then delegates the task to make the food for Bob.
+Bob cooks the food and when it's done he gives a task to Dale to
+deliver the food to the customers.<br>
+<br>
+In Flow Based Programming, Bob and Dale are what is called components.
+Dale knowing how to give orders to Bob is known in the FBP world as a
+kind of port and connection role. The customers coming into the
+restaurant represent our data that is to be processed. Don't worry too
+much about the terminology for now. We'll be going over the individual
+portions of an FBP system in more detail in chapter 5.<br>
+<br>
+Now say you want to be able to start serving Mexican food at the
+restaurant. We'd need a cook who knows how to cook it! In our model
+above can you think how we would design our connections and components
+to allow for this new cook? First, we would connect our waiter to the
+kitchen instead of the cook himself. Then we would have the Kitchen
+notify the appropriate cook of the type of food they need to make. As
+each chef finishes their portion of the food, they notify the kitchen.
+Once both portions of the meal are prepared our waiter is notified and
+he takes the meal to the customer.<br>
+<br>
+In this process, much like most standard business systems, the data (in
+this case the order) was transformed into several formats before the
+task was completed. It was spoken to the waiter by the customer, given
+to the cook via a check, and given back to the customer as food. This
+is exactly how data is handled in Flow Based Programming as well. Also,
+notice how easy it is to integrate a new person into the mix with this
+design. Whether it's a waiter or a cook the process is pretty simple
+now. Notice also, that your waiters can take care of people as the
+cooks are still processing the previous orders. FBP is just as
+naturally multithreaded as our restaurant example.<br>
+<br>
+<a name="Composition_is_the_New_Inheritance"
+ class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Composition
+is the New Inheritance</h2>
+So really what we're talking about here is composition versus
+inheritance. This is where we begin to see the fairly large paradigm
+shift that FBP recommends. One of the benefits of OOP that have been
+espoused for so long is the use of inheritance and how it can be
+leveraged to simplify your software's design and create reusable
+software. The problem is that there have been some side effects of
+inheritance as well.<br>
+<br>
+Inheritance is one of the causes of brittle software <span><a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2#references">[1]</a></span>&nbsp;&nbsp;<span><a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2#references">[2]</a></span>.
+
+This was hard for me to swallow at first since this was one of the core
+tenets that got me excited about OOP in the first place. After chewing
+on it for a while though, it kind of started to make sense. Jeff Atwood
+put it best when he said:<br>
+"...we're writing crappy business logic code, not a language. What is
+appopriate for a language developer may not be appropriate for simple
+business code that needs to be maintainable and easy to understand
+above all else."&nbsp;<span><a
+ href="http://knol.google.com/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2#references">[3]</a></span><br>
+<br>
+It's not that inheritance is intrinsically bad, it's just that it is
+extremely over used. In the enterprise world, the&nbsp;<a
+ href="http://knol.google.com/k/void%280%29;"
+ style="color: rgb(0, 68, 187); text-decoration: none;"
+ title="The tiddler 'IS-A' doesn't yet exist">IS-A</a>&nbsp;relationship
+
+can change by the minute. When you overuse inheritance (be it for
+convenience or other factors) it puts you in a position where you need
+to detect what kind of object something really is without relying on
+polymorphism. Inheritance can be used in enterprise systems, but it
+should only be used on the most stable aspects of the system.&nbsp;<br>
+<br>
+Where ever there is volatility you should depend on abstractions
+instead. Robert Martin cautions us that any system we as enterprise
+developers write to meet business requirements is inherently volatile.
+Tomorrow the business could decide to overhaul and change their whole
+pricing model. They could decide that instead of treating paper based
+transactions and electronic transactions like they're different that
+they should now all be treated identically. Huge shifts in domain
+models occur all of the time. As developers we need to be able to start
+to account for that.<br>
+<br>
+Now yes, I've heard the argument of "YAGNI" (ya ain't gonna need it) to
+rationalize only adding complexity to your system once you've seen a
+need for it. It isn't an excuse to ignore the past however. If you have
+been working with software for a few years, I am willing to bet that
+every business you have ever worked for has changed themselves in a way
+that caused you to scramble at least three or four times. Each time
+that happened I'm willing to bet that you feared not getting the task
+done to such a degree that you wrote a few hacks here and there "to be
+refactored out later". Right? So now you have 300 hacks that your
+manager and project manager both know are the top priority and yet
+always seem to get de-prioritized last minute.<br>
+<br>
+How about if, in the case of FBP, we say YADNI (you already do need
+it). Businesses change daily (sometimes hourly) and you need to be able
+to respond. That's been one of my main frustrations in programming. I
+love the purity and elegance of great architectural design but it
+always seems like I never have time to be able to create it. Design is
+always viewed as an expense best left to people who don't help the
+company earn revenue. A lot times management sees it as something that
+needs to be controlled and limited. Sometimes they're right. Developers
+can definitely get carried away with design. I don't think that means
+that developers should not have a design though. Utilizing FBP, I've
+seen great designs unfold from the fastest route possible. That's how
+you know this is something you need to learn about. When a tool can
+give you increased code quality _and_ efficiency you know you've found
+something special.<br>
+<br>
+Think of inheritance as a syntactic salt. A little bit in a dish will
+go a long way. FBP takes that to heart.<br>
+<a name="Managing_Object_State" class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Managing
+Object State</h2>
+<a name="Using_Domain_Objects" class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Using
+Domain Objects</h3>
+Using objects that closely model your domain is one method for dealing
+with data state. This is a workable solution although it can also start
+getting very complex fairly quickly.&nbsp;<br>
+<a name="State_Machines" class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">State
+Machines</h3>
+One of the most prevalent ways of dealing with complexities of dealing
+with object states is the aptly named state machine. State machines
+cause a little bit of overhead with the amount of code you need to
+write (if you go the class-based way at least) but they give you a very
+organized environment in which to develop. Every business case can
+become a state to be programmed. If there is a logic error I just need
+to know which state is having the error and what action was attempted.
+Suddenly I can drill down to exactly the logic I care about.<br>
+<br>
+State machines are very powerful and important but I wouldn't want to
+write everything in terms of state machines. I've tried going that
+route in the past and the managing of the vast number of states that
+are necessary becomes its own design problem. The purist in me still
+loves them and loves exploring the resulting graph that is created but
+I do recognize it's not always the most efficient use of my time to
+create such a solution to a problem.<br>
+<br>
+<a name="How_Does_FBP_Address_Object_State(3F)"
+ class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">How
+Does FBP Address Object State?</h3>
+FBP favors a paradigm shift in the way we think about OOP and program
+design. Instead of programming a series of objects which represent and
+closely relate to your real world domain you instead manage your
+software more like you would a car assembly line. As you do this, code
+begins to look more like a representation of UML. This is important and
+very powerful. The initial promise of UML was that one day code would
+be as easy as connecting different components on a diagram with lines.
+With FBP, you still do have to program, but once all of your components
+are created you connect them together exactly like UML.<br>
+<br>
+So if you have all of these blocks (or components) on your diagram you
+also have lines that direct you from component to component. What is it
+that is really flowing into each component? Program control? You could
+say that, but data would be more accurate. In FBP, there is no time
+dependencies between the components. So if I have a chunk of data, it
+should be able to flow from one end of the diagram to the other
+regardless of how any other pieces of data are being handled. In order
+to program an FBP system, you have to minimize your dependencies.<br>
+<br>
+A consequence of this is that the state of my data travels from
+component to component. This means that I can have my components each
+existing in separate threads and not worry about what state they're in.
+A huge complexity of threading is thus reduced using FBP.<br>
+<br>
+It should also be noted that in FBP the data you pass around from
+component to component (Information Packets) is immutable. This allows
+for some extremely nice situations in the following section of the book.<br>
+<br>
+<a name="Working_With_Threads" class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Working
+With Threads</h2>
+<a name="Difficulties_with_Threads" class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Difficulties
+with Threads</h3>
+Threads and asynchronous are extremely intimidating for your average
+synchronous developer (web developers for example). The common style of
+OOP where you have an object being utilized over multiple threads can
+make it very hard to keep the data consistent and stable. I could have
+an Object A for example. If I am creating a multithreaded system then
+it is possible for one thread to change Object A just before or after
+another thread runs a vital computation on its value.<br>
+<br>
+Concurrent processes/threads often need access to shared data and
+shared resources. If there is no controlled access to shared data, it
+is possible to obtain an inconsistent view of this data. (REWORD)<br>
+<br>
+In situations like these, where the same object needs to be accessed
+across multiple threads we lock the object so that no other portion of
+the system can modify it. While it's locked we can change the data
+within it and nothing else can make any changes to the object until we
+relinquish the lock. If we didn't do this we would run the risk of
+creating race conditions in our code, or a condition where we run the
+risk of system failures and errors due to the order or timing in which
+our code is ran. There is a lot of literature on these caveats of
+multithread programming. These aren't concerns for us in FBP however.<br>
+<br>
+<a name="Threads_in_FBP" class="knol-anchor-headings"></a>
+<h3
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">Threads
+in FBP</h3>
+In Flow Based Programming we have the following factors to take into
+account:<br>
+<ul style="margin-left: 0.5em; padding-left: 1.5em;">
+  <li>Every component is a black box. We don't care what it is doing
+and it knows how to manage itself.</li>
+  <li>A component's only dependencies are on the data that is passed
+into it and that data is immutable.</li>
+</ul>
+<br>
+Given these two conditions we get a surprising amount of lee way.
+Maintaining states of your objects across threads can be exceedingly
+difficult. Since, in FBP, your data states flow from thread to thread
+it removes an enormous amount of concern from how you need to implement
+your code. Now what you have is all components are, for all intents and
+purposes, isolated from each other. Where in standard OOP your data
+objects would still introduce race conditions, in FBP, passing data
+around as immutable objects avoids one process changing the data
+referenced by another.<br>
+<br>
+Flow Based Programming places each component you develop into its own
+thread where it can work, isolated from the rest of your system. You
+just keep sending work its way and your component will continue its
+work and it won't block any of your other components from working
+either. It's a key point that your software will just work and that it
+will be scalable.<br>
+<br>
+</span>
+<div><span style="line-height: 16px;">There are of course some
+exceptions to this general rule when you will want to write some
+threading code to further optimize some component. That's not a
+problem. You can do what you need. The idea is that you push FBP to
+about 80% of its limit and use other techniques where appropriate. The
+times where you will need to optimize your code will be the exception
+not the rule, and likewise, shouldn't affect the final quality of your
+software in any measurable way.&nbsp;</span>&nbsp;</div>
+<div><br>
+</div>
+<div><span style="line-height: normal;">
+<div style="color: rgb(136, 68, 17);">Similarities to Functional
+Programming</div>
+<div style="line-height: 1.4em; padding-top: 0.5em;"><a
+ name="The_Best_of_Both_Worlds" class="knol-anchor-headings"></a>
+<h2
+ style="border-bottom: 1px solid rgb(204, 204, 204); background-color: transparent; color: rgb(136, 68, 17); margin-bottom: 0.3em; margin-top: 1.2em; padding-bottom: 1px; text-decoration: none;">The
+Best of Both Worlds</h2>
+Flow based programming may remind you of certain functional programming
+languages such as Erlang. Erlang is about passing tuples of data around
+from process to process. Because Erlang is a functional language it is
+actually more difficult to NOT write concurrent code than to write it.
+The down side to this is that the proper way to write easily
+parallelized code requires somewhat of a learning curve for most
+developers to adapt to. Some common things you can't do in languages
+such as Java or C# are: Utilize recursion to simplify code (using tail
+recursion optimizations avoids stack issues), avoid locks when passing
+collections of data from process to process by way of tuples, etc.</div>
+<div style="line-height: 1.4em; padding-top: 0.5em;"><br>
+</div>
+<div style="line-height: 1.4em; padding-top: 0.5em;">Some of the
+positive side effects of not needing to be programmed in a functional
+language are: Developers can leverage the programming languages they
+already know, an astute developer can decide where using reference
+objects make sense and where they don't (in Erlang you have no choice
+since almost everything is passed by value), etc.</div>
+</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="knol-clearer-div"></div>
+<div class="knol-content" id="references">
+<h3>References</h3>
+<ol id="knol-references">
+  <li>Erich Gamma, Design Principles from Design Patterns<br>
+    <a
+ href="http://www.artima.com/lejava/articles/designprinciples4.html">Erich
+Gamma, http://www.artima.co<wbr>m/lejava/articles/de<wbr>signprinciples4.html</a></li>
+  <li>Robert C. Martin, Agile Principles, Patterns, and Practices in C#</li>
+  <li>http://www.codinghor<wbr>ror.com/blog/archive<wbr>s/000801.html</li>
+  <li>http://www.jpaulmorr<wbr>ison.com/fbp/</li>
+  <li>http://en.wikipedia.<wbr>org/wiki/Flow-based_<wbr>programming</li>
+</ol>
+</div>
+<div class="knol-clearer-div"></div>
+</div>
+<div style="display: none;" xmlns="http://www.w3.org/1999/xhtml"
+ id="knol-history"></div>
+<div xmlns="http://www.w3.org/1999/xhtml" style="display: none;"
+ id="knol-revision-compare"></div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-manage">
+<div>
+<div id="knol-manage-pane"></div>
+<div id="knol-manage-page-manage-general"></div>
+<div id="knol-manage-page-manage-authors"></div>
+<div id="knol-manage-page-manage-reviewers"></div>
+<div id="knol-manage-page-manage-unpublish"></div>
+</div>
+</div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="knol-submissions"
+ style="display: none;">
+<h2 class="knol-menu-heading-h2">Submissions for the collection: Flow
+Based Programming</h2>
+<div class="knol-menu-heading-backlink-container"><a
+ class="knol-menu-heading-backlink" href="#view">« Back to viewing the
+collection</a></div>
+<div id="knol-submissions-list"></div>
+<div id="knol-submissions-empty" style="display: none;">There are no
+submissions for this collection.</div>
+</div>
+<div xmlns="http://www.w3.org/1999/xhtml"
+ id="knol-sub-collection-suggestions" style="display: none;">
+<h2 class="knol-menu-heading-h2">Pending edits for knols in this
+collection: Flow Based Programming</h2>
+<div class="knol-menu-heading-backlink-container"><a
+ class="knol-menu-heading-backlink" href="#view">« Back to viewing the
+collection</a></div>
+<br>
+<div id="knol-sub-collection-suggestions-list"></div>
+</div>
+</div>
+</div>
+</div>
+<div id="knol-adsense-long">
+<div id="knol-adsense-long-wrap" class="knol-box knol-sidebar-box">
+<div id="knol-adsense-long-code">
+<script type="text/javascript">
+google_ad_client = "pub-7704423462395637";
+google_ad_host = "pub-1358271515413561";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "3366CC";
+google_color_url = "3366CC";
+google_color_text = "54494C";
+</script>
+<script type="text/javascript"
+ src="knol_flow-based-programming_files/show_ads.htm">
+</script></div>
+</div>
+</div>
+<div id="comments" class="knol-custom-bg knol-box">
+<h3 id="knol-comment-header">Comments</h3>
+<div id="knol-comment-new" style=""
+ class="knol-comment knol-element-toggle-level-0 knol-comment">
+<h4 id="knol-comment-new-show"><a href="javascript:void(0)">Write New
+Comment ▼</a></h4>
+<h4 class="knol-element-toggle-threshold-1" style="display: none;">Write
+New Comment</h4>
+<div class="knol-element-toggle-threshold-1" style="display: none;">
+<div class="knol-comment-new-title"><input id="knol-comment-new-title"
+ maxlength="250" type="text"></div>
+<div class="knol-comment-new-text"><textarea id="knol-comment-new-text"
+ cols="40" rows="5"></textarea></div>
+<div class="knol-comment-new-submit">
+<div id="knol-comment-new-spinner"
+ class="knol-spinner knol-comment-spinner goog-inline-block"></div>
+<a id="knol-comment-new-submit" href="javascript:void(0)"
+ class="knol-link-disabled">Submit comment to this knol as Paul Morrison</a></div>
+</div>
+</div>
+<div id="knol-comment-pending-list"></div>
+<div style="display: none;" id="knol-comments-not-permitted"
+ class="knol-comment">
+<p>Sorry! This knol's owner(s) have blocked you from editing, making
+suggestions, or commenting here.</p>
+</div>
+<div id="knol-comment-new-sign-in" style="display: none;"
+ class="knol-comment"><a
+ href="https://www.google.com/accounts/ServiceLogin?continue=http%3A%2F%2Fknol.google.com%2Fk%2Fflow-based-programming&amp;passive=true&amp;service=knol&amp;hl=en">Sign
+in to write a comment</a></div>
+<div id="knol-comment-list">
+<div>
+<div id="comment-3rcfjhor28t3o.u3dvdy" class="knol-comment">
+<div class="knol-comment-author">
+<div class="knol-comment-author-c"><img
+ src="knol_flow-based-programming_files/NoPicture.gif"
+ class="knol-comment-author-new-image" alt=""><br>
+<a href="http://knol.google.com/k/anonymous/-/hvvyk1ji29zk/0"
+ class="knol-comment-author-link" rel="nofollow">Anonymous</a><br>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="knol-doc-ft">
+<div class="knol-custom-bg-text knol-custom-bg" id="knol-copyright">©2009
+Google</div>
+</div>
+</div>
+<script type="text/javascript">
+  // <![CDATA[
+    var _knolUser = null;
+    var _reqCountry = null;
+    try {
+      _knolUser = {"createTime":"Tue Jul 29 16:52:18 PDT 2008","enableRtl":false,"favoriteKnols":"[]","editTimeMs":1217376152906,"homeKnolUrl":"/k/paul-morrison/-/2hk2xwmowe99j/0","id":"2hk2xwmowe99j.0","useAuth":true,"webspace":"2hk2xwmowe99j","labelBrowser":"","staff":false,"nextChild":2,"quota":{"quotaCounts":{"3":75,"2":75,"10":10000,"1":10,"7":1,"6":150,"5":5,"4":5,"9":10000,"8":30,"13":5,"11":10},"spentCounts":{"1":2},"gaiaVerified":{"3":75,"2":75,"10":10000,"1":10,"7":1,"6":150,"5":5,"4":5,"9":10000,"8":30,"13":5,"11":10},"quotaOverride":{"3":75,"2":75,"10":10000,"1":10,"7":1,"6":150,"5":5,"4":5,"9":10000,"8":30,"13":5,"11":10},"gradUpdated":{"3":75,"2":75,"10":10000,"1":10,"7":1,"6":150,"5":5,"4":5,"9":10000,"8":30,"13":5,"11":10},"lastUpdated":14089,"gradScore":{"3":75,"2":75,"10":10000,"1":10,"7":1,"6":150,"5":5,"4":5,"9":10000,"8":30,"13":5,"11":10}},"nickName":"Paul Morrison","editTime":"Tue Jul 29 17:02:32 PDT 2008","sys/template":"/system/knol/templates/User","analyticsCode":"","license":"by","nodeType":"User","profile":{"uid":"11787753584351381095","gaiaDeleted":false,"isFullNamePublic":true,"nickName":"jpaulm","idvStatus":"unverified","about":"\u003Cbr\u003E","surName":"Morrison","gaiaDisabled":false,"fullName":"Paul Morrison","firstName":"Paul"},"groupMemberships":["08302473544132648443","09461691707212279755","04658677581079879195","13444809804706468363","05958781005766609746","03862424675848224050","15769200284729146022"],"enableTransliteration":false,"latestVersionNumber":6,"blacklisted":false,"url":"http://knol.google.com/k/paul-morrison/-/2hk2xwmowe99j/0","createTimeMs":1217375538808,"publishNewKnols":false,"disambiguation":"","email":"jpaulmorr@gmail.com","admin":false,"exists":true,"versionNumber":6,"accessType":"moderated","limitedAdmin":false};
+      _reqCountry = 'CA';
+    } catch (ignored) {}
+    var _knolGlobal = {"evaluations":[null,["new knol.ui.client.ProfileLink(\"\\u0033\\u0072\\u0063\\u0066\\u006A\\u0068\\u006F\\u0072\\u0032\\u0038\\u0074\\u0033\\u006F\\u002E\\u0032\",null)","knol.ui.client.ChatLog.init()","knol.ui.client.CollectionSubmissionReviews.init()","new knol.ui.client.AuthorUtils()","knol.getSingleton(knol.ui.client.KnolMenu).load()","knol.getSingleton(knol.ui.client.KnolMenu).hookupLinks()","knol.getSingleton(knol.ui.client.TitleEditor).initOnClient()","knol.getSingleton(knol.ui.client.SubtitleEditor).initOnClient()","knol.getSingleton(knol.ui.client.AbstractEditor).initOnClient()","knol.ui.client.FromKnolCollectionDialog.openOnHash()","knol.getSingleton(knol.ui.client.DiscussionView).constructor.constructor()","new knol.ui.client.Author(\"\\u0033\\u0072\\u0063\\u0066\\u006A\\u0068\\u006F\\u0072\\u0032\\u0038\\u0074\\u0033\\u006F\\u002E\\u0030\")","knol.getSingleton(knol.ui.client.Zipit).constructor.constructor()","knol.ui.client.KnolScores.init()","new knol.ui.client.AuthorToolbox(undefined,undefined).render()","knol.ui.client.CreateReview.swapReviewLink(\"\\u006B\\u006E\\u006F\\u006C\\u002D\\u0063\\u0072\\u0065\\u0061\\u0074\\u0065\\u002D\\u0072\\u0065\\u0076\\u0069\\u0065\\u0077\")","knol.ui.client.UsageStats.init()","knol.ui.FeedLinks.addPrivateFeedLinks(\"\\u006B\\u006E\\u006F\\u006C\")","new knol.ui.client.CreateAbuseReport(\"\\u006B\\u006E\\u006F\\u006C\\u002D\\u0063\\u0072\\u0065\\u0061\\u0074\\u0065\\u002D\\u0061\\u0062\\u0075\\u0073\\u0065\\u002D\\u0072\\u0065\\u0070\\u006F\\u0072\\u0074\")","new knol.ui.client.AdminOptions(undefined)"],["knol.getSingleton(knol.ui.client.BannerAnnouncement).writeHTML()","knol.getSingleton(knol.ui.client.SunsetAnnouncement).writeHTML()","knol.getSingleton(knol.ui.client.Toc).onLoadHandler(false,15,2,[2,3])","knol.ui.client.GetLink.addListener()","knol.ui.client.Citation.addListener()","new knol.ui.client.FavoriteKnol()","knol.ui.client.FromKnolCollectionDialog.setupClient()","knol.ui.client.LanguageOptions()","knol.ui.client.NodeList.initPage(\"\\u006B\\u006E\\u006F\\u006C\\u002D\\u0072\\u0065\\u0076\\u0069\\u0065\\u0077\\u0073\",\"\\u0033\\u0072\\u0063\\u0066\\u006A\\u0068\\u006F\\u0072\\u0032\\u0038\\u0074\\u0033\\u006F\\u002E\\u0035\\u0072\\u0034\\u0067\\u0074\\u0064\",\"\\u006B\\u006E\\u006F\\u006C\\u002E\\u0075\\u0069\\u002E\\u0052\\u0065\\u0076\\u0069\\u0065\\u0077\\u004C\\u0069\\u0073\\u0074\",\"\\u0064\\u0069\\u0076\",\"\\u0066\\u0037\\u0066\\u0037\\u0066\\u0037\",false)","knol.ui.client.ZipitDisplay.initContainer(\"\\u006B\\u006E\\u006F\\u006C\\u002D\\u0061\\u006C\\u0073\\u006F\\u002D\\u0077\\u0072\\u006F\\u0074\\u0065\",\"\\u0064\\u0069\\u0076\",\"\\u0023\\u0066\\u0037\\u0066\\u0037\\u0066\\u0037\")","new knol.ui.client.SearchBacklinks(\"\\u0033\\u0072\\u0063\\u0066\\u006A\\u0068\\u006F\\u0072\\u0032\\u0038\\u0074\\u0033\\u006F\\u002E\\u0032\")"]],"author":{"locale":"null","enableRtl":false,"enableTransliteration":false,"staff":false,"admin":false,"limitedAdmin":false,"email":"jpaulmorr@gmail.com","groupMemberships":"","favoriteKnols":[],"labelBrowser":"","analyticsCode":"","adsensePublisherId":"ca-pub-7704423462395637","homeKnol":"3rcfjhor28t3o.1","homeKnolUrl":"/k/justin-bozonier/-/3rcfjhor28t3o/0","authName":null,"nickName":"Justin Bozonier","useAuth":true,"publishNewKnols":true,"profile":null,"disambiguation":"Computer Programmer\nSeattle, WA","disambiguationArray":["Computer Programmer","Seattle, WA"],"feedEventsId":null,"collectionDisplay":{"omit":[9,8]},"collectionSort":19,"collectionReverse":false,"enableCommentApproval":false,"owned":{"3rcfjhor28t3o.5r4gtd":{"title":"Flow Based Programming","knolDate":"Tue Jul 29 16:52:19 PDT 2008","nodeId":"3rcfjhor28t3o.5r4gtd","knolUrl":"3rcfjhor28t3o/2","firstOwnerUrl":"3rcfjhor28t3o/0","sys/template":"/system/knol/templates/KnolMeta","firstOwnerName":"Justin Bozonier","firstOwner":"3rcfjhor28t3o.0"},"3rcfjhor28t3o.xby4kq":{"title":"Justin Bozonier","knolDate":"Wed Jul 23 19:22:40 PDT 2008","nodeId":"3rcfjhor28t3o.xby4kq","knolUrl":"3rcfjhor28t3o/1","firstOwnerUrl":"3rcfjhor28t3o/0","sys/template":"/system/knol/templates/KnolMeta","firstOwnerName":"Justin Bozonier","firstOwner":"3rcfjhor28t3o.0"},"3rcfjhor28t3o.wjjrkl":{"title":"Alt.NET","knolDate":"Wed Jul 23 19:49:52 PDT 2008","nodeId":"3rcfjhor28t3o.wjjrkl","knolUrl":"3rcfjhor28t3o/3","firstOwnerUrl":"3rcfjhor28t3o/0","sys/template":"/system/knol/templates/KnolMeta","firstOwnerName":"Justin Bozonier","firstOwner":"3rcfjhor28t3o.0"}},"nodeType":"User","url":"/k/3rcfjhor28t3o/0","exists":true,"id":"3rcfjhor28t3o.0","webspace":"3rcfjhor28t3o","pathEncoded":"/0","nextChild":5,"versionNumber":30,"latestVersionNumber":30,"language":null,"license":"by","adSensePolicy":{"timeCreated":1216864424251,"showAds":true,"allocations":[{"nodeId":"3rcfjhor28t3o.0","adSenseId":"ca-pub-7704423462395637","share":1,"charitable":false,"contributionLevel":null}]},"accessType":"open","emailPolicy":null,"title":null,"mailEventsId":null,"editTime":"Aug 10, 2008 9:32 AM","editTimeMs":1218385966352,"createTime":"Jul 23, 2008 6:18 PM","createTimeMs":1216862312597,"createUser":null,"logicalVersion":4,"enableContributorsList":true,"enableTableOfContents":true,"enableUnsolicitedReviews":true,"enableAlsoWrote":true,"enableRelatedKnols":true,"enableCategories":true,"enableReaderCategories":true,"enableComments":true,"enableModeratorList":true,"titleUrlOptOut":false,"sys/template":"/system/knol/templates/User","nodeHidden":false,"nodeApproved":false},"authorId":"3rcfjhor28t3o.0","knolMeta":{"knolId":"3rcfjhor28t3o.2","attachmentsSize":0,"editorialAuthors":{},"collectionReviewFor":null,"accessType":"open","submissionCount":0,"subCollectionSuggestionCount":0,"knolPageVersionMap":{"2":"4","1":1},"labels":"[\"programming\",\"development tools\",\"java\"]","publishedVersionMap":{"2":1},"publishedVersion":-1,"homeOf":null,"editLock":{"ownerId":null,"type":null,"expirationTime":1239070965876},"webContentDuplicates":"{\"site\":{\"page\":{\"sharingFraction\":1,\"url\":\"http://knol.google.com/k/flow-based-programming\"},\"sharingFraction\":1,\"siteName\":\"knol.google.com\"}}","ttsVersion":2,"ttsBlobstoreId":"CJ67CRIWAQ8ESjVu1QQS0cQKAnQ+Ag2/Z2QAARoWARAESjVu1QQS0cQKAnQ+Ag2/Z2QAASCQqu4J","langidLanguageCode":"en","pageviews":{},"templateId":null,"badges":{"data_":{}},"collectionType":0,"editorialCollection":null,"editorialCollectionType":null,"collectionDisplay":{"omit":[]},"collectionSort":19,"collectionReverse":false,"collectionBranding":{"backgroundColor":"","highlightColor":"","bannerUrl":"","showBanner":false,"logoUrl":"","showLogo":false},"verifiedWebsite":null,"guidelinesUrl":null,"translatedFromKnol":null,"translatedFromLang":null,"hasChatLog":false,"rrnid":null,"knolPermanentUrl":"/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2","enableCommentApproval":false,"owners":{"3rcfjhor28t3o.0":{"disambiguation":"","authorUrl":"/k/justin-bozonier/justin-bozonier/3rcfjhor28t3o/1","nodeId":"3rcfjhor28t3o.0","timestamp":1216862313310,"authorPosition":0}},"contributors":{"3rcfjhor28t3o.0":{"paid":true,"location":null,"disambiguation":"","timestamp":1216864243511,"contribution":0,"authorUrl":"/k/justin-bozonier/justin-bozonier/3rcfjhor28t3o/1","authorPosition":0,"nodeId":"3rcfjhor28t3o.0","gaiaId":null}},"reviews":{"3rcfjhor28t3o.wq9eyf":{"nodeId":"3rcfjhor28t3o.wq9eyf","knolUrl":"/k/anonymous/review-of-flow-based-programming/3rcfjhor28t3o/4","knolDate":"07/29/2008 07:52PM","firstOwnerUrl":"/k/anonymous/anonymous/2hk2xwmowe99j/1","firstOwnerName":"Anonymous","timestamp":1217375539343}},"reviewAbout":{},"nodeType":"KnolMeta","url":"/k/3rcfjhor28t3o/5r4gtd","exists":true,"id":"3rcfjhor28t3o.5r4gtd","webspace":"3rcfjhor28t3o","pathEncoded":"/5r4gtd","nextChild":1,"versionNumber":105,"latestVersionNumber":105,"language":null,"license":"by","adSensePolicy":{"timeCreated":1216864424251,"showAds":true,"allocations":[{"nodeId":"3rcfjhor28t3o.0","adSenseId":"ca-pub-7704423462395637","share":1,"charitable":false,"contributionLevel":null}]},"emailPolicy":null,"title":null,"mailEventsId":"3rcfjhor28t3o.57smq1","editTime":"Aug 3, 2011 10:31 AM","editTimeMs":1312392682645,"createTime":"Jul 23, 2008 6:18 PM","createTimeMs":1216862313293,"createUser":"3rcfjhor28t3o.0","logicalVersion":4,"enableContributorsList":true,"enableTableOfContents":true,"enableUnsolicitedReviews":true,"enableAlsoWrote":true,"enableRelatedKnols":true,"enableCategories":true,"enableReaderCategories":true,"enableComments":true,"enableModeratorList":true,"titleUrlOptOut":false,"sys/template":"/system/knol/templates/KnolMeta","nodeHidden":false,"nodeApproved":false,"messagesAbout":{"3rcfjhor28t3o.pkft36":{"nodeId":"3rcfjhor28t3o.pkft36","timestamp":1216864378488}},"discussions":{"3rcfjhor28t3o.u3dvdy":{"timestamp":1312392682345,"nodeId":"3rcfjhor28t3o.u3dvdy","date":"Aug 3, 2011 8:31 PM"}}},"knolMetaId":"3rcfjhor28t3o.5r4gtd","knol":{"knolContentVersionNumber":2,"knolMetaId":"3rcfjhor28t3o.5r4gtd","knolHistoryId":"3rcfjhor28t3o.rm7jsr","subtitle":"A concurrent and parallel computing technology","references":{"citations":[{"description":"Erich Gamma, Design Principles from Design Patterns","url":"http://www.artima.com/lejava/articles/designprinciples4.html","anchorText":"Erich Gamma, http://www.artima.com/lejava/articles/designprinciples4.html","id":"1326459189","pubmedId":null},{"description":"Robert C. Martin, Agile Principles, Patterns, and Practices in C#","url":null,"anchorText":null,"id":"2919350469","pubmedId":null},{"description":"http://www.codinghorror.com/blog/archives/000801.html","url":null,"anchorText":null,"id":"4111949927","pubmedId":null},{"description":"http://www.jpaulmorrison.com/fbp/","url":null,"anchorText":null,"id":"3518679435","pubmedId":null},{"description":"http://en.wikipedia.org/wiki/Flow-based_programming","url":null,"anchorText":null,"id":"1040609765","pubmedId":null}]},"affiliation":"Software Engineer, L.S. Technology & Platforms, LexisNexis","keywords":null,"snippet":"Flow based programming solves problems that, while they may currently be on the horizon, will soon present new...","abstract":"Flow based programming solves problems that, while they may currently be on the horizon, will soon present new challenges to software developers.","bootstrapKnol":false,"knolUrl":"/k/flow-based-programming","knolPermanentUrl":"/k/justin-bozonier/flow-based-programming/3rcfjhor28t3o/2","knolTitleUrl":"/k/flow-based-programming","nodeType":"Knol","url":"/k/3rcfjhor28t3o/2","exists":true,"id":"3rcfjhor28t3o.2","webspace":"3rcfjhor28t3o","pathEncoded":"/2","nextChild":1,"versionNumber":4,"latestVersionNumber":4,"language":null,"license":"by","accessType":"moderated","emailPolicy":null,"title":"Flow Based Programming","mailEventsId":null,"editTime":"Jul 29, 2008 4:52 PM","editTimeMs":1217375539362,"createTime":"Jul 23, 2008 6:18 PM","createTimeMs":1216862313247,"createUser":null,"logicalVersion":2,"enableContributorsList":true,"enableTableOfContents":true,"enableUnsolicitedReviews":true,"enableAlsoWrote":true,"enableRelatedKnols":true,"enableCategories":true,"enableReaderCategories":true,"enableComments":true,"enableModeratorList":true,"titleUrlOptOut":false,"sys/template":"/system/knol/templates/Knol","nodeHidden":false,"nodeApproved":false},"knolId":"3rcfjhor28t3o.2","knolPageVersion":4,"baseUri":"/k/3rcfjhor28t3o/","knolBaseUri":"/k/knol//","knolCanonicalUri":"/k/flow-based-programming","knolRedirectUri":null,"signInUrl":"https://www.google.com/accounts/ServiceLogin?continue=http%3A%2F%2Fknol.google.com%2Fk%2Fflow-based-programming&passive=true&service=knol&hl=en","pubSignOutUrl":"https://knol.google.com/k/_logout?continue=http%3A%2F%2Fknol.google.com%2Fk%2Fflow-based-programming","unpubSignOutUrl":"https://knol.google.com/k/_logout?continue=http%3A%2F%2Fknol.google.com%2Fk","newGaiaAccountUrl":"https://www.google.com/accounts/NewAccount?continue=http%3A%2F%2Fknol.google.com%2Fk%2Fflow-based-programming&service=knol","locale":"en","pageType":"knol"};
+    (function () {
+      if (document.getElementById('knol-header')) {
+        var email = _knolUser['email'];
+        var homeKnolUrl = _knolUser['homeKnolUrl'];
+        if (homeKnolUrl) {
+          var linkc = document.getElementById('knol-header-my-profile-link-c');
+          if (linkc) {
+            linkc.style.display = '';
+          }
+          var link = document.getElementById('knol-header-my-profile-link');
+          if (link) {
+            link.href = homeKnolUrl;
+          }
+        }
+        if (email) {
+          document.getElementById('knol-header-menu-email').innerHTML = email;
+          document.getElementById('knol-signout-link').style.display = '';
+          document.getElementById('knol-signin-link').style.display = 'none';
+        }
+      }
+    })();
+
+    window.jstiming.load.tick('aft');
+  // ]]>
+</script>
+<script type="text/javascript">
+  this["_knol_evaluated_results_"] = {"/system/app/embed/icons/icon-cal-address.png":"/k/knol/_/rsrc/1331242810380/system/app/embed/icons/icon-cal-address.png","/system/static_files/ifpc_relay.html":"/k/knol/_/rsrc/1331242810045/system/static_files/ifpc_relay.html","click-to-call":"/k/knol/_/rsrc/1331242810304/system/knol/images/icons/click-to-call.png","credit-card":"/k/knol/_/rsrc/1331242809648/system/knol/images/icons/credit-card.png","ssjsConfig":"defaultDomainPrefix=/k/,buildMessage=Bnorfolk465,experimentId=prod,adSenseSandbox=false,useCustomSearch=false,jstimingSampling=1.0,sunsetStart=1304233200000,sunsetEnd=1335855600000","ssn":"/k/knol/_/rsrc/1331242809985/system/knol/images/icons/ssn.png","korean-rrn":"/k/knol/_/rsrc/1331242810786/system/knol/images/icons/korean-rrn.png"};
+  </script>
+<script type="text/javascript"
+ src="knol_flow-based-programming_files/jot_client_client_base.js"></script>
+<script type="text/javascript">
+      new gsites.Logger();
+      knol.ui.client.PageFinalizer.finalize(_knolGlobal, _knolUser);
+      knol.ui.client.Bottom.execute();
+    </script>
+<div tabindex="-1" aria-haspopup="true" role="menu"
+ style="-moz-user-select: none; display: none;"
+ class="goog-menu goog-menu-vertical">
+<div id=":0" style="-moz-user-select: none;" role="menuitem"
+ class="goog-menuitem">
+<div class="goog-menuitem-content">linked to this page</div>
+</div>
+<div id=":1" style="-moz-user-select: none;" role="menuitem"
+ class="goog-menuitem">
+<div class="goog-menuitem-content">collected this page</div>
+</div>
+<div id=":2" style="-moz-user-select: none;" role="menuitem"
+ class="goog-menuitem">
+<div class="goog-menuitem-content">used this page as a template</div>
+</div>
+</div>
+<input style="display: none;" name="knol-navigation-state-input"
+ id="knol-navigation-state-input" type="text">
+<script type="text/javascript"
+ src="knol_flow-based-programming_files/annotations_bootstrap.js"></script>
+<script type="text/javascript"
+ src="knol_flow-based-programming_files/annotations_production.js"></script>
+<script type="text/javascript">
+          knol.ui.client.Zipit.initialize();
+        </script>
+</body>
+</html>

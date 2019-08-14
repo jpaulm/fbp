@@ -79,6 +79,7 @@
 						<li><a href="oops.shtml">Comparison with OO</a></li>
 						<li><a href="comparison.html">Comparison with other paradigms and methodologies</a></li>
 						<li><a href="FBPnew.ppt">PowerPoint presentation on FBP (2007)</a></li> 
+						<li><a href="knol_flow-based-programming.htm">Justin Bozonier's "knol" re FBP (2008?)</a></li> 
 						<li><a href="noflo.html">FBP vs. FBP-inspired Systems</a></li>
 						<li><a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl">Old C2-style FBP Wiki</a></li>
 						<li><a href="biblio.html">Bibliography</a></li>
@@ -96,7 +97,7 @@
   
   <p><i>Video Interview with J. Paul Rodker Morrison, Summer 2013 </i></p>
         
-					 <p>In addition, there are six Youtube videos on  <a href="..\graphicsstuff\index.shtml">DrawFBP</a>, illustrating a number of basic ("classical") FBP concepts (what we are now calling "FBP-inspired" or "FBP-like" systems do not necessarily contain all of these, although DrawFBP should be able to support most of these systems):
+					 <p>In addition, there are six Youtube videos about DrawFBP, illustrating a number of basic ("classical") FBP concepts (what we are now calling "FBP-inspired" or "FBP-like" systems do not necessarily contain all of these, although DrawFBP should be able to support most of these systems):
 					 <ol><li><a href="https://www.youtube.com/watch?v=OrKenPOV4Js">DrawFBP video #1</a></li>
 					 <li><a href="https://www.youtube.com/watch?v=9NXYNxDjFWY">DrawFBP video #2</a></li>
 					 <li><a href="https://www.youtube.com/watch?v=-AmzfhV2hIU">DrawFBP video #3</a></li>
