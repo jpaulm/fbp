@@ -7,7 +7,7 @@
 
 [J. Paul Morrison](https://jpaulm.github.io/index.shtml)
 
-## FBP Implementations on GitHub
+### FBP Implementations on GitHub
 
 - [Java implementation](https://github.com/jpaulm/javafbp/blob/master/README.md)
 
