@@ -143,14 +143,14 @@
 
     
 		<footer class="small wrap">	
-			<table border="0">
+			<!-- <table border="0">
 	<tr>
 		<td>
 			<p class="small">Content Copyright &copy; J Paul Morrison. All rights reserved.</p>
 		</td>
 	</tr>
 	<tr>
-		<td align="center">
+		<td align="center"> -->
 			<!--<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul5.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> -->
 			<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145755951-1"></script>
@@ -162,9 +162,9 @@
   gtag('config', 'UA-145755951-1');
 </script>
 
-		</td>
+	<!--	</td>
 	</tr>
-</table>	
+</table>	-->
 		
 		
      </footer>
