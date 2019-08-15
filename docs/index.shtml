@@ -151,7 +151,17 @@
 	</tr>
 	<tr>
 		<td align="center">
-			<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul5.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> 
+			<!--<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul5.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> -->
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145755951-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145755951-1');
+</script>
+
 		</td>
 	</tr>
 </table>	
