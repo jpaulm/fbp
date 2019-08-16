@@ -13,7 +13,7 @@
 
 - [C# implementation](https://github.com/jpaulm/csharpfbp/blob/master/README.md)
 
-- [C++ implementation](https://github.com/jpaulm/cppfbp/blob/master/README.md), using [BOOST](https://www.boost.org/) to provide multithreading support; also contains a [Lua](http://www.lua.org/) interface.  This implementation is based on an older C implementation called [THREADN](https://github.com/jpaulm/threadn/blob/master/README.md) code, which uses `longjmp` and `setjmp` 
+- [C++ implementation](https://github.com/jpaulm/cppfbp/blob/master/README.md), using [BOOST](https://www.boost.org/) to provide multithreading support; also contains a [Lua](http://www.lua.org/) interface. 
 
 - [JavaScript implementation](https://github.com/jpaulm/jsfbp/blob/master/README.md), using Marcel Laverdet's [node-fibers](https://github.com/laverdet/node-fibers)
 
