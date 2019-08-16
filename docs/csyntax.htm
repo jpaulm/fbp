@@ -1,0 +1,603 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <meta name=viewport content='width=device-width, initial-scale=1'>
+  <title></title>
+</head>
+<body>
+<h1>Syntax of C#FBP (C# Implementation of FBP)<br/>and Component API</h1>
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+<br>
+
+<h3>Warning!</h3>
+<blockquote><p>
+Checking has been added (Aug., 2014) to make sure that all mandatory input connections have been provided.    Since this was not being checked before, it may be necessary to add the new <code>optional</code> parameter to the <code>InPort</code> metadata for some components.  If this causes any problems for current users, please let us know.  </p>
+</blockquote>
+
+<h3>Contents</h3>
+<ul>
+  <li><a href="csyntax.htm#gen">General</a></li>
+  <li><a href="csyntax.htm#netdef">Network Definitions</a></li>
+  <ul>
+    <li><a href="csyntax.htm#sampnet">Sample Network</a></li>
+    <li><a href="csyntax.htm#simpnot">Simplified Notation</a></li>
+    <li><a href="csyntax.htm#subnet">Simple Subnet</a></li>
+   
+  </ul>
+  <li>Component Coding </li>
+  <ul>
+    <li><a href="csyntax.htm#samplecomp">Sample Component</a></li>
+    <li><a href="csyntax.htm#metadata">Component Metadata</a></li>
+    <li><a href="csyntax.htm#compapi">Component API</a><br>
+    </li>
+  </ul>
+</ul>
+<h3><a name="gen"></a>General </h3>
+<p>
+In my book, "Flow-Based Programming", I describe the syntax of
+the network specifications of various FBP dialects that were in
+existence when the book was written. C#FBP, the C# implementation
+of the FBP concepts, did not exist at that time, so this web page has
+been added describing the syntax of C#FBP network definitions.
+
+
+<p><p>The source code for the various constituents of C#FBP is now being held on a public <a href="https://github.com/jpaulm/csharpfbp">GitHub</a> project.  There is also a <a href="https://github.com/jpaulm/csharpfbp/blob/master/README.md">README</a> file on the GitHub web site.
+
+</p>
+<p>One advantage of defining the network as executable code, as
+compared with other approaches that merely list connections in a
+language-independent way, is that the network can contain additional
+logic. This logic then controls the way the network <i>is defined</i>,
+rather than the way it <i>runs</i>.
+Some may regard this as a defect, rather than as an asset, and both
+views can certainly be defended, but one of the neat things it enables
+us to do is to adjust multiplexing levels of various structures in the
+diagram using a table of values (remember the multiplexing example in <a
+ href="cmr.htm">Sample DrawFlow Diagram</a>). One merely retrieves a
+value from a table for the degree of multiplexing in a particular
+structure in the diagram, and this value is then used both as the index
+of a loop invoking the <code>connect</code> statement, and as the index
+for the elements of an array-type port (see below for both of these
+terms). </p>
+<p>Since the way the syntax relates to the underlying diagram may not
+be all that clear, a brief description is in order. &nbsp;At the end of
+this page, I have given an extremely
+simple C#FBP component.</p>
+<h3><a name="netdef"></a>Network
+Definitions<br>
+</h3>
+<p>Any C#FBP network definition starts as follows:<br>
+<br>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>using System;<br>using FBPComponents;<br>using FBPLib;<br><br><br>namespace nnnnnnnnn<br>{<br>    public class xxxxxx : Network<br>    {  <br>        public override void Define()  {<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+ 
+<p>
+where <code>xxxxxx</code> is the Network name, including the usual usings,
+copyright statements, namespace specification, etc.&nbsp;<br>
+<p>The network definition is terminated with: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>}<br>	<span style="font-family: monospace;">internal static void Main(String[] argv)<br>        {<br>            new xxxxx().Go();<br>        }<br>    }</span><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>In between the beginning and the ending statements defining the
+network, you specify a list of connections, using the following
+methods, which I will refer to as "clauses": </p>
+<ul>
+  <li>
+    <p> <code>Component</code> - define an instance of a component (an FBP
+"process") </p>
+  </li>
+  <li>
+    <p> <code>Connect</code> - define a connection </p>
+  </li>
+  <li>
+    <p> <code>Initialize</code> - define a connection including an Initial
+Information Packet (IIP) </p>
+  </li>
+  <li>
+    <p> <code>Port</code> - define a port on a process </p>
+  </li>
+</ul>
+<p>Every component instance <span style="font-style: italic;">must
+have a unique character string</span>
+identifying it, which allows other component instances or initial
+information packets (IIPs) to be attached to it via a connection. </p>
+<p>The following method call:&nbsp;</p>
+<p> <code>Component("xxxx")</code></p>
+<p> returns a reference to a component instance. The first reference to
+this particular component instance must specify the component class
+to be executed by that occurrence. This is done by coding </p>
+<p><code>Component("xxxx", typeof(cccc))</code> </p>
+<p>where <code>cccc</code> &nbsp;is the name of the C# module to be
+executed. </p>
+<p>Similarly, a port is identified by a <code>Port</code> clause, e.g. <code>Port("xxxx").<br>
+</code> </p>
+<p>A port may be an array-type port, in which case the port clauses
+referring
+to its elements have index values, as follows:&nbsp;</p>
+<p> <code>Port("xxxx",n)<br>
+</code> <br>
+where "n" runs up monotonically from 0. Each element of the port array
+will be connected to a different component occurrence or IIP. </p>
+<p>A <code>Connect</code> or <code>Initialize</code> clause may contain the
+relevant
+<code>Component</code> clauses, together with their corresponding <code>Port</code>
+clauses, embedded within it, as e.g. </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>     Connect(Component("Read", typeof(ReadText)),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Port("OUT"),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Component("Splitter1", typeof(Splitter1)),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Port("IN"));</pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>or the <code>Connect</code> and <code>Component</code> portions may be in
+separate statements,
+provided <code>Component</code> precedes any <code>Connects</code> that
+reference it. <br>
+</p>
+<p>A <code>Connect</code> contains: </p>
+<ul>
+  <li>
+    <p> "from" <code>Component </code> clause </p>
+  </li>
+  <li>
+    <p> "from" <code>Port</code> clause </p>
+  </li>
+  <li>
+    <p> "to" <code>Component </code> clause </p>
+  </li>
+  <li>
+    <p> "to" <code>Port</code> clause </p>
+  </li>
+</ul>
+<p>Optionally a <span style="font-family: monospace;">C</span><code>onnect</code>
+may have a fifth parameter: the
+connection capacity, specified as an&nbsp;<code>int</code>. &nbsp;If this
+is omitted, the default value is used: 1 for testing, or 10 for
+production (this currently has to be changed by hand in the
+Network.class).&nbsp; <br>
+</p>
+<p>If an asterisk (<code>*</code>) is specified for the
+"from" port, this is called an "automatic output port", and indicates a
+signal generated when the "from"
+component instance terminates (actually the port is just closed, so no
+packet has to be disposed of).&nbsp; <br>
+</p>
+<p>
+If an asterisk is specified for the "to" port,
+this is called an "automatic input port", and indicates a <i>delay</i>
+- the "to" component instance does not
+start until a signal or a close is received at this port.<br>
+<p>
+If <code>*SUBEND</code> is specified as a port name on a subnet, a packet
+containing null is
+emitted at this port every time the subnet deactivates, i.e. all the
+contained components terminate.&nbsp; It doesn't have to be named in
+the port
+metadata.&nbsp; This null packet is emitted for all
+activations, including the last one.<br>
+<p>An <code>Initialize</code> clause contains: </p>
+<ul>
+  <li>
+    <p> a reference to <i>any</i> object </p>
+  </li>
+  <li>
+    <p>a <code>Component</code> clause </p>
+  </li>
+  <li>
+    <p>a <code>Port</code> clause </p>
+  </li>
+</ul>
+<p> as e.g.<br>
+</p>
+<p>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>     Initialize(new StreamReader(<br>               @"c:\com\jpmorrsn\eb2engine\test\data\myXML3.txt"),<br>    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Component("Read"),<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Port("SOURCE"));<br>  </pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>However, it has been recommended that IIPs should be strings, rather
+than arbitrary objects, to facilitate future graphical management of
+networks.<br>
+</p>
+<p>One last point: any number of "from" ports can be connected to a
+single "to" port; only one "to" port can ever be connected to a given
+"from" port.</p>
+<h3><a name="sampnet"></a>Sample Network</h3>
+<p>Let us code up a network implementing the following picture:</p>
+<p><img style="width: 611px; height: 244px;" alt=""
+ src="http://www.jpaulmorrison.com/fbp/update.gif">&nbsp;<br>
+</p>
+<p>First list the <code>Component</code> clauses, together with the
+component classes they are to execute (assuming that component classes
+have been written to execute the various nodes of the diagram), e.g.: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br>  Component("Read Masters",typeof(Read)) <br>  Component("Read Details",typeof(Read))<br>  Component("Collate",typeof(Collate))<br>  Component("Process Merged Stream",typeof(Proc)) <br>  Component("Write New Masters",typeof(Write))<br>  Component("Summary &amp; Errors",typeof(Report))<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Now these <code>Component</code> clauses may either be made into
+separate
+statements or they can be imbedded into the <code>Connect</code>
+statements that
+follow.&nbsp; Here are the connections in the diagram, <span
+ style="font-style: italic;">without</span> imbedded Component
+definitions:<br>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>  Connect(Component("Read Masters"),Port("OUT"),Component("Collate"),<br>     Port("IN",0));&nbsp; &nbsp;                   // array port  <br>  Connect(component("Read Details"),Port("OUT"),Component("Collate"),<br>     Port("IN",1));&nbsp; &nbsp; &nbsp;                 // array port  <br>  Connect(component("Collate"),Port("OUT"),Component("Process Merged Stream"),<br>     Port("IN"));  <br>  Connect(Component("Process Merged Stream"),Port("OUTM"),<br>     Component("Write New Masters"),Port("IN"));  <br>  Connect(Component("Process Merged Stream"),Port("OUTSE"),<br>     Component("Summary &amp; Errors"),Port("IN"));<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Each item in this list is a separate C# statement. <br>
+</p>
+<p>We can now add the
+class designation to the first <code>Component</code> clause referencing a
+particular component occurrence, giving the following: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> &nbsp;<br>  Connect(Component("Read Masters",typeof(Read)),Port("OUT"),<br>&nbsp; &nbsp;  Component("Collate",typeof(Collate)), Port("IN",0));   // array port  <br>&nbsp; Connect(Component("Read Details",typeof(Read)),Port("OUT"),<br>&nbsp;&nbsp; &nbsp; Component("Collate"),Port("IN",1));                  // array port  <br>&nbsp; Connect(Component("Collate"),Port("OUT"),<br>     Component("Process Merged Stream",typeof(Proc)),Port("IN"));  <br>  Connect(Component("Process Merged Stream"),Port("OUTM"),<br>     Component("Write New Masters",typeof(Write)),Port("IN"));  <br>  Connect(Component("Process Merged Stream"),Port("OUTSE"),<br>     Component("Summary &amp; Errors",typeof(Report)),Port("IN"));    <br>  </pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Now "Read Masters" and "Read Details" use the same C# class, so we
+need some way to indicate the name of the file that each is going to
+read. This is done using Initial Information Packets (IIPs). In this
+case they might usefully specify StreamReader objects, so we need to
+add
+two <code>Initialize</code> clauses, as follows: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>  <br>  Initialize(new StreamReader(@"c:\mastfile"),<br>			Component("Read Masters"),<br>			Port("SOURCE"));<br>  Initialize(new StreamReader(@"c:\detlfile"),<br>			Component("Read Details"),<br>			Port("SOURCE"));<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Note that, since both "Read" component occurrences use the same
+class code,
+they naturally have the same port names - of course, the ports are
+attached
+to different IIPs. </p>
+<p>Remember that back-slashes have to be doubled in C# character
+strings, unless you precede the string with an @-sign.  Process names can contain any character - but double quotes and back-slashes in the name must be "escaped" using a back-slash</p>
+<p>"Write New Masters" will have to have an IIP to specify the output
+destination - perhaps: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>  <br>  Initialize(new StreamWriter(@"c:\newmast"),<br>			Component("Write New Masters"),<br>			Port("DESTINATION"));<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Note also that this IIP is not a <i>destination</i> for the Writer
+- it is an object <i>used</i> by this component occurrence so that the
+latter can figure out where to send data to. </p>
+<p>Add the beginning and ending statements, and you're done! &nbsp; The
+actual sequence of <code>Connect</code> and <code>Initialize</code>
+statements is irrelevant.</p>
+<p>Here is the final result:<br>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>using System;<br>using FBPComponents;<br>using FBPLib;<br><br><br>namespace nnnnnnnnn<br>{<br>    public class xxxxxx : Network<br>    {  <br>    public override void Define()  {<br>     Connect(Component("Read Masters",typeof(Read)),Port("OUT"),<br>&nbsp; &nbsp;  Component("Collate",typeof(Collate)), Port("IN",0));   // array port  <br>&nbsp;    Connect(Component("Read Details",typeof(Read)),Port("OUT"),<br>&nbsp;&nbsp; &nbsp; Component("Collate"),Port("IN",1));                  // array port  <br>&nbsp;    Connect(Component("Collate"),Port("OUT"),<br>     Component("Process Merged Stream",typeof(Proc)),Port("IN"));  <br>     Connect(Component("Process Merged Stream"),Port("OUTM"),<br>     Component("Write New Masters",typeof(Write)),Port("IN"));  <br>     Connect(Component("Process Merged Stream"),Port("OUTSE"),<br>     Component("Summary &amp; Errors",typeof(Report)),Port("IN")); <br>     Initialize(new StreamReader(@"c:\mastfile"),<br>			Component("Read Masters"),<br>			Port("SOURCE"));<br>     Initialize(new StreamReader(@"c:\detlfile"),<br>			Component("Read Details"),<br>			Port("SOURCE"));  <br>     Initialize(new StreamWriter(@"c:\newmast"),<br>			Component("Write New Masters"),<br>			Port("DESTINATION")); <br>    <br>}<br>	<span
+ style="font-family: monospace;">internal static void Main(String[] argv)<br>        {<br>            new xxxxx().Go();<br>        }<br>    }</span></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<h3><a name="simpnot"></a>Alternative (Simplified) Notation
+</h3>
+<p>
+In C#FBP there is a simplified
+notation, in
+addition to that shown above.&nbsp; In this notation <code>Connect</code>
+specifies
+two character strings, and <code>Initialize</code> specifies an object and
+a character string.&nbsp;&nbsp; In both cases, the second character
+string specifies a combination of component and port, with the two
+parts separated by a period.&nbsp;
+Array port indices, if required, are specified using square brackets,
+e.g.
+<p><code>"component.port[3]" </code> </p>
+<p>The old port notation will still be supported, but is only really
+needed
+when the port index is a variable.&nbsp; When debugging, it will be
+noted that the square bracket notation is used in trace lines, even
+when it was not used in the network definition.<br>
+</p>
+<p>Component names must of course not include periods or most special
+characters, but they may include blanks, numerals, hyphens and
+underscores, and they must be associated with their implementing class
+using a (preceding) <code>Component</code> statement.<br>
+</p>
+<p>Here is the above network using the new notation:</p>
+<p>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> using System;<br>using FBPComponents;<br>using FBPLib;<br><br><br>namespace nnnnnnnnn<br>{<br>    public class xxxxxx : Network<br>    {  <br>    public override void Define()  {<br>   Component("Read Masters",typeof(Read)); <br>   Component("Read Details",typeof(Read));<br>   Component("Collate",typeof(Collate));<br>   Component("Process Merged Stream",typeof(Proc)); <br>   Component("Write New Masters",typeof(Write));<br>   Component("Summary &amp; Errors",typeof(Report));<br>   Connect("Read Masters.OUT", "Collate.IN[0]");<br>   Connect("Read Details.OUT", "Collate.IN[1]");  <br>   Connect("Collate.OUT"), "Process Merged Stream.IN"); <br>   Connect("Process Merged Stream.OUTM", "Write New Masters.IN"); <br>   Connect("Process Merged Stream.OUTSE", "Summary &amp; Errors.IN");<br>   Initialize(new FileReader("c:\\mastfile"), "Read Masters.SOURCE");<br>   Initialize(new FileReader("c:\\detlfile"), "Read Details.SOURCE");<br>   Initialize(new FileWriter("c:\\newmast"), "Write New Masters.DESTINATION");<br>   }<br><br>   <span
+ style="font-family: monospace;">internal static void Main(String[] argv)<br>        {<br>            new xxxxx().Go();<br>        }<br>   }</span><br>  }<br><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+Here is a network example showing how variable port numbers can be used
+with the LoadBalance function to define an (admittedly fairly trivial)
+self-balancing network.&nbsp; <br>
+<br>
+</p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><br> using System;<br>using FBPComponents;<br>using FBPLib;<br><br><br>namespace nnnnnnnnn<br>{<br>    public class TestLoadBalancer : Network<br>    {  <br>    public override void Define() {<br>          int multiplex_factor = 10;<br>          Component("generate", typeof(Generate));<br>          Component("display", typeof(WriteToConsole));<br>          Component("lbal", typeof(LoadBalance));<br>          Connect("generate.OUT", "lbal.IN");<br>          Initialize("100 ", Component("generate"), Port("COUNT"));<br>          for (int i = 0; i &lt; multiplex_factor; i++) {<br>            Connect(Component("lbal"), Port("OUT", i), <br>                  Component("passthru" + i, typeof(Passthru)), Port("IN"));<br>            Connect(Component("passthru" + i), Port("OUT"), "display.IN");<br>          }<br>        }<br>     <br><span
+ style="font-family: monospace;">    internal static void Main(String[] argv)<br>        {<br>            new </span>TestLoadBalancer<span
+ style="font-family: monospace;">().Go();<br>        }</span> <br>    }<br>}<br><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="subnet"></a>Simple Subnet</h3>
+<p>
+As described in the book, networks can be built up level by level,
+using what we call "subnets" - they may be thought of as networks with
+"sticky" connections.&nbsp; Here is a very simple subnet.<br>
+<p>
+Note the metadata - a subnet can act as a component, so metadata is
+required.<br>
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><br>using System;
+using System.Collections.Generic;
+using System.Text;
+using Components;
+using FBPLib;
+
+namespace TestNetworks.Networks
+{
+    [OutPort("OUT")] 
+	[InPort("IN")]
+    class SubnetX : SubNet
+    {
+        public override void Define()
+        {
+            Component("SUBIN", typeof(SubInSS));
+            Component("SUBOUT", typeof(SubOutSS));
+            Component("Pass", typeof(Passthru));
+
+            Initialize("IN", Component("SUBIN"), Port("NAME"));
+            Connect(Component("SUBIN"), Port("OUT"), Component("Pass"), Port("IN"));
+            Connect(Component("Pass"), Port("OUT"), Component("SUBOUT"), Port("IN"));
+            Initialize("OUT", Component("SUBOUT"), Port("NAME"));
+        }
+    }
+} 
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<h3><a name="samplecomp"></a>Sample C#FBP Component</h3>
+<p>A more complete description of the API is given in the next section.</p>
+<p>This component generates a stream of 'n' IPs, where 'n' is specified
+in an InitializationConnection (specified by an <code>Initialize</code>
+clause in the foregoing). Each IP just contains an arbitrary string of
+characters, in
+order to illustrate the concept.&nbsp; Of course any copyright
+information included is up to the developer. </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>using System;<br>using FBPLib;<br><br>namespace FBPComponents<br>{<br><br>    /** Component to generate a stream of 'n' packets, where 'n' is<br>    * specified in an InitializationConnection.<br>    */<br>    [InPort("COUNT", description="Number of packets", type=typeof(System.String))]<br>    [OutPort("OUT")] <br>    [ComponentDescription("Generate stream of packets based on count")]<br><br>    public class Generate : Component<br>    {<br><br>        internal static string _copyright =<br>            "Copyright ....";<br><br>        OutputPort _outport;<br>        IInputPort _count;<br><br><br>        public override void Execute() /* throws Throwable */ {<br>            Packet ctp = _count.Receive();<br><br>            string param = ctp.Content.ToString();<br>            Int32 ct = Int32.Parse(param);<br>            Drop(ctp);<br>            _count.Close();<br><br>            for (int i = ct; i &gt; 0; i--)<br>            {<br>                string s = String.Format("{0:d6}", i) + new String('a', 1000);<br><br>                Packet p = Create(s);<br>                _outport.Send(p);<br><br><br>            }<br><br>            // output.close();<br>            // terminate();<br>        }<br>        /*<br>        As of C# 2.0, Introspect has been replaced by the metadata<br><br>        public override System.Object[] Introspect()<br>        {<br><br>            return new Object[] {<br>		"generates a set of Packets under control of a counter" ,<br>		"OUT", "output", Type.GetType("System.String"),<br>			"lines generated",<br>		"COUNT", "parameter", Type.GetType("System.String"),<br>			"Count of number of entities to be generated"};<br>        }<br>        */<br>        public override void OpenPorts()<br>        {<br><br>            _outport = OpenOutput("OUT");<br>          <br>            _count = OpenInput("COUNT");<br>           <br>        }<br>    }<br>}<br><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>The scheduling rules for most FBP implementations are described in
+the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
+</p>
+<p>The previous C# implementation of FBP (<span
+ style="color: rgb(0, 0, 153);">C#FBP-1.5.3</span>) presents an IIP
+to a component <span style="font-style: italic;">once per activation</span>.
+This
+has
+been
+changed
+in
+the
+latest
+implementation (<span style="color: rgb(0, 0, 153);">C#FBP-2.0</span>)
+to
+<span style="font-style: italic;">once per
+invocation</span>.&nbsp; In practice this will only affect
+"non-loopers" (components that
+get reactivated multiple times).&nbsp;&nbsp; <br>
+</p>
+<p>There are a few minor changes to component code for <span
+ style="color: rgb(0, 0, 153);">C#FBP-2.0:</span>
+</p>
+<ul>
+  <li>As good programming practice, we now feel that IIP ports should
+be closed after a Receive has been executed, in case it is attached to
+an upstream component (rather than an IIP), and that component
+mistakenly sends more than one IP - this statement has accordingly been
+added to the above example.</li>
+  <li> The Drop statement now takes the packet as a parameter, rather
+than
+being a method of Packet. </li>
+  <li>The Send is now unconditional - it either works or crashes.</li>
+  <li> We are adding a "long wait" state to components, specifying a
+timeout value in seconds. This is coded as follows: </li>
+  <p> </p>
+  <pre>      double _timeout = 2;   // 2 secs<br><br>          ....<br><br>      LongWaitStart(_timeout);    <br>                                           <br>    //   activity taking time goes here<br><br>      LongWaitEnd(); <br></pre>
+  <li> Typically, the timeout value is given a default value in the
+code, and overridden (if desired) by an IIP. </li>
+  <li> While the component in question is executing the activity taking
+time, its state will be set to "long wait". If one or more components
+are in "long wait" state while all other components are suspended or
+not started, this situation is not treated as a deadlock. However, if
+one of the components exceeds its timeout value, an error will be
+reported (Complain). </li>
+</ul>
+<h3><a name="metadata"></a>Component Metadata:</h3>
+<ul>
+  <li> Input and output port names will be coded on components using C#
+5.0 "attribute" notation. This metadata can be used to do
+analysis of networks without having to actually execute the components
+involved. Here is an example of the attributes for the "Collate"
+component: </li>
+  <p> </p>
+  <pre>    [InPort("CTLFIELDS")]<br>    [InPort("IN", arrayPort = true)]<br>    [OutPort("OUT")]<br>    [ComponentDescription("Collates input streams at array <br>port IN and sends them to port OUT")]<br><br>    public class Collate : Component {<br></pre>
+  <p> </p>
+  <li> Input ports do not necessarily have to be connected, even though
+attributes are specified for them; output ports, however, must be. </li>
+  <li> <a href="http://www.jpaulmorrison.com/cgi-bin/wiki.pl?MustRun"
+ class="wikipagelink">MustRun</a> is also specified as metadata, rather
+than as an interface, as it was in version 1.5.3,&nbsp; i.e. <br>
+  </li>
+</ul>
+<p>
+<code>         [MustRun] </code>
+<p>A new service has been added for component code for <span
+ style="color: rgb(0, 0, 153);">C#FBP-2.2:</span>
+</p>
+<ul>
+  <li><code>&lt;output port name&gt;.IsConnected</code> returns <code>bool</code>
+  </li>
+</ul>
+<p>To support <code>IsConnected</code>, a new metadata attribute called <code>optional</code>
+has been added to OutPort, e.g.
+</p>
+<ul>
+  <li>
+    <pre>[OutPort("OUT",optional=true)]<br></pre>
+  </li>
+</ul>
+<br>
+<h3><a name="compapi"></a>C#FBP Component API</h3>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><span style="text-decoration: underline;">Component Metadata:</span><br><br><br>[ComponentDescription]<br>  parameters:<br>    - string<br><br>[InPort]<br>  parameters:<br>    - string<br>    - arrayPort (bool)<br>    - description (string)<br>    - type (typeof(...))<br><br>[OutPort]<br>  parameters:<br>    - string<br>    - arrayPort (bool)<br>    - description (string)<br>    - type (typeof(...))<br>   &nbsp;- optional (bool)<br><br><br>[MustRun]<br><br>[Priority(ThreadPriority.Highest)]   // default is ThreadPriority.Lowest<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><span style="text-decoration: underline;">Packet class:</span><br><br>/** <br>* A Packet may either contain an Object, when type is NORMAL,<br>* or a String, when type is not NORMAL.  The latter case<br>* is used for things like open and close brackets (where the <br>* String will be the name of a group. e.g. accounts) <br>**/<br><br>Dictionary Attributes;  /* returns attributes */<br>Object Content;         /* returns null if type &lt;&gt; Normal */<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><span style="text-decoration: underline;">Component class:</span><br><br>/** <br>* All verbs must extend this class, defining its two abstract methods:<br>* openPorts, and execute. <br>**/<br><br><br>Packet p = Create(Object o);<br>Packet p = Create(Packet.Types type, string s);<br><br>Drop(Packet p);   //  Note this change! <br><br>LongWaitStart(double interval);   // in seconds<br>LongWaitEnd();<br><br><br><br>/** 3 stack methods - as of JavaFBP-2.3<br>**/<br><br>Push (Packet p);<br><br>Packet p = Pop();  // return null if empty<br><br>int StackSize();<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><span style="text-decoration: underline;">IInputPort interface:</span><br><br>Packet = Receive();<br><br>void Close();<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><span style="text-decoration: underline;">OutputPort class:</span><br><br>void Send(Packet packet); <br><br>bool IsConnected();  // as of 2.2<br><br>void Close();<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</article>
+</section>
+</div>
+</body>
+</html>
