@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ 
+<head>
+  <meta http-equiv="content-type"  content="text/html; charset=ISO-8859-1">
+   <meta name=viewport content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title></title>
+</head>
+<body>
+<h1>CppFBP/Lua Interface</h1>
+<h2>Supported services</h2>
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+          <pre>
+retcode, IPaddr = dfscrep(string)                 -- Create Packet 
+retcode, IPaddr, size, type = dfsrecv(portname)   -- Receive  
+retcode = dfssend(portname, IPaddr)               -- Send 
+dfsdrop(IPaddr)                                   -- Drop Packet
+result = dfsderef(IPaddr)                         -- Dereference 
+result = dfselct(portname)                        -- Array port element count
+retcode = dfsclos(portname)                       -- Close port
+retcode = myprint(string)                         -- Print value (for debugging) 
+</pre></td></tr>
+</tbody>
+</table>
+</div>
+<h2>Sample Lua scripts</h2>
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+<br>
+
+<h3>
+Generate number of IPs specified in IIP at COUNT port, and send results to OUT 
+</h3>
+
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>
+-- gen.lua        
+      
+value, IPaddr, size, type = dfsrecv("COUNT")
+
+i = dfsderef(IPaddr)
+dfsdrop(IPaddr)
+print (i)
+
+for j = 1, i do
+  value, IPaddr = dfscrep("string"..j)
+  --myprint(IPaddr)
+  value = dfssend("OUT", IPaddr)
+end
+return 0
+      <br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>
+Concatenate input streams from successive elements of array port IN, and sends the result to port OUT:
+</h3>
+
+
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>  
+      
+-- concat.lua
+      
+i = dfselct("IN");   -- get element count for port "IN"
+
+for i = 0, i - 1 do
+   -- receive from element i of port "IN"
+  value, IPaddr, size, type = dfsrecv("IN["..i.."]")    
+  while value == 0 do           
+     value = dfssend("OUT", IPaddr)   -- send IP to port "OUT"
+      -- receive from element i of port "IN"                    
+     value, IPaddr, size, type = dfsrecv("IN["..i.."]") 
+  end
+end
+      <br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+ <h3>
+Replicate incoming IPs to output port array elements OUT[0 - n]
+</h3>
+
+
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>  
+      
+-- repl.lua
+
+i = dfselct("OUT");   -- get element count for port "OUT"
+
+value, IPaddr, size, type = dfsrecv("IN")  
+
+while value == 0 do 
+string = dfsderef(IPaddr)
+   for j = 0, i - 1 do
+       value, IPaddr2 = dfscrep(string)
+	   --myprint(IPaddr2)
+       value = dfssend("OUT["..j.."]", IPaddr2) 
+   end
+   --myprint(IPaddr)
+   value = dfsdrop(IPaddr)
+
+   value, IPaddr, size, type = dfsrecv("IN")
+end
+return 0
+      <br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</article>
+</section>
+</div>
+</body>
+</html>
