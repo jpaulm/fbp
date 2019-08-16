@@ -13,7 +13,7 @@
 
 - [C# implementation](https://github.com/jpaulm/csharpfbp/blob/master/README.md)
 
-- [C++ implementation](https://github.com/jpaulm/cppfbp/blob/master/README.md), using [BOOST](https://www.boost.org/) to provide multithreading support; also contains a [Lua](http://www.lua.org/) interface. 
+- [C++ implementation](https://github.com/jpaulm/cppfbp/blob/master/README.md), using [BOOST](https://www.boost.org/) to provide multithreading support; also contains a [Lua](http://www.lua.org/) interface 
 
 - [JavaScript implementation](https://github.com/jpaulm/jsfbp/blob/master/README.md), using Marcel Laverdet's [node-fibers](https://github.com/laverdet/node-fibers)
 
