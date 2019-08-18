@@ -39,14 +39,14 @@ https://github.com/jpaulm/fbp/blob/master/docs/index.shtml  <head>
 				<p>
         <!--iframe src="http://youtu.be/zZ3HVEdoie0?autoplay=1" width="500" height="281" frameborder="0"></iframe-->  
         
-					<p>In computer programming, Flow-Based Programming (FBP) is a programming paradigm, discovered/invented by <a href="https://jpaulm.github.io/index.shtml">J. Paul Rodker Morrison</a> in the late '60s, that uses a "data processing factory" metaphor for designing and building applications.  FBP defines applications as networks of "black box" processes, which communicate via data chunks (called Information Packets) travelling across predefined connections (think "conveyor belts"), where the connections are specified externally to the processes. These black box processes can be reconnected endlessly to form different applications without having to be changed internally. FBP is thus naturally component-oriented.</p>
+					<p>In computer programming, Flow-Based Programming (FBP) is a programming paradigm, discovered/invented by <a href="https://jpaulm.github.io/index.html">J. Paul Rodker Morrison</a> in the late '60s, that uses a "data processing factory" metaphor for designing and building applications.  FBP defines applications as networks of "black box" processes, which communicate via data chunks (called Information Packets) travelling across predefined connections (think "conveyor belts"), where the connections are specified externally to the processes. These black box processes can be reconnected endlessly to form different applications without having to be changed internally. FBP is thus naturally component-oriented.</p>
 					<p>FBP is a special case of <a href="https://en.wikipedia.org/wiki/Dataflow">dataflow</a> programming characterized by asynchronous, concurrent processes "under the covers", Information Packets with defined lifetimes, named ports, "bounded buffer" connections, and definition of connections external to the components - it has been found to support improved development time and maintainability, reusability, rapid prototyping, simulation, improved performance, and good communication among developers,  maintenance staff, users, systems people, and management - not to mention that FBP naturally takes advantage of multiple cores... without the programmer having to struggle with the intricacies of multitasking!</p> 
 <p> <div style="text-align: center"><img src="bottling_factory.png" alt="Bottling factory" height = "400"> </div>
 </p>
 <p>FBP is a very different paradigm from conventional programming, being more of an "assembly line" image of data processing.  It therefore involves a drastic "paradigm shift", which is not natural for the majority of programmers.  Over the last 40+ years, therefore, many companies have come out with FBP-like or "FBP-inspired" systems (to borrow Joe Witt of Hortonworks' term), which do not involve the required paradigm shift, including some of the biggest and most successful companies in the industry, such as IBM, Microsoft, Facebook, Google, and the New York Times (see <a href="https://jpaulm.github.io/fbp/links_external.html">FBP External References</a>).  Unfortunately, without the FBP paradigm shift, these systems cannot fully achieve the advantages listed above, so we are now starting to call the true FBP architecture "classical" FBP.   It is hard for someone reading documentation to tell whether a given product calling itself "FBP- like" is "classical" or not,  but, in general, asynchronism is the litmus test.  Joe Witt's <a href="https://nifi.apache.org/">NiFi</a> is an example of a "classical" FBP implementation, while generally systems based on JavaScript will not be "classical"!    </p>
 
 <p>FBP is described in J. Paul Morrison's book, "Flow-Based Programming: A New Approach to Application Development", now in its 2nd edition, which can be obtained in paperback form from <a href="http://www.amazon.com/Flow-Based-Programming-2nd-Application-Development/dp/1451542321">Amazon</a>, or in 2 e-book formats: <a href="http://www.amazon.com/Flow-Based-Programming-J-Paul-Morrison-ebook/dp/B004PLO66O">Kindle</a> and <a href="http://www.lulu.com/shop/j-paul-morrison/flow-based-programming-2nd-edition/ebook/product-21172063.html">epub</a>.</p>
-<p>Further down on this web page you will find a bunch of useful links, including a list of currently supported programming languages (on <a href="https://github.com/jpaulm">GitHub</a>), and some videos demonstrating the use of the FBP diagramming tool, <a href="..\graphicsstuff\index.shtml">DrawFBP</a>.  During FBP's early days, networks were coded by hand, and initially we used pencil and paper, followed by more sophisticated graphical tools, whether or not they played well with FBP software.  However, with the advent of good graphical support, we now have a powerful graphical tool (<a href="..\graphicsstuff\index.shtml">DrawFBP</a>), and in recent years the emphasis has been shifting to doing the diagramming on-line, and then generating the networks (we can see this progression with other flow tools on the market).  Now that compile and run functions have been added to DrawFBP, the developer can do much of the development graphically, and on-line.  
+<p>Further down on this web page you will find a bunch of useful links, including some videos demonstrating the use of the FBP diagramming tool, <a href="https://github.com/jpaulm/drawfbp/blob/master/README.md">DrawFBP</a>.  During FBP's early days, networks were coded by hand, and initially we used pencil and paper, followed by more sophisticated graphical tools, whether or not they played well with FBP software.  However, with the advent of good graphical support, we now have a powerful graphical tool (DrawFBP), and in recent years the emphasis has been shifting to doing the diagramming on-line, and then generating the network code (we can see this progression with other flow tools on the market).  Now that compile and run functions have been added to DrawFBP, the developer can do much of the development graphically, and on-line.  
 </p>
 				
 
@@ -87,7 +87,7 @@ https://github.com/jpaulm/fbp/blob/master/docs/index.shtml  <head>
 						</ul></li>
 						<br/>
 						<li><a href="examples.html">Examples</a></li>
-						<li><a href="oops.shtml">Comparison with OO</a></li>
+						<li><a href="oops.html">Comparison with OO</a></li>
 						<li><a href="comparison.html">Comparison with other paradigms and methodologies</a></li>
 						<li><a href="FBPnew.ppt">PowerPoint presentation on FBP (2007)</a></li> 
 						<li><a href="knol_flow-based-programming.htm">Justin Bozonier's "knol" re FBP (2008?)</a></li> 
@@ -97,8 +97,7 @@ https://github.com/jpaulm/fbp/blob/master/docs/index.shtml  <head>
 						<!-- <li><a href="1stedchaps.html">Chapters from the first edition - online</a></li> -->
 						
 						<li><a href="links_external.html">External links</a></li>
-						<li><a href="https://github.com/jpaulm">FBP on GitHub</a>: Contains repositories for the packages listed above under "Software"</li>
-					</ol>
+											</ol>
 					 </p>
 					 
 					 
