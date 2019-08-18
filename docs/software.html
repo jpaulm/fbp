@@ -99,7 +99,7 @@ Be aware, however, that non-loopers can be much slower, owing to the overhead of
 
 <p>Just as in the case of the other "classical" implementations, every IP has a lifetime from "create" to "drop", and it is owned by one process at a time.  Once an IP has been "sent", it is no longer owned by the sending process, so it cannot be sent again by that process.  Of course the process can take a copy before that point, and create a new IP using it, but then that will be a different IP.  If the component wants to copy what I call an "IP tree", it can do that, but it is the component's responsibility, not the infrastructure's.</p>
 
-<p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="http://www.jpaulmorrison.com/fbp/concat.html">Concat</a>.</p> 
+<p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="https://github.com/jpaulm/fbp/blob/master/docs/fbp/concat.html">Concat</a>.</p> 
 
 <h3><a name="DrawFBP"></a>DrawFBP</h3>
 					<p>A diagramming tool, called "DrawFBP", is also available on <a href="https://github.com/jpaulm/drawfbp">GitHub</a>. An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is no longer being maintained.  The official version of DrawFBP is being maintained using GitHub and Gradle. </p> 
