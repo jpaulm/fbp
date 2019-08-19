@@ -26,7 +26,7 @@
  
 					<h3><a name="JavaFBP"></a>JavaFBP</h3>
 					<p>John Cowan built the first Java implementation of the FBP concepts, which was also the first implementation to use native threads, allowing it to take advantage of all the processors on the computer.   This software, which has been undergoing continuous refinement and improvement during the years since, now called JavaFBP, is available as Open Source on <a href="https://github.com/jpaulm/javafbp/releases">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p> 
-<p>Material on the syntax of JavaFBP component and network definitions and the component API can be found at <a href="jsyntax.htm">JavaFBP Syntax and Component API</a>. </p> 
+<p>Material on the syntax of JavaFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/jsyntax.htm">JavaFBP Syntax and Component API</a>. </p> 
 
 <!--<p> The source code for the various constituents of JavaFBP is on SourceForge under Subversion (SVN) for the Flow-Based Programmming project: <a href="http://sourceforge.net/p/flow-based-pgmg/code/HEAD/tree/javaengine/trunk/">SVN for JavaFBP</a> .</p> -->
 
@@ -63,7 +63,7 @@ while the latter accepts a substream of any length, and returns to the client in
 <p>There is also a video showing how this kind of application can be "grown" organically: https://youtu.be/IvTAexROKSA . </p>
 
 <h3><a name="C#FBP"></a>C#FBP</h3>
-<p>The C# implementation was originally created from the Java implementation by Amanda Ge using a conversion tool - it has since been extensively modified, but the two implementations are still fairly close.  Material on the syntax of C#FBP component and network definitions and the component API can be found at <a href="csyntax.htm">C#FBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/csharpfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p>
+<p>The C# implementation was originally created from the Java implementation by Amanda Ge using a conversion tool - it has since been extensively modified, but the two implementations are still fairly close.  Material on the syntax of C#FBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/csyntax.htm">C#FBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/csharpfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p>
 <p>In earlier C#FBP versions, the scheduler&nbsp;<span
  style="color: rgb(0, 0, 153);"></span>presented an IIP
 to a component <span style="font-style: italic;">once per invocation</span>.
@@ -81,10 +81,10 @@ Checking has been added (Aug., 2014) to make sure that all mandatory connections
 
 <h3><a name="CppFBP"></a>CppFBP and Lua Interface</h3>
 					<p>More recently (fall 2013), the C implementation mentioned in the 1st edition has been upgraded to use C++ and <a href="http://www.boost.org/">Boost</a>, and is now called CppFBP - it also contains an interface component supporting the <a href="http://www.lua.org/about.html">Lua</a> scripting language, allowing FBP processes to be implemented as Lua routines.</p>
-<p>Material on the syntax of CppFBP component and network definitions and the component API can be found at <a href="CppFBP.shtml">CppFBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/cppfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  A still older version, using fibers, is available as a <a href="http://www.jpaulmorrison.com/fbp/THREADS_32.zip">zip file</a> on the FBP web site.</p>
+<p>Material on the syntax of CppFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/CppFBP.shtml">CppFBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/cppfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p>
 <p>A component has been built for CppFBP which allows components (loopers or non-loopers) to be written in the <a href="http://www.lua.org/">Lua</a> scripting language.  We are now able to write multithreaded networks whose infrastructure is CppFBP, and where selected processes can be implemented using Lua scripts - in this environment the same Lua script can even be executing on multiple threads.
 Be aware, however, that non-loopers can be much slower, owing to the overhead of firing up a Lua environment each time.</p> 
-<p>Some examples of Lua scripts running under the generalized CppFBP Lua component (called <code>ThLua</code>) are shown in <a href="thlua.html">CppFBP/Lua Interface</a>.
+<p>Some examples of Lua scripts running under the generalized CppFBP Lua component (called <code>ThLua</code>) are shown in <a href="https://jpaulm.github.io/fbp/thlua.html">CppFBP/Lua Interface</a>.
 <p> As Lua scripts communicate by way of character strings, if you need to pass more complex data structures through the network, you can also intermix CppFBP components in the same network - or other higher-level languages which play well with C++ and Boost.  
 </p>
 
@@ -99,7 +99,7 @@ Be aware, however, that non-loopers can be much slower, owing to the overhead of
 
 <p>Just as in the case of the other "classical" implementations, every IP has a lifetime from "create" to "drop", and it is owned by one process at a time.  Once an IP has been "sent", it is no longer owned by the sending process, so it cannot be sent again by that process.  Of course the process can take a copy before that point, and create a new IP using it, but then that will be a different IP.  If the component wants to copy what I call an "IP tree", it can do that, but it is the component's responsibility, not the infrastructure's.</p>
 
-<p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="concat.html">Concat</a>.</p> 
+<p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="https://jpaulm.github.io/fbp/concat.html">Concat</a>.</p> 
 
 <h3><a name="DrawFBP"></a>DrawFBP</h3>
 					<p>A diagramming tool, called "DrawFBP", is also available on <a href="https://github.com/jpaulm/drawfbp">GitHub</a>. An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is no longer being maintained.  The official version of DrawFBP is being maintained using GitHub and Gradle. </p> 
@@ -121,9 +121,9 @@ Be aware, however, that non-loopers can be much slower, owing to the overhead of
 
 		<!--			<p>DrawFBP can also be run via <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBP.jnlp">JWS</a> - however most likely you will be told to reduce your Java security level to 'medium' using your Java control panel, and even then you will probably get a message saying "Unknown publisher", on which you will have to click the accept button.  I am afraid I cannot afford to get a verified certificate for distributing free apps - maybe Verisign will ease up in the future!  </p>-->
 
-<p><div style="width:90%; margin:auto;"> <img src="MergeSortDisplay.png" alt="MergeSortDisplay" > </div></p>
+<p><div style="width:90%; margin:auto;"> <img src="https://jpaulm.github.io/fbp/MergeSortDisplay.png" alt="MergeSortDisplay" > </div></p>
 <p>Simple DrawFBP diagram, showing both source code, and component classes.</p>
-					<p><a href="index.shtml">Home</a></p>
+					<p><a href="https://jpaulm.github.io/fbp/index.shtml">Home</a></p>
 				</article>
 			</section>
 		</div>
