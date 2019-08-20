@@ -85,7 +85,8 @@
 <p>
 Because FBP is not trying to cram all sorts of logic into a single thread, it has actually a fairly simple set of scheduling rules, and FBP components have a fairly simple internal structure.  In general, processes in FBP-inspired systems cannot decide which input port to receive data from (and possibly be suspended).  I therefore thought I would compare one commonly used component in classical FBP against the same function written in NoFlo.  The result is in <a href="concat.html">"Concat" Component</a>.  Here is my conclusion, at the end of this article: </p>
       <blockquote> However, when we compare the two, the CoffeeScript code shown above seems to support the conclusion that the attempt to support classical FBP in JavaScript (or CoffeeScript) seems to lead to significantly increased code complexity. </blockquote>
-<p>I may be biassed, but I definitely prefer the FBP version...
+					
+					<p>For somewhat similar reasons, IBM's <a href="https://nodered.org/">Node-RED</a> FBP-like product only allows one input port per process, so it can only <i>simulate</i> Concat with relatively small amounts of data...  Parenthetically, I'd like to point out that only classical FBP has decades of experience with this technology, so the designers of FBP-like tools do not even know what problems they are going to run into!
 </p>
 
 
