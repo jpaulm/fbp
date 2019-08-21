@@ -125,7 +125,7 @@ from it.</P>
 the major elements of FBP.&nbsp; The following diagram is a network
 or network fragment which should suffice to explain some of the main
 elements of FBP.</P>
-<P ALIGN=LEFT><IMG SRC="image002.jpg" NAME="graphics1" ALIGN=BOTTOM WIDTH=528 HEIGHT=295 BORDER=0>
+<P ALIGN=LEFT><IMG SRC="images/image002.jpg" NAME="graphics1" ALIGN=BOTTOM WIDTH=528 HEIGHT=295 BORDER=0>
 </P>
 <P ALIGN=LEFT>Diagram<SPAN STYLE="font-style: normal"> 1</SPAN></P>
 <P ALIGN=LEFT><I>A</I>, <I>B</I> and <I>C</I> are processors
@@ -205,7 +205,7 @@ Compare patterns, and can be recognized visually as a Y-shape with
 the stem on the right-hand side.&nbsp;
 Schematically:</p>
 <PRE STYLE="margin-bottom: 0.5cm; text-align: left">  
-<IMG SRC="diag1.jpg" NAME="graphics2" ALT="Diagram I" ALIGN=BOTTOM WIDTH=528  BORDER=0></pre><BR>&nbsp;
+<IMG SRC="images/diag1.jpg" NAME="graphics2" ALT="images/diagram I" ALIGN=BOTTOM WIDTH=528  BORDER=0></pre><BR>&nbsp;
 <BR><BR>Diagram 2
 <p>A commonly used FBP component of this type
 called &quot;Collate&quot; has proven extremely useful when
@@ -230,7 +230,7 @@ describe this in more detail below.</P>
 streams via what FBP refers to as an &quot;array port&quot;, so we
 can represent the two-stream case as follows: 
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left">         <IMG SRC="diag2.jpg" NAME="graphics3" ALT="Diag2" ALIGN=BOTTOM WIDTH=303 HEIGHT=206 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left">         <IMG SRC="images/diag2.jpg" NAME="graphics3" ALT="images/diag2" ALIGN=BOTTOM WIDTH=303 HEIGHT=206 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 3</P>
 <P ALIGN=LEFT>The &quot;[0]&quot; and &quot;[1]&quot; indicate that
 &quot;Collate&quot;'s port &quot;IN&quot; is an array port with 2
@@ -307,7 +307,7 @@ feeding one port (although not the converse). With 'n' ports feeding
 one port, IPs arriving from the different upstream ports are merged
 on a first-come, first-served basis. Schematically: 
 </P>
-<PRE STYLE="text-align: left">      <IMG SRC="diag3.jpg" NAME="graphics4" ALT="Diag3" ALIGN=BOTTOM WIDTH=397 HEIGHT=277 BORDER=0>   
+<PRE STYLE="text-align: left">      <IMG SRC="images/diag3.jpg" NAME="graphics4" ALT="images/diag3" ALIGN=BOTTOM WIDTH=397 HEIGHT=277 BORDER=0>   
    </PRE><P ALIGN=LEFT>
 Diagram 4</P>
 <P ALIGN=LEFT>The black dot indicates the merge relationship.&nbsp;
@@ -341,7 +341,7 @@ involves testing whether two binary trees have exactly the same
 fringe (sequence of leaves).&nbsp;&nbsp; This problem is almost
 impossible to code without using coroutines, or some equivalent
 mechanism.&nbsp; Here is a simple FBP solution:</P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left">     <IMG SRC="diag4.jpg" NAME="graphics5" ALT="Diag4" ALIGN=BOTTOM WIDTH=481 HEIGHT=264 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left">     <IMG SRC="images/diag4.jpg" NAME="graphics5" ALT="images/diag4" ALIGN=BOTTOM WIDTH=481 HEIGHT=264 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 5<BR><BR>where each instance of FLATTEN walks a tree and
 sends out an information packet for each leaf.&nbsp; COMPARE reads
 pairs of leaves, one from each input port, compares them and
@@ -355,7 +355,7 @@ Pattern </FONT>
 <P ALIGN=LEFT>Not surprisingly, the Y-shaped components described
 above have their inverse: the Y-shape with the stem on the left, e.g.
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="diag5.jpg" NAME="graphics6" ALT="Diag5" ALIGN=BOTTOM WIDTH=392 HEIGHT=254 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="images/diag5.jpg" NAME="graphics6" ALT="images/diag5" ALIGN=BOTTOM WIDTH=392 HEIGHT=254 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 6</P>
 <P ALIGN=LEFT>This type of pattern represents a class of processors
 that either split or replicate the incoming stream.&nbsp; In FBP this
@@ -489,12 +489,12 @@ Concatenate processor, mentioned above: it accepts and outputs all
 the IPs from its first input port, followed by all the IPs from the
 second, and so on. 
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="diag9.jpg" NAME="graphics10" ALT="Diag9" ALIGN=BOTTOM WIDTH=688 HEIGHT=211 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="images/diag9.jpg" NAME="graphics10" ALT="images/diag9" ALIGN=BOTTOM WIDTH=688 HEIGHT=211 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 10</P>
 <P ALIGN=LEFT>Suppose now the requirement is changed, and we wish to
 position the count in front of the IPs being counted. It would seem a
 natural step to change the picture as follows:</P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="diag10.jpg" NAME="graphics11" ALT="Diag10" ALIGN=BOTTOM WIDTH=726 HEIGHT=222 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="images/diag10.jpg" NAME="graphics11" ALT="images/diag10" ALIGN=BOTTOM WIDTH=726 HEIGHT=222 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 11</P>
 <P ALIGN=LEFT>If we were to implement this exactly as shown, we would
 find that the application very quickly reaches a state where no
@@ -533,7 +533,7 @@ dotted arrow to represent this kind of interlock, we can show it as
 follows:</P>
 <P ALIGN=LEFT><BR><BR>
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="diag11.jpg" NAME="graphics12" ALT="Diag11" ALIGN=BOTTOM WIDTH=487 HEIGHT=267 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="images/diag11.jpg" NAME="graphics12" ALT="images/diag11" ALIGN=BOTTOM WIDTH=487 HEIGHT=267 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram 12</P>
 <P ALIGN=LEFT>In this diagram, the dotted line does not indicate a
 connection carrying application data, but rather a signal (a
@@ -547,7 +547,7 @@ now solve the deadlock shown in Diagram 11 by inserting an INFQUEUE
 between COUNT's first output port and CONCAT's second input port - as
 follows: 
 </P>
-<PRE STYLE="text-align: left"> <IMG SRC="diag12.jpg" NAME="graphics13" ALT="Diag12" ALIGN=BOTTOM WIDTH=706 HEIGHT=237 BORDER=0>
+<PRE STYLE="text-align: left"> <IMG SRC="images/diag12.jpg" NAME="graphics13" ALT="images/diag12" ALIGN=BOTTOM WIDTH=706 HEIGHT=237 BORDER=0>
     </PRE><P ALIGN=LEFT>
 Diagram 13<BR><BR>In the diagramming tool we use, INFQUEUE is shown
 with a double border to indicate that it is a &quot;compound
@@ -655,7 +655,7 @@ some interesting advantages start showing up, for instance:
 going around it, and with Sort tags being generated on the fly by an
 upstream processor (BuildTag): 
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="diag13.jpg" NAME="graphics14" ALT="Diag13" ALIGN=BOTTOM WIDTH=556 HEIGHT=246 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"><IMG SRC="images/diag13.jpg" NAME="graphics14" ALT="images/diag13" ALIGN=BOTTOM WIDTH=556 HEIGHT=246 BORDER=0></PRE><P ALIGN=LEFT>
 Diagram <FONT COLOR="#000000">14</FONT><BR><BR>Note that the data
 bypassing the Sort will arrive ahead of (most of) the Sort's output.&nbsp;
 This data could instead be fed to an infinite queue, where it can
@@ -673,7 +673,7 @@ sorted, followed by type C which again is sorted, and all three types
 are to be merged based on the same key, then a pattern which
 conclusively avoids deadlocks might be as follows: 
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left"> <IMG SRC="diag14.jpg" NAME="graphics15" ALT="Diag14" ALIGN=BOTTOM WIDTH=604 HEIGHT=391 BORDER=0>            </PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left"> <IMG SRC="images/diag14.jpg" NAME="graphics15" ALT="images/diag14" ALIGN=BOTTOM WIDTH=604 HEIGHT=391 BORDER=0>            </PRE><P ALIGN=LEFT>
 Diagram 15<BR><BR>This will readily be recognized as another
 (slightly more complex) instance of the &quot;divergent-convergent&quot;
 pattern.</P>
@@ -685,7 +685,7 @@ characteristics, which all fit into the niche described above.</P>
 <H4 ALIGN=LEFT><FONT COLOR="#000099">Simulating a subroutine in FBP </FONT>
 </H4>
 <P ALIGN=LEFT><BR>Consider the following diagram:<BR>&nbsp;&nbsp;
-<BR>&nbsp;&nbsp;&nbsp;<IMG SRC="diag15.jpg" NAME="graphics16" ALT="Diag15" ALIGN=BOTTOM WIDTH=454 HEIGHT=229 BORDER=0>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;<IMG SRC="images/diag15.jpg" NAME="graphics16" ALT="images/diag15" ALIGN=BOTTOM WIDTH=454 HEIGHT=229 BORDER=0>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </P>
 <P ALIGN=LEFT>Diagram 16</P>
 <P ALIGN=LEFT>Suppose that CALLER sends information packets to CALLEE
@@ -712,14 +712,14 @@ Suppose we make a minor change to the above diagram, based on the
 idea that the part of CALLER's logic following the &quot;send&quot;/&quot;receive&quot;
 can usually be split into a separate process downstream of CALLEE: 
 </P>
-<PRE STYLE="text-align: left"><IMG SRC="diag16.jpg" NAME="graphics17" ALT="Diag16" ALIGN=BOTTOM WIDTH=576 HEIGHT=173 BORDER=0>
+<PRE STYLE="text-align: left"><IMG SRC="images/diag16.jpg" NAME="graphics17" ALT="images/diag16" ALIGN=BOTTOM WIDTH=576 HEIGHT=173 BORDER=0>
    </PRE><P ALIGN=LEFT>
 Diagram 17</P>
 <P ALIGN=LEFT>Now CALLEE can be multiplexed, as in the diagram below:
 </P>
 <P ALIGN=LEFT><BR><BR>
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left">  <IMG SRC="diag17.jpg" NAME="graphics18" ALT="Diag17" ALIGN=BOTTOM WIDTH=565 HEIGHT=371 BORDER=0>   </PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left">  <IMG SRC="images/diag17.jpg" NAME="graphics18" ALT="images/diag17" ALIGN=BOTTOM WIDTH=565 HEIGHT=371 BORDER=0>   </PRE><P ALIGN=LEFT>
 Diagram 18</P>
 <P ALIGN=LEFT>You will now recognize this as the combination of two
 patterns that we have seen earlier, and in fact it is a pattern in
@@ -845,7 +845,7 @@ strongly connected (in other words there are not only dependences
 between variables, but also </FONT><FONT COLOR="#000099"><I>independences</I></FONT><FONT COLOR="#000099">),
 there will always be subsystems like those circled below, which can,
 in principle, operate fairly independently.</FONT></BLOCKQUOTE>
-<P ALIGN=LEFT>&nbsp;&nbsp;<IMG SRC="notsof.jpg" NAME="graphics19" ALT="Dependencies diagram" ALIGN=BOTTOM HSPACE=70 WIDTH=520 HEIGHT=218 BORDER=0><BR>Diagram
+<P ALIGN=LEFT>&nbsp;&nbsp;<IMG SRC="images/notsof.jpg" NAME="graphics19" ALT="Dependencies diagram" ALIGN=BOTTOM HSPACE=70 WIDTH=520 HEIGHT=218 BORDER=0><BR>Diagram
 19</P>
 <P ALIGN=LEFT>Alexander goes on to say:</P>
 <BLOCKQUOTE STYLE="text-align: left"><FONT COLOR="#000099">We may
