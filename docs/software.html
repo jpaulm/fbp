@@ -102,16 +102,16 @@ Be aware, however, that non-loopers can be much slower, owing to the overhead of
 <p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="https://jpaulm.github.io/fbp/concat.html">Concat</a>.</p> 
 
 <h3><a name="DrawFBP"></a>DrawFBP</h3>
-					<p>A diagramming tool, called "DrawFBP", is also available on <a href="https://github.com/jpaulm/drawfbp">GitHub</a>. An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is no longer being maintained.  The official version of DrawFBP is being maintained using GitHub and Gradle. </p> 
+					<p>A diagramming tool, called "DrawFBP", is also available on GitHub.  For a brief description, click on <a href="https://jpaulm.github.io/fbp/software.html#DrawFBP">DrawFBP</a>. </p> 
 
 <p>This tool is now available on Maven, so just go into <a href="https://search.maven.org/">Maven Search</a>, and search for DrawFBP.  Download the .jar file from the most recent release in Maven, or alternatively from <a href="https://github.com/jpaulm/drawfbp/releases">DrawFBP Releases</a>, and execute it using the Java(TM) Platform SE binary.</p>
 
 
-		<p>To run the DrawFBP Help facility, you will be prompted to locate the <tt>javahelp.jar</tt> file.  This is the standard JavaHelp jar file, and can be obtained from Maven Central, by doing a search for artifact <tt>javahelp</tt>,  or from <a href="https://github.com/jpaulm/drawfbp/blob/master/lib/javahelp-2.0.05.jar">JavaHelp jar file</a>,  which has the same contents.</p>
+<p>The DrawFBP jar file contains the official <tt>JavaHelp</tt> module plus the <tt>geom2d</tt> package. </p>
 
 <p>DrawFBP supports a basic "block", representing any process, which can be given a process name - these should be unique within a diagram.  However, a block does not need to be associated with a subnet or a simple component written in some programming language until the designer is ready to make implementation decisions.  The "subnet" capability allows the designer to do stepwise decomposition - clicking on a subnet block brings up a tab showing the subnet, so the designer can easily move between the different levels of a diagram.  </p>
 
-<p>DrawFBP can also generate runnable networks in JavaFBP, C#FBP (with some tweaks to add components),  NoFlo JSON, and the .fbp notation, originally developed by Wayne Stevens, and since adopted by the <a href="http://noflojs.org">NoFlo</a> project. 
+<p>DrawFBP can also generate runnable networks in JavaFBP, C#FBP (with some tweaks to add components),  NoFlo JSON, and the .fbp notation, originally developed by Wayne Stevens, and since adopted by the <a href="http://noflojs.org">NoFlo</a> project.   The user can compile and run Java and C# networks, compare diagrams, and, in the case of Java, display descriptions and port names of precoded and precompiled components. 
 </p>
 
 <!--<p>A <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBP-2.10.12.jar">jar file</a> for DrawFBP is available on my website.  There is also an <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBPInstaller-2.8.zip">installer file</a> on my web site, containing the latest jar file, plus the DrawFBP Help jar file, required to use DrawFBP's help facilities. </p>-->
