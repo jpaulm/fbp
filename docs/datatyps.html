@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- Based on Ashley theme by Brent Jackson (http://jxnblk.com) //-->
+<!-- Heavily modified by Mayuresh Kathe (http://kathe.in/) //-->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Flow-based Programming</title>
+    <meta name="description" content="Official website for flow-based programming" />
+    <meta name="keywords" content="flow-based programming c c++ java c# lua dataflow componentry streams threads fbp flow-based distributed development multicore multithreading parallelism maintainability visual asynchronism asynchronous SOA MOM programming NoFlo flowhub dataflow simplicity productivity paradigm" />
+    <link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
+    <meta name=viewport content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <!--<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul5.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145755951-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-145755951-1');
+    </script>
+
+</head>
+<body>
+    <header>
+    <center>
+<h1> "Smart Data" <br>
+</h1>
+</center>
+       
+    </header>
+
+    <div class="content wrap">
+        <section class="posts">
+            <article class="post text">
+                <p>
+                    <!--iframe src="http://youtu.be/zZ3HVEdoie0?autoplay=1" width="500" height="281" frameborder="0"></iframe-->
+
+
+<h3>The Problem</h3>
+<p>In business data processing there is a profound mismatch between the
+data types used in the real world and the data types supported by most
+programming languages. This is thought to be one of the legacies of the
+mathematical origin of computers, but until the advent of high-level
+languages with support for user-defined datatypes (such as Java),
+nothing much could be done to resolve this
+conflict.&nbsp; Most numbers in the real world have units attached to
+them - for instance, distances are in feet, metres or parsecs, bank
+balances and prices have to be in some currency, dates and times have
+to be relative to a given time zone, and so on, but most computer
+languages treat all quantities as if they were dimensionless. Many of
+the values we handle in our business applications do not have explicit
+precisions, so this has to be defined in the code that references
+them.&nbsp; Similarly, currency amounts cannot be multiplied, distance
+times distance equals area, and dates cannot be added: numbers in the
+real world seldom behave the same way that numbers do in a computer. </p>
+<p>The vast majority of the numeric values in today's business
+applications
+are described by working code, not explicitly in (or associated
+with) the data itself. It was reported a few years ago that many of
+the magnetic data tapes in the tape library belonging to the US Navy
+had become illegible, not because of I/O errors, but because the data
+formats
+were not specified explicitly but only held inside program code, and
+nobody knew which programs or copy members described which tapes. </p>
+<p>Recently one of the Mars landers was lost because of a mismatch in
+units, and there is the famous case in Canada of the so-called "Gimli
+Glider".&nbsp; On July 23, 1983, a Boeing 767 operating as Air Canada
+Flight 143 <i>glided</i> into Gimli, Manitoba. Here is a quote from a
+fascinating description of the so-called "Gimli Glider" incident by
+Gail Marsella (*): </p>
+<blockquote><font color="#000099">When the ground crew conducted the
+drip procedure they determined that the tanks contained 7,682 L.
+The crew knew that the flight required 22,300 kg, and they knew
+that volume should be multiplied by density to obtain weight. But
+the density of jet fuel can be expressed in various units such as
+pounds
+per gallon, pounds per liter, or kilograms per liter. The ground crew
+used the value 1.77 without being certain of its units.</font> <br>
+  <font color="#000099">.......</font> <br>
+  <font color="#000099">The result was that they added about 5,000 L
+when they should have added about 20,000 L.
+At the time of takeoff Flight 143 had about 10,000 kg of fuel -
+less than half the amount needed to reach Edmonton.
+  <br><br>Why did the pilots and ground crew so
+readily
+accept the value 1.77? Because, when accompanied by the proper units,
+it
+is a valid conversion factor that they had all used in the past. The
+density
+of jet fuel is 1.77 pounds per liter.</font></p>
+</blockquote>
+<p>Here is a quote from a NASA release about the loss
+of the Mars Lander:
+<blockquote><font color="#000099">The peer review preliminary findings
+indicate that one team used English units (e.g., inches, feet and
+pounds)
+while the other used metric units for a key spacecraft operation. This
+information was critical to the maneuvers required to place the
+spacecraft in the proper Mars orbit.</font></blockquote>
+<p>When humans talk about numeric values, we normally include the units -
+thus we would say that a weight is "150 pounds", not just "150". On the
+other hand, when transmitting values between computers, we very seldom
+include the units, partly because in most cases there are no generally
+accepted codes for units, and including codes for units, if they
+existed, would imply some (automatic) mechanism for doing conversions
+between them, and I am not aware of any such mechanism in common use in
+the DP community. However, at a more fundamental level,
+a block of data in a computer program is usually programmed as a set of
+fields, where each field represents an attribute of the entity being
+described, and each field is usually a simple numeric value or
+character string. Only floating point numbers include some metadata,
+and they are not appropriate for most business uses. This generally
+applies even to advanced database concepts such as relational
+databases. It was not until the advent of advanced OO languages, such
+as Java, that we could start thinking of almost all data as <i>references</i>,
+rather than atomic data fields. If an attribute is in fact usually a
+reference, then the reference can (and in many cases, should) be to a
+complex object, containing both unit and data.
+<p>Even when you consider the values themselves, leaving aside the
+question of units, there may be a wide variety of different
+representations. This is especially vexatious in the context of dates.
+Consider a value of 020511: does this represent the 2nd of May 2011? Or
+perhaps the 11th of May 2002? Or the 5th of February, 1911?&nbsp; In
+the last century, one could be reasonably certain that 94 was the year,
+but what about the other two pairs of digits?&nbsp; On the banking
+project I worked on, we decided to always display dates as "ddmmmyy"
+(later changed to "ddmmmyyyy"), where "dd" is day number, "mmm" is an
+alpha month abbreviation, and "yy" or "yyyy" is the year.&nbsp; But
+alpha month abbreviations raise the question of natural languages - how
+many do you support, and how are they identified?&nbsp; Again, I don't
+believe there is any universal standard. </p>
+<!--<p>Now, the task of creating classes to represent the whole world of
+magnitudes
+and units would obviously be a daunting one, but we can take a
+manageable
+application and develop the classes for that application.&nbsp; The
+hope
+is that, if this is done carefully, we can use it as a starting-point
+to
+grow a bigger and bigger set of classes and their related
+methods.&nbsp; Just as is currently happening with XML, different
+application areas have to develop standards so code and data can be
+shared
+by everyone who subscribes to these standards.&nbsp; For instance,
+to the best of&nbsp; my knowledge, these is no universally accepted, <i>machine-processable,</i>
+standard for units of mass, which means that people developing classes
+for mass will have to develop their own standards and get them accepted
+across a large group of
+users.&nbsp;&nbsp;</p>-->
+<p>I believe it is possible to design a set of data classes that are
+fairly natural to use in Java, and take advantage of Java's
+compile-time checking. However,
+in no programming language that I know of can you <i>prevent</i>
+programmers from expressing currency amounts as simple scalars - this is after all how we were trained as programmers.  However, in the area of business, I believe you <i>can</i>
+provide a set of classes that will be so much easier to use than the
+"vanilla" data types that you don't have to stand over the programmers
+with a big stick! </p>
+<p>In <a href="busdtyps.shtml"> "Business Data Types"</a>, I describe
+a set of Java classes that we developed for an electronic brokerage
+package that some colleagues and I worked on from 2000 to 2001. These
+Business Data Types were posted to SourceForge in 2009 under the
+project name <small><span
+ style="font-family: courier new,courier,monospace;">JBDTypes </span></small>(<a
+ href="https://sourceforge.net/projects/jbdtypes/">https://sourceforge.net/projects/jbdtypes/</a>),<small><span
+ style="font-family: courier new,courier,monospace;"></span></small>
+and have recently been picked up by Softpedia.&nbsp;&nbsp;
+</p>
+<!-- <p>In <a href="physunits.shtml"> "Physical Units"</a>, you will find a
+more speculative discussion of a possible implementation of some of the
+ideas discussed above. The classes described in that web page have
+never been used for an application, but I feel they make a start
+towards addressing a number of the problems I have described. Feedback
+would be appreciated.
+</p>    -->                      
+<p>Since the above was written Werner Keil and his team have made great strides on <a href="https://groups.google.com/forum/#!forum/units-dev">Units of Measurement</a>, as well as the Java Specification Request (JSR) (<a href="https://www.jcp.org/en/jsr/detail?id=363">JSR 363</a>) - Units of Measurement API.  I am sure Werner would be happy to add interested readers to his distribution list.</p>
+<p> 
+(*)  Marsella, G. The Crash of Flight 143. ChemMatters 1996, 14 (3), pp 12-15)
+</p>
+            </article>
+        </section>
+    </div>
+
+
+    <footer class="small wrap">
+        <!-- <table border="0">
+        <tr>
+            <td> -->
+        <p class="small">Content Copyright &copy; J Paul Morrison. All rights reserved.</p>
+        <!--	</td>
+            </tr>
+            <tr>
+                <td align="center"> </td>
+            </tr>
+        </table>	-->
+
+
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<!-- Based on Ashley theme by Brent Jackson (http://jxnblk.com) //-->
+<!-- Heavily modified by Mayuresh Kathe (http://kathe.in/) //-->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Flow-based Programming</title>
+    <meta name="description" content="Official website for flow-based programming" />
+    <meta name="keywords" content="flow-based programming c c++ java c# lua dataflow componentry streams threads fbp flow-based distributed development multicore multithreading parallelism maintainability visual asynchronism asynchronous SOA MOM programming NoFlo flowhub dataflow simplicity productivity paradigm" />
+    <link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
+    <meta name=viewport content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <!--<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul5.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145755951-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-145755951-1');
+    </script>
+
+</head>
+<body>
+    <header>
+    <center>
+<h1>Business Data Types</h1>
+</center>
+     
+    </header>
+
+    <div class="content wrap">
+        <section class="posts">
+            <article class="post text">
+                <p>
+                    <!--iframe src="http://youtu.be/zZ3HVEdoie0?autoplay=1" width="500" height="281" frameborder="0"></iframe-->
+
+
+
+<p>In a brokerage application I worked on a few years ago, I believe we
+made
+a good start at defining a set of useful business classes. Not
+surprisingly, the first type of unit we addressed was <i>money</i>,
+which is not only the main preoccupation of much of business
+programming, but the fuel that makes much of it go.&nbsp; Money,
+as defined in our application, has a magnitude and a currency.
+Since currencies are so important to our society, we do actually have
+3-letter ISO codes for the different currencies - our package supported
+about 200 of them. In our package, a monetary value was always
+represented
+by the ISO code followed (with no intervening blanks) by an amount,
+whether for input or for output. Thus we might have CAD205.10, or
+USD3012.55.
+Each currency has a preferred number of decimals for amounts (although
+this does not apply to rates), except for some oddball "currencies"
+(such
+as Euro-Gold) that allow any number of decimals.&nbsp; In our
+application we loaded the currency information at start of session from
+a database.</p>
+<p>Note that rates have different precision requirements from monetary
+amounts. &nbsp;The general rule for currency is that, at the end of a
+computation, they must be rounded to whatever the smallest denomination
+is in that currency, whereas rates can have any number of decimal
+places. &nbsp;In the case of (US and Canadian) currency, the smallest
+unit is really the cent, but instead of 12345 cents we usually write
+$123.45. &nbsp;This can be handled in most cases&nbsp; by forcing
+rounding when the currency amount is turned into displayable format,
+e.g. by using some method built on the Java&nbsp;<tt>toString()</tt>
+method.&nbsp; &nbsp;In addition, in our application we provided
+a&nbsp;<tt>round()</tt> method which did the same thing to non-display
+currency amounts. &nbsp;It has been suggested that we should really
+distinguish
+between "non-final" and "final" currency values, but that would involve
+a vast increase in the number of methods over what we already have, so
+I think the above technique is adequate. &nbsp; </p>
+<p>In turn, the numeric value in our Monetary class was implemented
+using the new Java BigDecimal class which is now available, as of Java
+1.5,
+replacing the previous one.&nbsp; Even though they have explicit
+precision, floating point numbers are not appropriate for monetary
+amounts,
+although they work quite well for rates (another difference between
+rates and monetary amounts) or physical units such as distances.
+We chose the new BigDecimal, as its arithmetic has been consciously
+designed to give the same results that you would get yourself when
+doing
+decimal arithmetic by hand.&nbsp; &nbsp;For instance, 3.82 + 2.18
+becomes
+6.00, not 6.<br>
+</p>
+<p>Before getting into the specific classes and methods, I would like
+to point out that money was really rather an easy class to
+define.&nbsp; There is a much more complex issue revolving around the
+question of Quantity.&nbsp; We have tentatively added a&nbsp;
+class called Quantity to the project, but the real question is
+"Quantity of <span style="font-style: italic;">what</span>?".&nbsp;&nbsp;
+Quantity
+does not extend BigDecimal, as there are many
+things you can do with BigDecimal that you do not want to automatically
+be able to do with
+Quantity - i.e. you cannot normally multiply two Quantities together
+(unless it is two lengths to form an area),
+and conversely, a Quantity should almost always be a quantity of
+<span style="font-style: italic;">something</span>.&nbsp;&nbsp; Users
+can extend Quantity for their own purposes - this will usually entail
+adding the <span style="font-style: italic;">thing</span> that it is a
+quantity of - what Denis Garneau (the very talented IBM architect who did most of the design work) 
+calls its "quality".&nbsp; &nbsp; You
+should not be able to add weight to length -
+or number of eggs to number of chickens!&nbsp; Denis recently ran into
+a mysterious programming bug, which eventually turned out to be caused
+by someone adding a temperature to a weight!&nbsp; Alternatively,
+Quantity could be an interface, rather than a class. &nbsp; So you see,
+we are
+starting to stray into the area talked about in <a
+ href="http://www.jpaulmorrison.com/physunits.shtml">Physical Units</a>.&nbsp;
+Denis
+and I would like people to explore this area, especially in
+different problem domains, and write papers about it!&nbsp;
+Specifically, a) should Quantity be a class or an interface? b) what
+extensions/implementations did you need to add to it for your
+particular domain of interest?<br>
+</p>
+<p>As of Nov. 4, 2009, the source code
+for these classes can be found
+in <a href="https://sourceforge.net/projects/jbdtypes/">SourceForge</a><span
+ style="font-weight: bold;">.&nbsp;&nbsp; </span>A non-executable jar
+file can be downloaded from SourceForge - it is also available as a <a
+ href="http://www.jpaulmorrison.com/jbdtypes.jar">jar file</a>.<br>
+</p>
+<h4>Monetary class</h4>
+<p>The constructors for our money class, called "Monetary", are as
+follows: <br>
+&nbsp;
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">Constructors</th>
+    </tr>
+    <tr>
+      <td><font class="method">Monetary</font>(BigDecimal,
+Currency)&nbsp; <br>
+Monetary constructor with value initialized from BigDecimal&nbsp;</td>
+    </tr>
+    <tr>
+      <td><font class="method">Monetary</font> (String)&nbsp; <br>
+Monetary constructor using currency + value in String, eg CAD25.74&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>BigDecimal objects are (immutable) decimal numbers with explicit
+precision, while Currency objects represent the actual currencies
+themselves - thus one Currency object is <i>US dollars</i>, another is
+<i>Canadian dollars, </i>while yet another might be <i>
+pounds sterling</i> .&nbsp;&nbsp; The first constructor is needed to
+build Monetary objects that are the result of a computation; the second
+to build them from the String representation. &nbsp;So we needed the
+converse operation, which was a method called either <tt>toString()</tt>
+or&nbsp;&nbsp;<tt>serialize()</tt>.</p>
+<p>The complete set of methods we provided for our Monetary class are
+as follows: <br>
+&nbsp;
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">returns</th>
+      <th valign="CENTER">Methods</th>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td valign="CENTER"><font class="method">add</font>
+(Monetary)&nbsp; <br>
+add value of Monetary object to this Monetary object, creating another
+one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">convert</font>(ExchRate)&nbsp; <br>
+Convert this Monetary amount using an Exchange Rate, giving another
+Monetary amount of the target currency type.&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">divide</font>(BigDecimal)&nbsp; <br>
+Divide this Monetary amount by a BigDecimal quantity, creating a new
+Monetary&nbsp;</td>
+    </tr>
+    <tr>
+      <td>BigDecimal</td>
+      <td><font class="method">divide</font>(Monetary)&nbsp; <br>
+Divide value of this Monetary object by Monetary object, creating
+BigDecimal&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">eq</font>(Monetary)&nbsp; <br>
+Compare to see if monetary amount is equal to this one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">ge</font>(Monetary)&nbsp; <br>
+Compare to see if this monetary amount is greater than or equal to
+specified one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Currency</td>
+      <td><font class="method">getCurrency</font>()&nbsp; <br>
+Get currency from Monetary value&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">gt</font>(Monetary)&nbsp; <br>
+Compare to see if this monetary amount is greater than specified
+one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">isPositive</font>()&nbsp; <br>
+Check if value is positive (&gt; 0)&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">le</font>(Monetary)&nbsp; <br>
+Compare to see if this monetary amount is less than or equal to
+specified one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">lt</font>(Monetary)&nbsp; <br>
+Compare to see if this monetary amount is less than specified one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">multiply</font>(BigDecimal)&nbsp; <br>
+Multiply this Monetary amount by a BigDecimal, giving another Monetary
+amount&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">multiply</font>(PCPrice)&nbsp; <br>
+Multiply this Monetary amount by a Percent Price, returning a Monetary
+amount&nbsp;</td>
+    </tr>
+    <tr>
+      <td>boolean</td>
+      <td><font class="method">ne</font>(Monetary)&nbsp; <br>
+Compare to see if a monetary amount is unequal to this one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><font class="method">round</font>()&nbsp; <br>
+Method to adjust precision of Monetary amount to that specified in
+Currency object, rounding as determined by active MathContext.&nbsp;</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><font class="method">serialize</font>()&nbsp; <br>
+Generate a 'preference neutral' string from Monetary value.&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">setCurrency</font>(Currency)&nbsp; <br>
+Create new Monetary with new currency - can only be done if currency is
+unknown (== null)&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">setCurrency</font>(String)&nbsp; <br>
+Create new Monetary with new currency - can only be done if currency is
+unknown (== null)</td>
+    </tr>
+    <tr>
+      <td>Monetary</td>
+      <td><font class="method">subtract</font>(Monetary)&nbsp; <br>
+subtract value of Monetary object from this Monetary object, creating
+another one&nbsp;</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><font class="method">toString</font>()&nbsp; <br>
+Create a String from this object</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>This list is to give you a flavour for the kinds of things we felt
+would be needed in this class. &nbsp;As requirements for new methods
+came up in our application we added them, so if you don't see something
+in this list that you would expect, it's probably because the need
+didn't come up in our application. &nbsp;You will see that a number of
+other classes (apart from the standard Java ones) are mentioned in the
+list given above and we will be describing them in what follows -
+although perhaps not to such a fine level of detail. </p>
+<p>Monetary amounts cannot be multiplied together, but they can be
+added,
+subtracted, compared against each other, and so on.&nbsp; In all these
+cases,
+the currency must be the same; if the two currencies involved are not
+identical,
+an error condition is raised.&nbsp; In our implementation, this was a
+run-time
+test, as opposed to a compile-time test. In our view it wouldn't make
+sense
+to make every one of our 200 currencies a different class.</p>
+<p> </p>
+<p>Monetary amounts can however be multiplied or divided by instances
+of the classes PCPrice and BigDecimal (more about PCPrice later).&nbsp;
+These latter are both essentially dimensionless, and in general we can
+multiply or divide dimensioned values by dimensionless ones, giving a
+result that has the same dimension as the dimensioned quantity.</p>
+<p> Note that we allowed a Monetary object to have an undefined
+currency. &nbsp;In this state you cannot do anything with it except set
+the currency. &nbsp;I am not sure if this function was ever used.</p>
+<!--
+<h4>Quantity class </h4>
+<p>If you look at the above methods, you will notice that dividing a
+Monetary by a Quantity is different from dividing it by a BigDecimal -
+this implies that quantities are different from simple decimal
+values.&nbsp; Think of Quantity as representing a quantity of some
+object, e.g. stocks or bonds (or eggs), so dividing Monetary by a
+Quantity gives a price (MPrice in our application) - so Quantity has an
+implied unit, whereas BigDecimal can be used conveniently to represent
+dimensionless quantities</p>
+<p>This is where things get a bit complicated! In our application,
+Quantity and MPrice did not have units, but we now think we should have
+gone
+that way. &nbsp;Let us propose that a Quantity must always be a
+quantity <i>of</i> something. Then dividing a Monetary by (say)
+a Quantity of stocks gives a <i>Monetary price (MPrice) per stock</i>
+. The advantage of this would be that we could verify at compile-time
+that (say) we are multiplying a price per stock by the number of
+stocks,
+and not by a number of mutual fund shares. &nbsp;We could have usefully
+had
+classes such as QuantityOfStock and MPriceOfStock, QuantityOfBonds and
+MPriceOfBonds, QuantityOfMutualFunds and MPriceOfMutualFunds. &nbsp; We
+believe that we would not actually get a huge number of different
+classes, and they would inherit most of the methods from their parent
+classes Quantity and MPrice respectively. &nbsp;However, you would
+get excellent compile-time checking. &nbsp;Plus, the pricing of these
+different classes of financial instruments has some interesting quirks
+which could be captured in the class-specific methods. </p>
+-->
+<h4>Monetary Price (MPrice) class and Percent Price (PCPrice) </h4>
+<p>This web page will be talking about the classes we
+actually
+used in our application, and what their capabilities were. Although
+we used BigDecimal for MPrice (in conjunction with Currency), we
+allowed an MPrice object to have more decimal places than monetary
+amounts. &nbsp;I believe one of the types of floating point number
+might
+also work well for MPrice, but we went with BigDecimal.. </p>
+<p>For now, we are going to expand on the Monetary Price (MPrice)
+class.&nbsp; This could be entered as a decimal value, but also as a
+fraction of the form "3 + 5 / 16" (usually referred to as a "vulgar
+fraction"), where the last integer was always a power of 2.&nbsp;
+Supposedly, US stock exchanges are switching to decimal prices soon (or
+may already have done so), but at the time we built this system, they
+had not yet made the switchover. </p>
+<p>We held the three integer fields, provided in a constructor, in
+the MPrice object, as well as the decimal value, which was computed if
+the price was entered in vulgar fraction form.&nbsp; If the price was
+entered as a decimal, the denominator item of the integer fields was
+set to zero, and the other two integer fields were ignored. I managed
+to figure out a way to calculate the vulgar fraction from the decimal,
+and we provided a constructor to do this. Again I'm not sure if it was
+ever used. </p>
+<p>Here are the constructors for Monetary Prices: </p>
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">Constructors</th>
+    </tr>
+    <tr>
+      <td><font class="method">MPrice</font>(BigDecimal, Currency) <br>
+MPrice constructor with value initialized from BigDecimal value and
+Currency object </td>
+    </tr>
+    <tr>
+      <td><font class="method"> MPrice</font>(BigDecimal, Currency,
+boolean) <br>
+MPrice constructor with value initialized from BigDecimal value,
+Currency object, and boolean indicating that it is to
+be held as a vulgar fraction </td>
+    </tr>
+    <tr>
+      <td><font class="method"> MPrice</font>(int[], Currency) <br>
+MPrice constructor with value initialized from int[3] array and
+Currency object </td>
+    </tr>
+    <tr>
+      <td><font class="method"> MPrice</font>(String) <br>
+MPrice constructor using currency + value in String. </td>
+    </tr>
+    <tr>
+      <td><font class="method"> MPrice</font>(String, String) <br>
+MPrice constructor with value initialized from 2 Strings - value
+(vulgar or decimal), and currency abbreviation. </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<p>Here are some typical methods for this class:<br>
+<br>
+<br>
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">returns</th>
+      <th valign="CENTER">Methods</th>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> add</font>
+(MPrice) <br>
+Add this Monetary Price to another, giving a Monetary Price. </td>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> divPrice</font> (BigDecimal) <br>
+Divide this MPrice amount by a BigDecimal quantity, creating a new
+MPrice </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> isMultipleOf</font> (MPrice) <br>
+Determine if this MPrice is a multiple of the parameter MPrice - return
+true if it is. </td>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> multPrice</font> (BigDecimal) <br>
+Multiply this MPrice amount by a BigDecimal quantity, creating a new
+MPrice </td>
+    </tr>
+    <tr>
+      <td>String<br>
+      </td>
+      <td><font class="method"> serialize</font> () <br>
+Generate a 'preference neutral' string from Monetary Price. </td>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> setPriceCurrency</font> (Currency) <br>
+Create new MPrice with new currency - can only be done if currency is
+unknown (== null) </td>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> setPriceCurrency</font> (String) <br>
+Create new MPrice with new currency - can only be done if currency is
+unknown (== null) </td>
+    </tr>
+    <tr>
+      <td>MPrice<br>
+      </td>
+      <td><font class="method"> subtract</font> (MPrice) <br>
+Subtract a Monetary Price from this one, giving
+a Monetary Price. </td>
+    </tr>
+    <tr>
+      <td>String<br>
+      </td>
+      <td><font class="method"> toString</font> () <br>
+Create a String from this object </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>
+Our brokerage application also required a different kind of price,
+which we called "PCPrice".&nbsp; This stands for PerCentPrice and is
+basically a dimensionless quantity that is entered or displayed as a
+percentage, i.e. 20PCT represents the value .2.&nbsp; PCPrice
+also supports "discount" and "premium", coded as DSC and PRM.&nbsp;
+20DSC represents a value of .8, while 20PRM represents 1.2.&nbsp;&nbsp;
+Although PCPrice has interesting ways of being displayed, it is
+dimensionless, so it is equivalent to a pure value. Because of this, it
+can extend BigDecimal, and its methods are basically whatever it
+inherits from BigDecimal, plus a few quirks due to the PCT/DSC/PRM
+convention, so
+I will not go into it further. &nbsp;
+<h4>Exchange Rate (ExchRate) class </h4>
+<p>Since we are dealing with multiple currencies, we need a way of
+exchanging money.&nbsp; You can't add money of different currencies, so
+of course we need an ExchRate class - instances of this class
+can be applied to a Monetary value to convert it to Monetary of another
+currency. </p>
+<p>Its constructors are as follows: </p>
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">Constructors</th>
+    </tr>
+    <tr>
+      <td><font class="method"> ExchRate</font>(BigDecimal, Currency,
+Currency, TimeStamp) <br>
+Exchange Rate constructor with value initialized from BigDecimal </td>
+    </tr>
+    <tr>
+      <td><font class="method"> ExchRate</font> (String) <br>
+Exchange Rate constructor using single String, containing value, source
+currency, target currency, optional timestamp,
+separated by semicolons. </td>
+    </tr>
+    <tr>
+      <td><font class="method"> ExchRate</font>(String, String, String,
+String) <br>
+Exchange Rate constructor with value initialized from 4 Strings
+(TimeStamp will use serialized form) </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>By the way, our TimeStamp class extends the Java Date class, which goes
+down to the millisecond, in spite of its name. The Java SQL
+TimeStamp class goes down to the nanosecond, but we didn't consider
+that
+necessary for our application, although we had methods to convert our
+time stamps from and to SQL time stamps. We held all time stamps in
+UTC format (Universal Time Code) as our application not only dealt in
+many currencies, but in many countries and time zones. More about that
+later.<br>
+<br>
+The methods of ExchRate are as follows:<br>
+<br>
+<table align="center" border="2" cellpadding="2" width="95%">
+  <tbody>
+    <tr>
+      <th valign="CENTER">returns</th>
+      <th valign="CENTER">Methods</th>
+    </tr>
+    <tr>
+      <td>Monetary<br>
+      </td>
+      <td><font class="method"> convert</font>(Monetary) <br>
+Convert a Monetary amount using this Exchange Rate, giving another
+Monetary amount of the target currency type. This will only work if the
+currency of the Monetary amount matches the source currency of the
+Exchange Rate </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> eq</font>(ExchRate) <br>
+Compare to see if this exchange rate is equal to specified one </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> ge</font>(ExchRate) <br>
+Compare to see if this exchange rate is greater
+than or equal to specified one </td>
+    </tr>
+    <tr>
+      <td>Currency<br>
+      </td>
+      <td><font class="method"> getSourceCurrency</font> () <br>
+Get Source Currency </td>
+    </tr>
+    <tr>
+      <td>Currency<br>
+      </td>
+      <td><font class="method"> getTargetCurrency</font> () <br>
+Get Target Currency </td>
+    </tr>
+    <tr>
+      <td>TimeStamp<br>
+      </td>
+      <td><font class="method"> getTimeStamp</font> () <br>
+Get TimeStamp </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> gt</font>(ExchRate) <br>
+Compare to see if this exchange rate is greater
+than specified one </td>
+    </tr>
+    <tr>
+      <td>ExchRate<br>
+      </td>
+      <td><font class="method"> invert</font>() <br>
+This method inverts an Exchange Rate - a new Exchange Rate object is
+created with the currencies interchanged, and with a new value which is
+the reciprocal of this one </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> le</font>(ExchRate) <br>
+Compare to see if this exchange rate is less than or equal to specified
+one </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> lt</font>(ExchRate) <br>
+Compare to see if this exchange rate is less than specified one </td>
+    </tr>
+    <tr>
+      <td>boolean<br>
+      </td>
+      <td><font class="method"> ne</font>(ExchRate) <br>
+Compare to see if this exchange rate is not equal to specified one </td>
+    </tr>
+    <tr>
+      <td>ExchRate<br>
+      </td>
+      <td> <font class="method">propagate</font>(ExchRate) <br>
+This method combines this Exchange Rate with another Exchange Rate,
+resulting in a new Exchange Rate object. </td>
+    </tr>
+    <tr>
+      <td>String<br>
+      </td>
+      <td><font class="method"> serialize</font>() <br>
+Generate a 'preference neutral' string from Exchange Rate. </td>
+    </tr>
+    <tr>
+      <td>String<br>
+      </td>
+      <td><font class="method"> toString</font>() <br>
+Create a String from this object </td>
+    </tr>
+  </tbody>
+</table>
+<p> Of particular interest are&nbsp;<tt> invert()</tt> and&nbsp;<tt>propagate()</tt>:
+the
+former creates an exchange rate that is the inverse of the given
+one, while the latter combines two exchange rates to create a single
+resultant exchange rate.&nbsp; In the first case, the inverse of the
+exchange rate&nbsp;<br>
+<br>
+<table border="2" cellpadding="2" width="50%">
+  <tbody>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th>rate</th>
+    </tr>
+    <tr>
+      <td width="38%">USD (US Dollars)</td>
+      <td width="38%">CDN (Canadian)</td>
+      <td width="24%">1.6</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>would be&nbsp;</p>
+<p>
+<table border="2" cellpadding="2" width="50%">
+  <tbody>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th>rate</th>
+    </tr>
+    <tr>
+      <td width="38%">CDN</td>
+      <td width="38%">USD</td>
+      <td width="24%">1 / 1.6 (=.625)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>In the second case, combining&nbsp;</p>
+<p>
+<table border="2" cellpadding="2" width="50%">
+  <tbody>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th>rate</th>
+    </tr>
+    <tr>
+      <td width="38%">USD</td>
+      <td width="38%">CDN</td>
+      <td width="24%">1.6</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>and&nbsp;</p>
+<p>
+<table border="2" cellpadding="2" width="50%">
+  <tbody>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th>rate</th>
+    </tr>
+    <tr>
+      <td width="38%">CDN</td>
+      <td width="38%">GBP (Great Britain Pounds)</td>
+      <td width="24%"> .4</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>would result in </p>
+<p>
+<table border="2" cellpadding="2" width="50%">
+  <tbody>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th>rate</th>
+    </tr>
+    <tr>
+      <td width="38%">USD</td>
+      <td width="38%">GBP</td>
+      <td width="24%">1.6 x .4 (= .64)</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>You may perhaps have noticed that we didn't integrate the TimeStamp
+values into our Exchange Rate methods - this was put in because clearly
+exchange rates only apply at a particular point in time.
+Ideally, the <tt>convert()</tt> methods should have been tagged
+with a TimeStamp, and therefore most other methods dealing with
+the ExchRate class. &nbsp;Now most computer applications apply at
+some moment in time - they could be called "synchronic", whereas in
+real life things change across time ("diachronic"). So it was
+reasonable
+to leave the time stamp off the exchange rate. &nbsp;We left it in,
+however, as a pointer to a wider scope that we could implement at some
+time in the future. &nbsp;In fact, in my experience, the time dimension
+is always the hardest aspect of&nbsp; computer applications to
+implement.&nbsp; </p>
+<p>This also illustrates a problem with the "big bang" approach to
+system development: if you don't have time to "do it right the first
+time" (you never do), you must build in enough flexibility so that you
+can move there incrementally, preferably without destroying your
+working system.&nbsp;&nbsp;&nbsp; </p>
+<h4>Date, TimeStamp and Time Zone (TimeTz) classes </h4>
+<p>This seems like a good time to talk about dates, timestamps and
+time zones. &nbsp;Our application had to deal with time zones right
+around
+the world, as we had to support someone in Tokyo buying a stock that
+was
+listed on the Toronto Stock Exchange on the other side of the planet.
+&nbsp;
+Perhaps in hindsight we should have given our classes different names,
+as
+Java has some of these classes, both in the Java.util and Java.sql
+packages,
+but in practice this didn't cause confusion as we hid the Java.util
+classes
+behind our own. &nbsp; We couldn't hide the Java.sql classes, but the
+spelling
+difference (see below) helped!&nbsp;</p>
+<p>We did have to do a lot of thinking about what times and dates
+really <i>mean</i>, as this is something that the designers of most
+business applications never have to think about. &nbsp; We decided to
+hold times in UTC (Coordinated Universal Time), which is based on
+Greenwich, UK,
+and does not change with Daylight Savings Time (DST). &nbsp;So we had
+to know which time zones particular stock exchanges were in, and which
+time zones our users would be in. &nbsp;When you are dealing with a
+7/24,
+world-wide application, the <i>only</i> notation that tells you
+whether
+two events are simultaneous is UTC. &nbsp;</p>
+<p>A time zone not only determines how many hours ahead of or behind
+UTC the location is, but also when they switch from and to DST - if in
+fact they do (Japan does not switch nor does the province of
+Saskatchewan in Canada). &nbsp;It turned out that the version of Java
+we were using had a very incomplete set of time zones, but an <i>excellent</i>
+mechanism
+for building new ones! &nbsp; A major part of the problem, as Java has
+found out, is that there is no generally agreed on standard for time
+zone
+names. &nbsp;Java (from 1.2 on) seems to use a convention of
+"area/city",
+but one of the areas is America, so there are zones with names like
+America/Winnipeg, which is not really acceptable in a Canadian
+application! &nbsp;Not to
+mention America/Manaus, America/Tortola and America/St_Kitts, but for
+some
+reason Atlantic/Bermuda! &nbsp; And Java certainly does not seem to
+know
+much about Newfoundland, which is famous (at least up here) for being
+1/2
+hour out of step with the next time zone (honest!) - it is actually 3.5
+hours behind UTC (not counting DST) - Java has it as 4 hours behind,
+but
+it does say Canada/Newfoundland (I think because it treats it as a
+zone,
+rather than a city). &nbsp;We therefore used the commonly used Canadian
+abbreviations where possible, but these are only really unique within
+Canada
+&nbsp;and I do not know whether they are encoded in any standards
+document.
+&nbsp;The problem of coming up with unique, worldwide zone designations
+needs to be addressed, but I don't really feel that the Java approach
+is
+adequate. &nbsp;However, we should give them credit for trying!
+&nbsp;In
+case you were wondering, it is not enough to just use the offset in
+hours
+from UTC, as different&nbsp; time zones may have the same offset but
+different
+rules for beginning and ending DST. &nbsp; <br>
+</p>
+<p>The Java Date class includes time, but ours did not, which I feel is
+more logical. &nbsp;Our TimeStamp class was more similar to the Java
+Date class, except that the Java Date class has a default time zone,
+which we felt would be confusing. &nbsp;It's better to always have to
+state the time zone explicitly... <i>when it matters</i>....
+&nbsp;Since all timestamps were held in UTC, we only needed time zones
+when handling input from, or
+output to, humans. &nbsp; Our time zone class is actually a simple one:
+we
+just used the Java SimpleTimeZone class to build a list of time zones,
+identified by a 3-character abbreviation, "CST", "SST", etc., and then
+used the abbreviation as an optional part of a time stamp (default was
+UTC), e.g. 20021021T13:10:40678!CST. &nbsp; Note that this can only be
+converted into a UTC time stamp if the date portion is present.</p>
+<p>It actually took a little effort for old-guard programmers to start
+thinking in terms of time zones. &nbsp;For example, the date does
+depend on the time zone: it can be Tuesday in Tokyo while it's Monday
+in Toronto, so you can convert from date plus time (UTC) to the local
+date, if you
+have the time zone, but you can't go from a date by itself&nbsp; to UTC
+unless you know the time <i>and</i> time zone. &nbsp;Actually there is
+an hour during the year, in time zones with DST, when the same local
+time
+repeats itself.</p>
+<p>To make things even more interesting, the Java.sql package has Date
+and Timestamp (note the lower case 's'):&nbsp; the SQL Date is very
+similar to ours, while Timestamp goes down to nanoseconds, which we
+really didn't need. &nbsp;We provided conversion methods between our
+classes and the corresponding Java.sql ones, so that we could store our
+data in relational databases.</p>
+<h4>Bool class</h4>
+<p>Just to get this class out of the way, I will give a brief
+description of this class. &nbsp;We decided we needed a Bool class
+mostly because we built a rules-driven decision tool which specified
+its rules in XML. &nbsp;A patent is pending on this work: "Rules-Based
+Engine for Validating Financial Transactions".&nbsp; I hope you can
+read legalese, as I can't, and I helped to write the thing! &nbsp;</p>
+<p> A couple of interesting attributes of this class are: <br>
+</p>
+<ul>
+  <li>its serialized form is "1" or "0" - this is because "1" and "0"
+are more suitable for multi-language support than "true" and "false"</li>
+  <li>in its constructor we treated the null string as a true value. </li>
+</ul>
+<p>The&nbsp;<tt>equals()</tt> method returns true if and only if the
+argument is not null and is a Boolean object that contains the same
+boolean value as this object. &nbsp; For obvious reasons, we defined
+two public static
+final objects called&nbsp;<tt>TRUE</tt> and&nbsp;<tt>FALSE</tt>. </p>
+<h4>AccountId, Market, InstrumentId, and Symbol classes</h4>
+<p>We are now getting into an area which is less standardized (or
+standardizable). The lack of standardization in the industry means that
+we cannot specify
+classes that will be usable world-wide. &nbsp;However, hopefully the
+following
+remarks will give some of the flavour of what we felt was needed for
+our
+particular application..<br>
+<br>
+In our case, the account ID object was comprised of three parts: <br>
+<br>
+- identifier (required)<br>
+- optional firm<br>
+- optional system ID <br>
+<br>
+It was basically used as an identifier.<br>
+<br>
+A Market object was identified by its Reuters code, and had attributes
+such as time zone, open and close times, list of holidays, country code
+and quote currency. &nbsp; The open and close times were reloaded at
+the
+start of every day, as occasionally a particular market would be closed
+unexpectedly,
+for varying amounts of time, e.g. an hour or a half-day. &nbsp;In
+addition
+the open and close times could be different for different financial
+instruments,
+so this information had to be stored, and reflected in the methods we
+provided.<br>
+<br>
+InstrumentId was constructed out of a schema (a number) and a financial
+instrument ID. The schema numbers indicate what coding scheme is used
+for the financial instrument ID. The schema numbers are as follows:<br>
+<br>
+<br>
+<table align="center" border="2" cellspacing="2" width="95%">
+  <tbody>
+    <tr>
+      <td> 1 </td>
+      <td> CUSIP </td>
+    </tr>
+    <tr>
+      <td> 2 </td>
+      <td> SEDOL </td>
+    </tr>
+    <tr>
+      <td> 3 </td>
+      <td> QUIK </td>
+    </tr>
+    <tr>
+      <td> 4 </td>
+      <td> ISIN number </td>
+    </tr>
+    <tr>
+      <td> 5 </td>
+      <td> RIC code </td>
+    </tr>
+    <tr>
+      <td> 6 </td>
+      <td> ISO Currency code </td>
+    </tr>
+    <tr>
+      <td> 7 </td>
+      <td> ISO Country code </td>
+    </tr>
+    <tr>
+      <td> 111 </td>
+      <td> IBM security number </td>
+    </tr>
+    <tr>
+      <td> 112 </td>
+      <td> ADP security number </td>
+    </tr>
+    <tr>
+      <td> 113 </td>
+      <td> SVC </td>
+    </tr>
+    <tr>
+      <td> 114 </td>
+      <td> Canadian Mutual Funds </td>
+    </tr>
+    <tr>
+      <td> 999 </td>
+      <td> Unknown </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p>A Symbol object identified something that is traded in a market.
+&nbsp;It was constructed out of a market ID, symbol, and country code.
+&nbsp;This
+reflects the fact that a symbol is only unique within a market.
+&nbsp;Either
+market or country will usually be present - if both are missing, we
+used
+the default country. &nbsp;<br>
+<p>
+
+<center>
+
+<!-- new counter line -->
+<img src="/cgi-sys/Count.cgi?df=jpaul-jpaul3.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> 
+
+</center>
+
+            </article>
+        </section>
+    </div>
+
+
+    <footer class="small wrap">
+        <!-- <table border="0">
+        <tr>
+            <td> -->
+        <p class="small">Content Copyright &copy; J Paul Morrison. All rights reserved.</p>
+        <!--	</td>
+            </tr>
+            <tr>
+                <td align="center"> </td>
+            </tr>
+        </table>	-->
+
+
+    </footer>
+
+</body>
+</html>
