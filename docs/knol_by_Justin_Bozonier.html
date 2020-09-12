@@ -1,0 +1,160 @@
+<h1>Flow Based Programming</h1>
+<h2>A concurrent and parallel computing technology</h2>
+<p>Flow based programming solves problems that, while they may currently be on the horizon, will soon present new challenges to software developers.
+<h3>Contents</h3>
+
+   
+   <a href="#issues"> Issues with Statement Execution Order</a>
+    Business Logic
+    What do we mean by Business Logic?
+    Modeling the Domain
+    Communicating the Design to Product Management
+    The Main Idea
+    Composition is the New Inheritance
+    Managing Object State
+    Using Domain Objects
+    State Machines
+    How Does FBP Address Object State?
+    Working With Threads
+    Difficulties with Threads
+    Threads in FBP
+    The Best of Both Worlds
+
+
+more
+
+<h4>By Justin Bozonier, July 2008 </h4>
+<h3>Introduction</h2>
+<p>
+Flow based programming is a development methodology invented by J. Paul Morrison in the 70's[5] wherein the resulting software is easily able to take advantage of many core processors and asynchronous processing. The framework consists of writing software as a set of "black boxes" that pass data between one another as messages. A side effect of this is that the these black boxes can be connected and rewired in a variety of ways thus enabling simple component reuse and increased developer productivity.
+<h3>The Problems with Standard Practices and the Solution</h3>
+<h4><a name="issues"></a>Issues with Statement Execution Order</h4>
+<p>Synchronous execution can be very simple to wrap your head around. I'm sure everyone reading this book programs this way almost everyday (if not every day). What you're probably wondering is why I am saying synchronous execution has issues.
+</p><p>
+It's easy, I tell the system the first task that needs to be done, then, when that's finished, I give it the next statement, and, once that's done, there are thousands more where that came from. From another angle, what if I wanted to have someone run several errands for me? After they complete each errand they would need to come back to me and I would stand in my place waiting for all of the errands to be done even though I'm not the one doing them! That's pretty wasteful.
+</p><p>
+That's synchronous programming. Orderly, but extremely wasteful. To give an example that may hit a little closer to home imagine a user interface that is single threaded. When the user clicked a button to get your app to do anything, the app would need to freeze until all of its other actions are complete. Once it's done it would return control back to the user interface but what if your logic took a few seconds or a minute to execute? How does the user know your application is still working?
+</p><p>
+To bring that example into the context of our earlier errand running example, imagine that as I stood there waiting for my worker to return from their errand I have other workers waiting for me to tell them what to do. Instead, I just stand there waiting for the first errand to get done. Before it was pretty wasteful but now we're just being obscenely so. Sometimes we need to wait for something to get done, but a lot of times that waiting is just a waste and usually the system is programmed that way because asynchronous threading is infamous for being difficult to manage.
+</p>
+<h3>Business Logic</h3>
+<p>
+<h4>What do we mean by Business Logic?</h4>
+<p>
+Business logic is any code we write that determines how a system executes a task that builds business value. Writing a method to sort a collection of strings is not business logic. Knowing how to place orders with data provided by the customer is business logic.
+</p><p>
+There are a lot of different ways to go here. Some people use state machines, others use workflow systems, rules engines, etc. It's quite possible that you could be using FBP to manage all of the tasks you would normally do with the previously stated systems although there are definite times to use them, if you currently jump to one of those approaches first, FBP may end up becoming your new default tool for tackling complicated processes.
+</p>
+<h4>Modeling the Domain</h4>
+<p>
+The OOP purists amongst us are always trying to get the classes we create to, at some level, closely represent the same objects in the real world. Done correctly, these systems can work just fine, usually however, they aren't done correctly. When these same systems have weathered many a last minute feature addition or other "must be done ASAP" feature or bug fix that causes people to make bad code design choices, you'll usually be left with brittle code.
+</p><p>
+Ultimately though, we're just looking for a way to make reuseable software. Choosing to model your code so closely to the domain can have its issues [REF?]. Creating a class for a certain business entity is really a way of saying you think this entity will be used all over the place in a way that can be encapsulated. Sometimes that works, and other times, you find that the context in which you use the object confuses its design. You then end up with one off logic within your object to account for the context change.
+</p><p>
+Once again, I am not saying that modeling your domain has to be this way but just that it's easy for developers to go down this route. I am positive we have all seen examples of people doing this with the different code we've worked with over the years. The question is, what other option do we have?
+</p>
+<h4>Communicating the Design to Product Management</h4>
+<p>
+Martin Fowler routinely expresses his interest in what are known as Domain Specific Languages (DSLs for short). The value this brings to your code is that at some level in your code there is a fairly english like representation of what your code is doing for the business.
+</p><p>
+Keep this concept in mind. While FBP isn't exactly a DSL it isn't a bad compromise either. It gets you fairly close to a very easily understandable and thus maintainable system.
+</p>
+<h3>The Main Idea</h3>
+<p>
+Flow Based Programming is centered around a few main ideas. Some of them are centered around object oriented design and others have their foundations outside of software engineering as a whole.[4]
+</p><p>
+You can think of Flow Based Programming as a way of viewing your system like a set of workers many of whom delegate tasks to other workers. Delegation has three key characteristics:
+</p><p>
+    Allocating authority to issue orders.
+    Entrusting tasks to subordinates.
+    Allocating decision making in defined areas.
+</p><p>
+Each of these characteristics help to ensure a strong separation of responsibilities or, in the software world, concerns.
+</p><p>
+In OOP today we create classes that try to completely own their data. The idea being that an object should be the only thing to know about the state of its data and it should be the only thing that can change the state of that data as well, with some exceptions. In OOP, as Flow Based Programming contends, we get the most value from pushing our data from class to class. Coupling our data and classes together isn't necessary to achieve an easily effective reusable system.
+</p><p>
+If I give a task to Bob and another to Dale, I am only effectively delegating a task if I can trust that each person will do what they need to do with the information I've given them.
+</p><p>
+Let's say I run a restaurant. Bob is a cook and Dale is a waiter. Dale's task is to wait on every customer that comes through the door. In order to get that done, Dale will seat the customers at a table and take their order, he then delegates the task to make the food for Bob. Bob cooks the food and when it's done he gives a task to Dale to deliver the food to the customers.
+</p><p>
+In Flow Based Programming, Bob and Dale are what is called components. Dale knowing how to give orders to Bob is known in the FBP world as a kind of port and connection role. The customers coming into the restaurant represent our data that is to be processed. Don't worry too much about the terminology for now. We'll be going over the individual portions of an FBP system in more detail in chapter 5.
+</p><p>
+Now say you want to be able to start serving Mexican food at the restaurant. We'd need a cook who knows how to cook it! In our model above can you think how we would design our connections and components to allow for this new cook? First, we would connect our waiter to the kitchen instead of the cook himself. Then we would have the Kitchen notify the appropriate cook of the type of food they need to make. As each chef finishes their portion of the food, they notify the kitchen. Once both portions of the meal are prepared our waiter is notified and he takes the meal to the customer.
+              </p><p>
+In this process, much like most standard business systems, the data (in this case the order) was transformed into several formats before the task was completed. It was spoken to the waiter by the customer, given to the cook via a check, and given back to the customer as food. This is exactly how data is handled in Flow Based Programming as well. Also, notice how easy it is to integrate a new person into the mix with this design. Whether it's a waiter or a cook the process is pretty simple now. Notice also, that your waiters can take care of people as the cooks are still processing the previous orders. FBP is just as naturally multithreaded as our restaurant example.
+</p>
+<h3>Composition is the New Inheritance</h3>
+<p>
+So really what we're talking about here is composition versus inheritance. This is where we begin to see the fairly large paradigm shift that FBP recommends. One of the benefits of OOP that have been espoused for so long is the use of inheritance and how it can be leveraged to simplify your software's design and create reusable software. The problem is that there have been some side effects of inheritance as well.
+</p><p>
+Inheritance is one of the causes of brittle software [1]  [2]. This was hard for me to swallow at first since this was one of the core tenets that got me excited about OOP in the first place. After chewing on it for a while though, it kind of started to make sense. Jeff Atwood put it best when he said:
+"...we're writing crappy business logic code, not a language. What is appopriate for a language developer may not be appropriate for simple business code that needs to be maintainable and easy to understand above all else." [3]
+</p><p>
+It's not that inheritance is intrinsically bad, it's just that it is extremely over used. In the enterprise world, the IS-A relationship can change by the minute. When you overuse inheritance (be it for convenience or other factors) it puts you in a position where you need to detect what kind of object something really is without relying on polymorphism. Inheritance can be used in enterprise systems, but it should only be used on the most stable aspects of the system. 
+</p><p>
+Where ever there is volatility you should depend on abstractions instead. Robert Martin cautions us that any system we as enterprise developers write to meet business requirements is inherently volatile. Tomorrow the business could decide to overhaul and change their whole pricing model. They could decide that instead of treating paper based transactions and electronic transactions like they're different that they should now all be treated identically. Huge shifts in domain models occur all of the time. As developers we need to be able to start to account for that.
+</p><p>
+Now yes, I've heard the argument of "YAGNI" (ya ain't gonna need it) to rationalize only adding complexity to your system once you've seen a need for it. It isn't an excuse to ignore the past however. If you have been working with software for a few years, I am willing to bet that every business you have ever worked for has changed themselves in a way that caused you to scramble at least three or four times. Each time that happened I'm willing to bet that you feared not getting the task done to such a degree that you wrote a few hacks here and there "to be refactored out later". Right? So now you have 300 hacks that your manager and project manager both know are the top priority and yet always seem to get de-prioritized last minute.
+   </p><p>
+How about if, in the case of FBP, we say YADNI (you already do need it). Businesses change daily (sometimes hourly) and you need to be able to respond. That's been one of my main frustrations in programming. I love the purity and elegance of great architectural design but it always seems like I never have time to be able to create it. Design is always viewed as an expense best left to people who don't help the company earn revenue. A lot times management sees it as something that needs to be controlled and limited. Sometimes they're right. Developers can definitely get carried away with design. I don't think that means that developers should not have a design though. Utilizing FBP, I've seen great designs unfold from the fastest route possible. That's how you know this is something you need to learn about. When a tool can give you increased code quality _and_ efficiency you know you've found something special.
+</p><p>
+Think of inheritance as a syntactic salt. A little bit in a dish will go a long way. FBP takes that to heart.
+</p>
+<h3>Managing Object State</h3>
+Using Domain Objects
+Using objects that closely model your domain is one method for dealing with data state. This is a workable solution although it can also start getting very complex fairly quickly. 
+
+<!--  got here -->
+
+</p><p>
+State Machines
+One of the most prevalent ways of dealing with complexities of dealing with object states is the aptly named state machine. State machines cause a little bit of overhead with the amount of code you need to write (if you go the class-based way at least) but they give you a very organized environment in which to develop. Every business case can become a state to be programmed. If there is a logic error I just need to know which state is having the error and what action was attempted. Suddenly I can drill down to exactly the logic I care about.
+</p><p>
+State machines are very powerful and important but I wouldn't want to write everything in terms of state machines. I've tried going that route in the past and the managing of the vast number of states that are necessary becomes its own design problem. The purist in me still loves them and loves exploring the resulting graph that is created but I do recognize it's not always the most efficient use of my time to create such a solution to a problem.
+</p><p>
+How Does FBP Address Object State?
+FBP favors a paradigm shift in the way we think about OOP and program design. Instead of programming a series of objects which represent and closely relate to your real world domain you instead manage your software more like you would a car assembly line. As you do this, code begins to look more like a representation of UML. This is important and very powerful. The initial promise of UML was that one day code would be as easy as connecting different components on a diagram with lines. With FBP, you still do have to program, but once all of your components are created you connect them together exactly like UML.
+</p><p>
+So if you have all of these blocks (or components) on your diagram you also have lines that direct you from component to component. What is it that is really flowing into each component? Program control? You could say that, but data would be more accurate. In FBP, there is no time dependencies between the components. So if I have a chunk of data, it should be able to flow from one end of the diagram to the other regardless of how any other pieces of data are being handled. In order to program an FBP system, you have to minimize your dependencies.
+</p><p>
+A consequence of this is that the state of my data travels from component to component. This means that I can have my components each existing in separate threads and not worry about what state they're in. A huge complexity of threading is thus reduced using FBP.
+</p><p>
+It should also be noted that in FBP the data you pass around from component to component (Information Packets) is immutable. This allows for some extremely nice situations in the following section of the book.
+</p><p>
+Working With Threads
+Difficulties with Threads
+Threads and asynchronous are extremely intimidating for your average synchronous developer (web developers for example). The common style of OOP where you have an object being utilized over multiple threads can make it very hard to keep the data consistent and stable. I could have an Object A for example. If I am creating a multithreaded system then it is possible for one thread to change Object A just before or after another thread runs a vital computation on its value.
+      </p><p>
+Concurrent processes/threads often need access to shared data and shared resources. If there is no controlled access to shared data, it is possible to obtain an inconsistent view of this data. (REWORD)
+   </p><p>
+In situations like these, where the same object needs to be accessed across multiple threads we lock the object so that no other portion of the system can modify it. While it's locked we can change the data within it and nothing else can make any changes to the object until we relinquish the lock. If we didn't do this we would run the risk of creating race conditions in our code, or a condition where we run the risk of system failures and errors due to the order or timing in which our code is ran. There is a lot of literature on these caveats of multithread programming. These aren't concerns for us in FBP however.
+</p><p>
+Threads in FBP
+In Flow Based Programming we have the following factors to take into account:
+</p><p>
+    Every component is a black box. We don't care what it is doing and it knows how to manage itself.
+    A component's only dependencies are on the data that is passed into it and that data is immutable.
+</p><p>
+
+Given these two conditions we get a surprising amount of lee way. Maintaining states of your objects across threads can be exceedingly difficult. Since, in FBP, your data states flow from thread to thread it removes an enormous amount of concern from how you need to implement your code. Now what you have is all components are, for all intents and purposes, isolated from each other. Where in standard OOP your data objects would still introduce race conditions, in FBP, passing data around as immutable objects avoids one process changing the data referenced by another.
+</p><p>
+Flow Based Programming places each component you develop into its own thread where it can work, isolated from the rest of your system. You just keep sending work its way and your component will continue its work and it won't block any of your other components from working either. It's a key point that your software will just work and that it will be scalable.
+</p><p>
+There are of course some exceptions to this general rule when you will want to write some threading code to further optimize some component. That's not a problem. You can do what you need. The idea is that you push FBP to about 80% of its limit and use other techniques where appropriate. The times where you will need to optimize your code will be the exception not the rule, and likewise, shouldn't affect the final quality of your software in any measurable way.  
+</p><p>
+Similarities to Functional Programming
+The Best of Both Worlds
+Flow based programming may remind you of certain functional programming languages such as Erlang. Erlang is about passing tuples of data around from process to process. Because Erlang is a functional language it is actually more difficult to NOT write concurrent code than to write it. The down side to this is that the proper way to write easily parallelized code requires somewhat of a learning curve for most developers to adapt to. Some common things you can't do in languages such as Java or C# are: Utilize recursion to simplify code (using tail recursion optimizations avoids stack issues), avoid locks when passing collections of data from process to process by way of tuples, etc.
+</p><p>
+Some of the positive side effects of not needing to be programmed in a functional language are: Developers can leverage the programming languages they already know, an astute developer can decide where using reference objects make sense and where they don't (in Erlang you have no choice since almost everything is passed by value), etc.
+</p><p>
+References
+</p><p>
+    Erich Gamma, Design Principles from Design Patterns
+    Erich Gamma, http://www.artima.com/lejava/articles/designprinciples4.html
+    Robert C. Martin, Agile Principles, Patterns, and Practices in C#
+    http://www.codinghorror.com/blog/archives/000801.html
+    http://www.jpaulmorrison.com/fbp/
+    http://en.wikipedia.org/wiki/Flow-based_programming
+
+</p>
