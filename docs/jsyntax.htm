@@ -774,7 +774,11 @@ above component.&nbsp; </li>
 </li>
 <li>As of <span
  style="color: rgb(0, 0, 153);">JavaFBP-3.0.2</span> <code>LoadBalance</code> has been modified so that all the IPs in a substream are routed to the same output port element.
- <p>There is also a corresponding component called <code>SubstreamSensitiveMerge</code>, but, if this is combined with <code>LoadBalance</code>, there is a strong possibility of deadlocks - see <a href="https://github.com/jpaulm/javafbp/issues/8">GitHub/JavaFBP Issue #8</a>.
+ <p>There is also a corresponding component called <code>SubstreamSensitiveMerge</code>, but, if this is combined with <code>LoadBalance</code>, there is a 
+ strong possibility of deadlocks - see <a href="https://github.com/jpaulm/javafbp/issues/8">GitHub/JavaFBP Issue #8</a>.
+	<p><code>SubstreamSensitiveMerge</code> uses a new API call, <code>Component.findInputPortElementWithData</code> - this function is not intended for general use, 
+but may be useful in certain situations.
+		
  
  </li>
 </ul>
