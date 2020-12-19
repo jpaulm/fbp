@@ -55,7 +55,7 @@ Concatenate is an example of a parameter-less FBP component.  Its logic is essen
 <p>
 With small amounts of data, the lack of back pressure in most FBP-inspired products probably doesn't hurt, but in an actual real-world situation you could easily accumulate a few billion IPs waiting at element 2, which cannot be processed until end of stream is detected at element 0 and at element 1. In "classical" FBP, you don't "receive" any of them until you are ready to process them.  This works fine because, as well as selective receive, FBP has "back pressure", meaning that a sending process is suspended if the connection involved is full, so the processes generating the "element 2" data will just wait, without any special coding required on the part of the programmer.
 </p><p>
-Here is Concatenate in JSFBP:
+Here is Concatenate in JSFBP (https://github.com/jpaulm/jsfbp ):
 </p><p><pre>
 
   'use strict';
