@@ -81,7 +81,7 @@ Here is Concatenate in JSFBP (https://github.com/jpaulm/jsfbp ):
 
 	
 	
-</p><p>I could show this component in the other "classical" FBP languages (Java, C#, C++ (with Boost) or Lua), but they all have essentially the same structure, the big difference being that, under the covers, all of these implementations do support multiple cores (this doesn't affect the code, and is transparent to coders).
+</p><p>I could show this component in the other "classical" FBP languages with FBP implementations in the https://github.com/jpaulm repos (Java, C#, C++ with Boost), but they all have essentially the same structure, the big difference being that, under the covers, all of these implementations do support multiple cores (this doesn't affect the code, and is transparent to coders).
 </p><p>
 Now, I have copied the following from Ken Kan's <a href="https://github.com/kenhkan/noflo-flow/blob/master/components/Concat.coffee">GitHub</a> site, written in CoffeeScript (bear in mind that CoffeeScript uses indentation to indicate logical nesting).
 </p><p>
@@ -149,9 +149,9 @@ exports.getComponent = -> new Concat
 </pre>
 </p><p>
  
-This does seem a lot more complicated, and it has a basic problem, not shared by classical FBP: all streams must be in storage before anything is output.  This means that, unlike classical FBP, it cannot handle streams that won't fit into available storage.  I know modern machines have massive amounts of storage, but philosophically it's very different!  While this logic is probably fairly clear to someone "trained in the art", I find it totally opaque - maybe I am too close to "classical" FBP to easily understand it!   However, when we compare the two, the CoffeeScript code shown above seems to support the conclusion that the attempt to support FBP in JavaScript (or CoffeeScript) will often lead to significantly increased code complexity. </p>
+This does seem a lot more complicated, and it has a basic problem, not shared by classical FBP: all streams must be in storage before anything is output.  This means that, unlike classical FBP, it cannot handle streams that won't fit into available storage.  I know modern machines have massive amounts of storage, but philosophically it's very different!  While this logic is probably fairly clear to someone "trained in the art", I find it totally opaque - maybe I am too close to "classical" FBP to easily understand it!   However, when we compare the two, the CoffeeScript code shown above seems to support the conclusion that the attempt to support FBP in JavaScript (or CoffeeScript) will often lead to significantly increased code complexity, combined with (from the FBP point of view) unnecessary restrictions. </p>
 
-<p>Tom Robinson recently posted an implementation of <a href="https://github.com/tlrobinson/streampunk.js/blob/master/components/concat.js">Concat</a> using <i>async/await</i>, which is included in ES2017 and supported natively in node.js and most browsers, as part of his <a href="https://github.com/tlrobinson/streampunk.js">Streampunk</a> project.  This does seem much closer to the spirit of classical FBP.  As far as I know, however, Javascript still can't support multiple cores, which would seem to be a significant limitation if one wants to use JavaScript on the server side... 
+<p>Tom Robinson recently posted an implementation of <a href="https://github.com/tlrobinson/streampunk.js/blob/master/components/concat.js">Concat</a> using <i>async/await</i>, which is included in ES2017 and supported natively in node.js and most browsers, as part of his <a href="https://github.com/tlrobinson/streampunk.js">Streampunk</a> project.  This does seem closer to the spirit of classical FBP.  As far as I know, however, Javascript still can't support multiple cores, which would seem to be a significant limitation if one wants to use JavaScript on the server side... 
 					</p>					
 					<p><a href="noflo.html">FBP vs. FBP-inspired Systems</a></p>
 					<p><a href="https://jpaulm.github.io/fbp/">Home</a></p>
