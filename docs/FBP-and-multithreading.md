@@ -1,4 +1,5 @@
-Re Tom's post about the many FBP and FBP-related variants out there now...
+FBP and Multithreading
+-----------
 
 The following is an attempt to bring some FBP concepts down to first principles... and to try to explain why I keep harking back to the difficulty of implementing FBP without multithreading, and why I suggested to Tom that we need to add this attribute to his FBP spreadsheet.  This article may ramble a bit as my thinking changed a bit as I was writing it!  :-)  Feel free to come up with counterexamples!
 
@@ -40,4 +41,4 @@ That is enough for now (too much, probably!) - sorry about the rant!
 
 Here is a picture of *one third* of an AMPS production application, coded in the '70s, and processing millions of transactions every night for 40 years - worked like a charm, and was continuously maintained to support changing requirements during all of that time, in many cases by kids who weren't even born when it went into production!  Any FBP implementation should be able to run this diagram - that could be a litmus test!
 
-updcrf1_cropped.png
+![Batch Update - middle 3rd](https://github.com/jpaulm/drawfbp/blob/master/docs/updcrf1_cropped.png "Middle 3rd of Batch Update - went live in '70s, ran for 40 years")
