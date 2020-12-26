@@ -1,7 +1,7 @@
 FBP and Multithreading
 -----------
 
-The following is an attempt to bring some FBP concepts down to first principles... and to try to explain why I keep harking back to the difficulty of implementing FBP without multithreading, and why I suggested to Tom that we need to add this attribute to his FBP spreadsheet.  This article may ramble a bit as my thinking changed a bit as I was writing it!  :-)  Feel free to come up with counterexamples!
+The following is an attempt to bring some FBP concepts down to first principles... and to try to explain why I keep harking back to the difficulty of implementing FBP without multithreading, and why I suggested to Tom (Young) that we need to add this attribute to his FBP spreadsheet.  This article may ramble a bit as my thinking changed a bit as I was writing it!  :-)  Feel free to come up with counterexamples!
 
 Granted, I am only familiar with a few of the modern programming languages, but I believe that any language which supports threads can support "classical" FBP.
 
