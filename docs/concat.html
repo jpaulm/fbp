@@ -86,70 +86,38 @@ Here is Concatenate in JSFBP (https://github.com/jpaulm/jsfbp ):
 Now, I have copied the following from Ken Kan's <a href="https://github.com/kenhkan/noflo-flow/blob/master/components/Concat.coffee">GitHub</a> site, written in CoffeeScript (bear in mind that CoffeeScript uses indentation to indicate logical nesting).
 </p><p>
 <pre>
-noflo = require 'noflo'
+const noflo = require('noflo');
 
-class Concat extends noflo.Component
-  description: 'Gathers data from all incoming connections and sends
-  them together in order of connection'
-  constructor: ->
-    @buffers = {}
-    @hasConnected = {}
-
-    @inPorts =
-      in: new noflo.ArrayPort
-    @outPorts =
-      out: new noflo.Port
-
-    subscribed = false
-    @inPorts.in.on 'connect', (socket) =>
-      @hasConnected[@inPorts.in.sockets.indexOf(socket)] = true
-
-      # In this component we need to know which of the sockets
-      # sent the data, so we connect to the sockets directly
-      unless subscribed
-        @subscribeSocket id for socket, id in @inPorts.in.sockets
-        subscribed = true
-
-    @inPorts.in.on 'begingroup', (group) =>
-      @outPorts.out.beginGroup group
-    @inPorts.in.on 'endgroup', =>
-      @outPorts.out.endGroup()
-    @inPorts.in.on 'disconnect', =>
-      # Check that all ports have disconnected before emitting
-      for socket in @inPorts.in.sockets
-        return if socket.isConnected()
-      do @clearBuffers
-      @outPorts.out.disconnect()
-
-  clearBuffers: ->
-    for id, data of @buffers
-      return unless @hasConnected[id]
-    @buffers = {}
-    @hasConnected = {}
-
-  subscribeSocket: (id) ->
-    @buffers[id] = []
-    @inPorts.in.sockets[id].on 'data', (data) =>
-      unless typeof @buffers[id] is 'object'
-        @buffers[id] = []
-      @buffers[id].push data
-      do @checkSend
-
-  checkSend: ->
-    # First check that we have data in all buffers
-    for socket, id in @inPorts.in.sockets
-      # If any of the buffers is empty we cancel
-      return unless @buffers[id]
-      return unless @buffers[id].length
-
-    # Okay, all buffers have data: send.
-    @outPorts.out.send buffer.shift() for id, buffer of @buffers
-
-exports.getComponent = -> new Concat
+exports.getComponent = () => {
+  const c = new noflo.Component();
+  c.description = 'Gathers data from all incoming connections and sends them together in order of connection';
+  c.inPorts.add('in', {
+    datatype: 'all',
+    addressable: true,
+  });
+  c.outPorts.add('out',
+    { datatype: 'all' });
+  return c.process((input, output) => {
+    const indexesWithStreams = input.attached('in').filter((idx) => input.hasStream(['in', idx]));
+    if (indexesWithStreams.length !== input.attached('in').length) { return; }
+    indexesWithStreams.forEach((idx) => {
+      const stream = input.getStream(['in', idx]);
+      stream.forEach((packet) => {
+        output.send({
+          out: {
+            ...packet,
+            index: idx,
+          },
+        });
+      });
+    });
+    output.done();
+  });
+};
 </pre>
 </p><p>
  
-This does seem a lot more complicated, and it has a basic problem, not shared by classical FBP: all streams must be in storage before anything is output.  This means that, unlike classical FBP, it cannot handle streams that won't fit into available storage.  I know modern machines have massive amounts of storage, but philosophically it's very different!  While this logic is probably fairly clear to someone "trained in the art", I find it totally opaque - maybe I am too close to "classical" FBP to easily understand it!   However, when we compare the two, the CoffeeScript code shown above seems to support the conclusion that the attempt to support FBP in JavaScript (or CoffeeScript) will often lead to significantly increased code complexity, combined with (from the FBP point of view) unnecessary restrictions. </p>
+This does seem a lot more complicated, and it has a basic problem, not shared by classical FBP: all streams must be in storage before anything is output.  This means that, unlike classical FBP, it cannot handle streams that won't fit into available storage.  This is related to the lack of "back pressure" in NoFlo - Henri Bergius says they have plans to add this - I will be interested in knowing how they plan to do this.  I know modern machines have massive amounts of storage, but philosophically the above program is very different!  While this logic is probably fairly clear to someone "trained in the art", I find it totally opaque - maybe I am too close to "classical" FBP to easily understand it!   However, when we compare the two, the CoffeeScript code shown above seems to support the conclusion that the attempt to support FBP in JavaScript (or CoffeeScript) will often lead to significantly increased code complexity, combined with (from the FBP point of view) unnecessary restrictions. </p>
 
 <p>Tom Robinson recently posted an implementation of <a href="https://github.com/tlrobinson/streampunk.js/blob/master/components/concat.js">Concat</a> using <i>async/await</i>, which is included in ES2017 and supported natively in node.js and most browsers, as part of his <a href="https://github.com/tlrobinson/streampunk.js">Streampunk</a> project.  This does seem closer to the spirit of classical FBP.  As far as I know, however, Javascript still can't support multiple cores, which would seem to be a significant limitation if one wants to use JavaScript on the server side... 
 					</p>					
