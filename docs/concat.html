@@ -55,7 +55,7 @@ Concatenate is an example of a parameter-less FBP component.  Its logic is essen
 <p>
 With small amounts of data, the lack of back pressure in most FBP-inspired products probably doesn't hurt, but in an actual real-world situation you could easily accumulate a few billion IPs waiting at element 2, which cannot be processed until end of stream is detected at element 0 and at element 1. In "classical" FBP, you don't "receive" any of them until you are ready to process them.  This works fine because, as well as selective receive, FBP has "back pressure", meaning that a sending process is suspended if the connection involved is full, so the processes generating the "element 2" data will just wait, without any special coding required on the part of the programmer.
 </p><p>
-Here is Concatenate in JSFBP (https://github.com/jpaulm/jsfbp ):
+Here is Concatenate in <a href="https://github.com/jpaulm/jsfbp">JSFBP</a>:
 </p><p><pre>
 
   'use strict';
@@ -117,7 +117,7 @@ exports.getComponent = () => {
 </pre>
 </p><p>
  
-As stated above, in this implementation, streams other than the first will build up in storage until the component is ready to output them - this can of course happen even before `concat` starts to output the first stream.  Henri Bergius says they have plans to add "back pressure" - I am curious how they plan to do this, as it would seem to require significant changes in NoFlo's architecture.  </p>
+As stated above, in this implementation, streams other than the first will build up in storage until the component is ready to output them - this can of course happen even before <tt>Concat.js<tt> starts to output the first stream.  Henri Bergius says they have plans to add "back pressure" - I am curious how they plan to do this, as it would seem to require significant changes in NoFlo's architecture.  </p>
 
 <p>Tom Robinson recently posted an implementation of <a href="https://github.com/tlrobinson/streampunk.js/blob/master/components/concat.js">Concat</a> using <i>async/await</i>, which is included in ES2017 and supported natively in node.js and most browsers, as part of his <a href="https://github.com/tlrobinson/streampunk.js">Streampunk</a> project.  This does seem closer to the spirit of classical FBP.  As far as I know, however, Javascript still can't support multiple cores, which would seem to be a significant limitation if one wants to use JavaScript on the server side... 
 					</p>					
