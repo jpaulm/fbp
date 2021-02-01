@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="description"
+ content="Comparison between Flow-Based Programming (FBP) and OOP">
+  <meta name="keywords"
+ content="home page, J. Paul Morrison, object-oriented,unit record, data flow, components, streams, fbp, flow-based, programming">
+  <meta name="distribution" content="global">
+  <meta name="GENERATOR"
+ content="Mozilla/4.76 [en] (Win98; U) [Netscape]">
+  <title>Comparison between Flow-Based Programming and Object-Oriented
+Programming</title>
+<meta name=viewport content='width=device-width, initial-scale=1'>	
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<h1>
+Meditations on the von Neumann Machine</h1>
+
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+<!--#include virtual="chapheading.html" -->
+<p><i>(Extracted from "Flow-Based Programming" - Chap. III)</i></p>
+<p>
+Let us now look at a piece of logic, ... involving files of records...  It ... works with streams of records. The problem is to create a file OUT which is a subset of another one IN, where the records to be output are those which satisfy a given criterion "c". Records which do not satisfy "c" are to be omitted from the output file. This is a pretty common requirement and is usually coded using some form of the following logic:
+</p>
+<p>
+<table><tr><td>
+<pre>
+read into a from IN
+do while read has not reached end of file
+    if c is true
+        write from a to OUT
+    endif
+    read into a from IN
+enddo
+</pre>
+</td></tr></table>
+</p>
+<p>
+Figure 3.2
+</p>
+<p>
+What action is applied to those records which do not satisfy our criterion? Well, they disappear rather mysteriously due to the fact that they are not written to OUT before being destroyed by the next "read". Most programmers reading this probably won't see anything strange in this code, but, if you think about it, doesn't it seem rather odd that it should be possible to drop important things like records from an output file by means of what is really a quirk of timing?
+</p><p>
+Part of the reason for this is that most of today's computers have a uniform array of pigeon-holes for storage, and this storage behaves very differently from the way storage systems behave in real life. In real life, paper put into a drawer remains there until deliberately removed. It also takes up space, so that the drawer will eventually fill up, preventing more paper from being added. Compare this with the computer concept of storage - you can reach into a storage slot any number of times and get the same data each time (without being told that you have done it already), or you can put a piece of data in on top of a previous one, and the earlier one just disappears.... Although destructive storage is not integral to the the von Neumann machine, it is assumed in many functions of the machine, and this is the kind of storage which is provided on most modern computers. Since the storage of these machines is so sensitive to timing and because the sequencing of every instruction has to be predefined (and humans make mistakes!), it is incredibly difficult to get a program above a certain complexity to work properly. And of course this storage paradigm has been enshrined in most of our higher level languages in the concept of a "variable". In a celebrated article John Backus (1978) actually apologized for inventing FORTRAN! That's what I meant earlier about the strange use of the equals sign in Higher Level Languages. To a logician the statement J = J + 1 is a contradiction (unless J is infinity?) - yet programmers no longer notice anything strange about it!
+</p><p>
+Suppose we decide instead that a record should be treated as a real thing, like a memo or a letter, which, once created, exists for a definite period of time, and must be explicitly destroyed before it can leave the system. We could expand our pseudo-language very easily to include this concept by adding a "discard" statement (of course the record has to be identified somehow). Our program might now read as follows:</p>
+<p>
+<table><tr><td>
+<pre>
+read record a from IN
+do while read has not reached end of file
+    if c is true
+        write a to OUT
+    else
+        discard a
+    endif
+    read record a from IN
+enddo
+</pre>
+</td></tr></table>
+</p>
+<p>
+Figure 3.3
+</p>
+<p>
+Now we can reinterpret "a": rather than thinking of it as an area of storage, let us think of "a" as a "handle" which designates a particular "thing" - it is a way of locating a thing, rather than the storage area containing the thing. In fact, these data "things" should not be thought of as being in storage at all: they are "somewhere else" (after all, it does not matter where "read" puts them, so long as the information they contain becomes available to the program). These "things" really have more attributes than just their images in storage. The storage image can be thought of as rather like the projection of a solid object onto a plane - manipulating the image does not affect the real thing behind the image. Now a consequence of this is that, if we reuse a handle, we will lose access to the thing it is the handle of. This therefore means that we have a responsibility to properly dispose of things before we can reuse their handles.
+</p><p>
+Notice the difficulty we have finding a good word for "thing": the problem is that this is really a concept which is "atomic", in the sense that it cannot be decomposed into yet more fundamental objects. It has had a number of names in the various dialects of FBP, and has some affinities with the concept of "object" in object-oriented programming, but I feel it is better to give it its own unique name. In what follows, we will be using the term "information packet" (or "IP"), coined ... by Herman van Goolen of IBM Netherlands. IPs may vary in length from 0 bytes to billions - the advantage of working with "handles" is that IPs are managed the same way, and cost the same to send and receive, independently of their size. Of course, this only works within shared memory - if you need to go from one machine to another, you will have to move the whole data chunk, but this happens relatively far less often than within-memory transfers.
+</p><p>
+So far, we have really only added one concept - that of IPs - to the conceptual model we are building. The pseudo-code in Figure 3.3 was a main-line program, running alone. Since this main-line can call subroutines, which in turn can call other subroutines, we have essentially the same structure as a conventional program, with one main line and subroutines hung off it, and so on. Now, instead of just making a single program more complex, as is done in conventional programming, let us head off in a rather different direction: visualize an application built up of many such main-line programs running concurrently, passing IPs around between them. This is very like a factory with many machines all running at the same time, connected by conveyor belts. Things being worked on (cars, ingots, radios, bottles) travel over the conveyor belts from one machine to another. In fact, there are many analogies we might use: cafeterias, offices with memos flowing between them, people at a cocktail party, and so forth. After I had been working with these concepts for several years, I took my children to look at a soft-drink bottling plant. We saw machines for filling the bottles, machines for putting caps on them and machines for sticking on labels, but it is the connectivity and the flow between these various machines that ensures that what you buy in the store is filled with the right stuff and hasn't all leaked out before you purchase it!
+</p><p>
+An FBP application may thus be thought of as a "data factory". The purpose of any application is to take data and process it, much as an ingot is transformed into a finished metal part. In the old days, we thought that it would be possible to design software factories, but now we see that this was the wrong image: we don't want to mass-produce code - we want less code, rather than more. In hindsight it is obvious - it is the data which has to be converted into useful information in a factory, not the programs.
+</p><p>
+Now think of the differences between the characteristics of such a factory and those of a conventional, single main-line program. In any factory, many processes are going on at the same time, and synchronization is only necessary at the level of an individual work item. In conventional programming, we have to know exactly when events take place, otherwise things are not going to work right. This is largely because of the way the storage of today's computers works - if data is not processed in exactly the right sequence, we will get wrong results, and we may not even be aware that it has happened! There is no flexibility or adaptability. In our factory image, on the other hand, we don't really care if one machine runs before or after another, as long as processes are applied to a given work item in the right order. For instance, a bottle must be filled before it is capped, but this does not mean that all the bottles must be filled before any of them can be capped. It turns out that conventional programs are full of this kind of unnecessary synchronization, which reduces productivity, puts unnecessary strains on the programmers and generally makes application maintenance somewhere between difficult and impossible. In a real factory, unnecessary constraints of this sort would mean that some machines would not be utilized efficiently. In programming, it means that code steps have to be forced into a single sequence which is extremely difficult for humans to visualize correctly, because of a mistaken belief that the machine requires it. It doesn't!
+
+</p>
+</article>
+</section>
+</div>
+</body>
+</html>
