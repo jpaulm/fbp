@@ -112,7 +112,7 @@ information packets (IIPs) to be attached to it via a connection. </p>
 <p>The following method call:&nbsp;</p>
 <p> <code> NewProc</code></p>
 <p> returns a reference to a process.  This clause also specifies the name of the process code <code>.go</code> program  to be
-executed. Thus:/p>
+executed. Thus:</p>
 
 <table width="100%" border="2" cellpadding="2">
   <tbody>
@@ -126,78 +126,40 @@ executed. Thus:/p>
 </table>
 <p> where <code>xxxxxx</code> is a process name, and <code>yyyyyy</code> is the name of the <code>.go</code> program - the former has to be unique, but the latter doesn't have to be.
 
-<p>A <code>Connect</code> or <code>Initialize</code> clause may contain the
-relevant
-<code>component</code> clauses, together with their corresponding <code>port</code>
-clauses, embedded within it, as e.g. </p>
+
+<p>A <code>Connect</code> or <code>Initialize</code> clause will contain a reference to two or one process variables, as e.g. </p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
       <td bgcolor="#ffffff">
-      <pre>     connect(component("Read", ReadText.class),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; port("OUT"),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; component("Splitter1", Splitter1.class),<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; port("IN"));</pre>
+      <pre>    net.Connect(proc1, "OUT", proc3, "IN", 6)  
+	and
+	       net.Initialize("15", proc1, "COUNT")
+	</pre>
       <p> </p>
       </td>
     </tr>
   </tbody>
 </table>
-<p>or the <code>connect</code> and <code>component</code> portions may be in
-separate statements,
-provided <code>component</code> precedes any <code>connects</code> that
-reference it. <br>
+	<p>It should be pointed out that the "value" of an <code>Initialize</code> clause may be any type - examples usually show `string`s, for compatibility with common DrawFBP usage. <br>
 </p>
-<p>A <code>connect</code> contains: </p>
-<ul>
-  <li> "from" <code>component </code> clause</li>
-  <li>"from" <code>port</code> clause </li>
-  <li> "to" <code>component </code> clause </li>
-  <li> "to" <code>port</code> clause<br>
-  </li>
-</ul>
-<ul>
-  <li>(optional) connection capacity, specified as an&nbsp;<code>int</code></li>
-  <li><span style="font-family: Times New Roman,Times,serif;">(optional)
-IP
-count
-facility
-desired,
-specified
-as
-a</span><code> boolean</code></li>
-</ul>
-<p>These last two may
-appear in either order if present, and one or both may be omitted.
-If the optional fifth parameter (connection capacity) is omitted, the
-default value is used: 1 for testing, or 10 for
-production (the static<small><span
- style="font-family: Courier New,Courier,monospace;"> int</span></small>
-value <small><span style="font-family: Courier New,Courier,monospace;">defaultCapacity</span></small>
-in the Network class has to be set either to <code>DEBUGSIZE (1)</code>
-or <code>PRODUCTIONSIZE (10)</code>).&nbsp;
+	<p>The 5th parameter of <code>Connect</code> is the capacity of the connection.
 </p>
-<p>
-If the optional sixth parameter (IP count facility desired) is
-specified as true, the number of IPs passing across this connection is
-continuously updated in a synchronized internal HashMap, keyed on the <span
- style="font-style: italic;">full</span> process name (process name
-preceded by the name of containing subnet process (separated by a
-period) and so on recursively) and port name.&nbsp; An example of a
-sample component that displays any specified counts at some interval
-specified in an IIP is included in jar files - versions 2.5 and later -
-under the name <small><span
- style="font-family: Courier New,Courier,monospace;">DispIPCounts</span></small>.&nbsp;
-The
-network
-demonstrating
-the
-use
-of
-this
-function
-is
-in
-<small><span style="font-family: Courier New,Courier,monospace;">test.networks</span></small>,
-called
-<small><span style="font-family: Courier New,Courier,monospace;">TestIPCounting</span></small>.<br>
+	
+<p>The network definition is completed with the following: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>   net.Run()
+}
+	</pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>	
+	<p><i>Following not implemented yet! </i></p> 	
 <p>If an asterisk (<code>*</code>) is specified for the
 "from" port, this is called an "automatic output port", and indicates a
 signal generated when the "from"
