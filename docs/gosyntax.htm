@@ -203,9 +203,11 @@ activations, including the last one.
 <p>However, it has been recommended that IIPs should be strings, rather
 than arbitrary objects, to facilitate future graphical management
 of networks.</p>
+-->
 <p>One last point: any number of "from" ports can be connected to a
 single "to" port; only one "to" port can ever be connected to a given
 "from" port.</p>
+	<!--
 <p>A "named global" facility has been provided - <code>putGlobal(String,
 Object)</code> - which can be used to make an object available to all
 components, using the <code>getGlobal(String): Object</code> method. </p>
@@ -379,12 +381,16 @@ output will show a "generated" network name, rather than the actual one.<br>
     </tr>
   </tbody>
 </table>
+-->
+	<h3>Indexing Port Names</h3>
+	<p>FBP supports array-type input and output ports - these are indicated in the <code>Connect</code> statements using square brackets.</p>
 <h3><a name="subnet"></a>Simple Subnet</h3>
 <p>
 As described in the book, networks can be built up level by level,
 using what we call "subnets" - they may be thought of as networks with
 "sticky" connections.&nbsp; Here is a very simple subnet.<br>
 <p>
+	<!--
 Note the metadata - a subnet can act as a component, so metadata is
 required.<br>
 <br>
