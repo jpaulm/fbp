@@ -217,24 +217,51 @@ can be used by a component to retrieve said object using the same
 String value. </p>
 <p>CAUTION: this is extremely dangerous, as it runs counter to FBP
 philosophy. It should be used very carefully!
-</p>
+</p> -->
 <h3><a name="sampnet"></a>Sample Network</h3>
-<p>Let us code up a network implementing the following picture:</p>
-<p><img alt="" src="update.gif" style="width: 611px; height: 244px;">&nbsp;<br>
-</p>
-<p>First list the <code>component</code> clauses, together with the
-component classes they are to execute (assuming that component classes
-have been written to execute the various nodes of the diagram), e.g.: </p>
+	<pHere is a simple network (<code>main.go</code>) illustrating indexed ports: </p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
       <td bgcolor="#ffffff">
-      <pre> <br>  component("Read Masters",Read.class) <br>  component("Read Details",Read.class)<br>  component("Collate",Collate.class)<br>  component("Process Merged Stream",Proc.class) <br>  component("Write New Masters",Write.class)<br>  component("Summary &amp; Errors",Report.class)<br></pre>
+      <pre> <br> 
+package main
+
+import (	
+	
+	"github.com/jpaulm/gofbp/components/testrtn"
+	"github.com/jpaulm/gofbp/core"
+	
+)
+
+func main() {
+
+	net := core.NewNetwork("RRDist")
+
+	proc1 := net.NewProc("Sender", &testrtn.Sender{})
+
+	proc2 := net.NewProc("RoundRobinSender", &testrtn.RoundRobinSender{})
+
+	proc3a := net.NewProc("WriteToConsole", &testrtn.WriteToConsole{})
+	proc3b := net.NewProc("Receiver1", &testrtn.Receiver{})
+	proc3c := net.NewProc("Receiver2", &testrtn.Receiver{})
+
+	net.Initialize("15", proc1, "COUNT")
+	net.Connect(proc1, "OUT", proc2, "IN", 6)
+	net.Connect(proc2, "OUT[0]", proc3a, "IN", 6)
+	net.Connect(proc2, "OUT[1]", proc3b, "IN", 6)
+	net.Connect(proc2, "OUT[2]", proc3c, "IN", 6)
+
+	net.Run()
+
+}
+)<br></pre>
       <p> </p>
       </td>
     </tr>
   </tbody>
 </table>
+<!--
 <p>Now these <code>component</code> clauses may either be made into
 separate
 statements or they can be imbedded into the <code>connect</code>
