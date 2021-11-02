@@ -261,7 +261,7 @@ func main() {
   </tbody>
 </table>
 	
-<h3><a name="subnet"></a>Sample Subnet</h3>
+<h3><a name="subnet"></a>Simple Subnet</h3>
 	<p> Here is a simple subnet (<code>subnets/subnet1.go</code>).  Note that the only <i>external</i> differences from regular networks are the presence of <code>type Subnet1 struct{}</code>, the use of <code>newSubnet</code> in place of <code>newNetwork</code> (and the presence of <code>SubIn</code> and/or <code>SubOut</code> components).  </p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
@@ -452,12 +452,7 @@ output will show a "generated" network name, rather than the actual one.<br>
 -->
 	<h3>Indexing Port Names</h3>
 	<p>FBP supports array-type input and output ports - these are indicated in the <code>Connect</code> statements using square brackets.</p>
-<h3><a name="subnet"></a>Simple Subnet</h3>
-<p>
-As described in the book, networks can be built up level by level,
-using what we call "subnets" - they may be thought of as networks with
-"sticky" connections.&nbsp; Here is a very simple subnet.<br>
-<p>
+
 	<!--
 Note the metadata - a subnet can act as a component, so metadata is
 required.<br>
