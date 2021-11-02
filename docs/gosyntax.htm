@@ -28,8 +28,6 @@ and Component API</h1>
   <li><a href="#compcode">Component Coding</a> </li>
   <ul>
     <li><a href="#samplecomp">Sample Component</a></li>
-    <li><a href="#metadata">Component Metadata</a></li>
-    <!-- <li><a href="#actors">"Actors" (deprecated)</a></li> -->
     <li><a href="#compapi">Component API</a><br/>
     </li>
   </ul>
@@ -158,7 +156,7 @@ and
     </tr>
   </tbody>
 </table>	
-<!--	<p><i>Following not implemented yet! </i></p> 	
+		
 <p>If an asterisk (<code>*</code>) is specified for the
 "from" port, this is called an "automatic output port", and indicates a
 signal generated when the "from"
@@ -170,6 +168,7 @@ this is called an "automatic input port", and indicates a <i>delay</i>
 - the "to" component instance does not
 start until a signal or a close is received at this port.<br>
 </p>
+	<!--
 <p>
 If <code>*SUBEND</code> is specified as a port name on a subnet, a packet
 containing null is
@@ -453,52 +452,12 @@ output will show a "generated" network name, rather than the actual one.<br>
 	<h3>Indexing Port Names</h3>
 	<p>FBP supports array-type input and output ports - these are indicated in the <code>Connect</code> statements using square brackets.</p>
 
-	<!--
-Note the metadata - a subnet can act as a component, so metadata is
-required.<br>
-<br>
-<table width="100%" border="2" cellpadding="2">
-  <tbody>
-    <tr>
-      <td bgcolor="#ffffff">
-      <pre><br>@OutPort("OUT")<br>@InPort("IN")<br>public class SubnetX extends SubNet {<br>@Override<br>  protected void define() {<br>    component("SUBIN", SubInSS.class); // substream-sensitive<br>    component("SUBOUT", SubOutSS.class); // do.<br>    component("Pass", Passthru.class);<br>    initialize("IN", component("SUBIN"), port("NAME"));<br>    connect(component("SUBIN"), port("OUT"), component("Pass"), port("IN"));<br>    connect(component("Pass"), port("OUT"), component("SUBOUT"), port("IN"));<br>    initialize("OUT", component("SUBOUT"), port("NAME"));<br>  }<br>}<br><br></pre>
-      <p> </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<br>
--->
-<!--<h3><a name="actors"></a>Network using ActorDriver Component<br>
-</h3>
-This network executes the "string of pearls" pattern of 100 actors
-described in the soon-to-be published 2nd Edition of the book on
-Flow-Based Programming.&nbsp; All the occurrences of Act1 and Act2 run
-under the same process (ActorDriver).<br>
-<br>
-<table style="width: 734px; height: 1063px;" border="2" cellpadding="2">
-  <tbody>
-    <tr>
-      <td bgcolor="#ffffff">
-      <pre><br><br><br>import com.jpmorrsn.fbp.components.Discard;<br>import com.jpmorrsn.fbp.components.Generate;<br>import com.jpmorrsn.fbp.components.OutActor;<br>import com.jpmorrsn.fbp.engine.ActorDriver;<br>import com.jpmorrsn.fbp.engine.Network;<br>import com.jpmorrsn.fbp.test.components.Act1;<br>import com.jpmorrsn.fbp.test.components.Act2;<br><br><br>/** This network is intended for testing ActorDriver */<br><br>public class TestActorDriver extends Network {<br><br>  static final String copyright = "Copyright 2007, 2008, 2010, " +<br>  		"J. Paul Morrison.  At your option, you may copy, "<br>      + "distribute, or make derivative works under the terms of the " +<br>      		"Clarified Artistic License, "<br>      + "based on the Everything Development Company's Artistic " +<br>      		"License.  A document describing "<br>      + "this License may be found at " +<br>      		"http://www.jpaulmorrison.com/fbp/artistic2.htm. "<br>      + "THERE IS NO WARRANTY; USE THIS PRODUCT AT YOUR OWN RISK.";<br><br>  @Override<br>  protected void define() {<br><br>    connect(component("Generate", Generate.class), port("OUT"), <br>        component("ActorDriver", ActorDriver.class), port("IN"));<br>    connect(component("ActorDriver"), port("OUT[0]"), <br>        component("Discard", Discard.class), port("IN"));<br>    initialize("100000", component("Generate"), port("COUNT"));<br>    Object[] classes = {<br>        "Act2",<br>        Act2.class,<br>        "Act1",<br>        Act1.class,<br>        "OutActor",<br>        OutActor.class,<br>        "Act1 -&gt; Act2.a -&gt; Act2.b -&gt;Act2.c -&gt;Act2.d -&gt;Act2.e -&gt;" + <br>        "Act2.f-&gt;Act2.g-&gt;Act2.h -&gt;"<br>            + "Act2.i -&gt;Act2.j-&gt;Act2.k-&gt;Act2.l-&gt;Act2.m-&gt;Act2.n -&gt;" + <br>            "Act2.o -&gt;Act2.p -&gt;Act2.q -&gt;Act2.r -&gt;"<br>            + "Act2.i2 -&gt;Act2.j2-&gt;Act2.k2-&gt;Act2.l2-&gt;Act2.m2-&gt;" + <br>            "Act2.n2 -&gt;Act2.o2 -&gt;Act2.p2 -&gt;Act2.q2 -&gt;Act2.r2 -&gt;"<br>            + "Act2.i3 -&gt;Act2.j3-&gt;Act2.k3-&gt;Act2.l3-&gt;Act2.m3-&gt;Act2.n3 -&gt;" + <br>            "Act2.o3 -&gt; Act2.p3 -&gt;Act2.q3 -&gt;Act2.r3 -&gt;"<br>            + "Act2.i4 -&gt;Act2.j4-&gt;Act2.k4-&gt;Act2.l4-&gt;Act2.m4-&gt;" + <br>            "Act2.n4 -&gt;Act2.o4 -&gt;Act2.p4 -&gt;Act2.q4 -&gt;Act2.r4 -&gt;"<br>            + "Act2.i5-&gt;Act2.j5-&gt;Act2.k5-&gt;Act2.l5-&gt;Act2.m5-&gt;Act2.n5 -&gt;" + <br>            "Act2.o5 -&gt;Act2.p5 -&gt;Act2.q5 -&gt;Act2.r5 -&gt;"<br>            + "Act2.i6 -&gt;Act2.j6-&gt;Act2.k6-&gt;Act2.l6-&gt;Act2.m6-&gt;" + <br>            "Act2.n6 -&gt;Act2.o6 -&gt;Act2.p6 -&gt;Act2.q6 -&gt;Act2.r6 -&gt;"<br>            + "Act2.i7 -&gt;Act2.j7-&gt;Act2.k7-&gt;Act2.l7-&gt;Act2.m7-&gt;" + <br>            "Act2.n7 -&gt;Act2.o7 -&gt;Act2.p7 -&gt;Act2.q7 -&gt;Act2.r7 -&gt;"<br>            + "Act2.i7 -&gt;Act2.j8-&gt;Act2.k8-&gt;Act2.l8-&gt;Act2.m8-&gt;" + <br>            "Act2.n8 -&gt;Act2.o8 -&gt;Act2.p8 -&gt;Act2.q8 -&gt;Act2.r8 -&gt;"<br>            + "Act2.i9 -&gt;Act2.j9-&gt;Act2.k9-&gt;OutActor (0)" };<br>    initialize(classes, component("ActorDriver"), port("ACTS"));<br><br>  }<br><br>  public static void main(final String[] argv) throws Exception {<br>    new TestActorDriver().go();<br>  }<br>}<br><br><br></pre>
-      <p> </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br>
-Parameter, if any, follows qualifier, if any.&nbsp; In the case of
-"fan-out" actors, the output port element number follows qualifier and
-parameter.<br>
-<br>
-Either qualifier or parameter can be used to make an occurrence of an
-actor name unique.<br> -->
 	
-	<!--
+
+	
 	
 <h3><a name="compcode"></a>Component Coding</h3>
-
+<!--
 <p>Components are basically simple Go classes, which extend <code>Component</code>.  The class <code>Component</code> really describes a GoFBP "process", (or instance of a component), but has been retained for historical reasons. 
 <h3><a name="samplecomp"></a>Sample Component</h3>
 <p>This component generates a stream of 'n' IPs, where 'n' is specified
@@ -1106,7 +1065,7 @@ optional.<br>
     </tr>
   </tbody>
 </table>
--->
+ -->
 </article>
 </section>
 </div>
