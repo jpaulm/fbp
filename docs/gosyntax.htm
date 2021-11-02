@@ -259,7 +259,10 @@ func main() {
     </tr>
   </tbody>
 </table>
+
 	
+	<p>Note that array-type input and output ports are indicated in the <code>Connect</code> statements using square brackets.</p>
+
 <h3><a name="subnet"></a>Simple Subnet</h3>
 	<p> Here is a simple subnet (<code>subnets/subnet1.go</code>).  Note that the only <i>external</i> differences from regular networks are the presence of <code>type Subnet1 struct{}</code>, the use of <code>newSubnet</code> in place of <code>newNetwork</code> (and the presence of <code>SubIn</code> and/or <code>SubOut</code> components).  </p>
 <table width="100%" border="2" cellpadding="2">
@@ -449,14 +452,64 @@ output will show a "generated" network name, rather than the actual one.<br>
   </tbody>
 </table>
 -->
-	<h3>Indexing Port Names</h3>
-	<p>FBP supports array-type input and output ports - these are indicated in the <code>Connect</code> statements using square brackets.</p>
-
+	
 	
 
 	
 	
 <h3><a name="compcode"></a>Component Coding</h3>
+<p>Here is an example of a GoFBP component - note that there are two main sections: <code>Setup</code>, which initializes the input and/or output ports, and <code>Execute</code>, which must always be present in a component definition.  In addition there will be the <code>import</code>s, and the input and/or output port definitions themselves.</p>
+	<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br> 
+package testrtn
+
+import (
+	"fmt"
+
+	"github.com/jpaulm/gofbp/core"
+)
+
+type RoundRobinSender struct {
+	ipt core.InputConn
+	out core.OutputArrayConn
+}
+
+func (rrsender *RoundRobinSender) Setup(p *core.Process) {
+	rrsender.ipt = p.OpenInPort("IN")
+	rrsender.out = p.OpenOutArrayPort("OUT")
+}
+
+func (rrsender *RoundRobinSender) Execute(p *core.Process) {
+
+	var i = 0
+
+	j := rrsender.out.ArrayLength()
+
+	for {
+		var pkt = p.Receive(rrsender.ipt)
+		if pkt == nil {
+			break
+		}
+		fmt.Println("Output: ", pkt.Contents)
+
+		opt := rrsender.out.GetArrayItem(i)
+
+		p.Send(opt, pkt)
+		i = (i + 1) % j
+	}
+
+}
+
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <!--
 <p>Components are basically simple Go classes, which extend <code>Component</code>.  The class <code>Component</code> really describes a GoFBP "process", (or instance of a component), but has been retained for historical reasons. 
 <h3><a name="samplecomp"></a>Sample Component</h3>
