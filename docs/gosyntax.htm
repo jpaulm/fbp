@@ -321,7 +321,7 @@ func (rrsender *RoundRobinSender) Execute(p *core.Process) {
   </tbody>
 </table>
 
-	<p>By now, you should be familiar with the concept of "MustRun":  in GoFBP, this is achieved by including the line <code> func (WriteFile) MustRun() {} </code> in the component code.  For example (the WriteFile component):
+	<p>By now, you should be familiar with the concept of "MustRun":  in GoFBP, this is achieved by including a line like <code> func (ComponentName) MustRun() {} </code> in the component code.  For example, in the case of the WriteFile component:
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -379,11 +379,8 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
 		if !writeFile.opt.IsConnected() {
 			p.Discard(pkt)
 		} else {
-			//if writeFile.opt == nil {
-			//	panic("WriteFile - port not specified, but not optional")
-			//}
 			p.Send(writeFile.opt, pkt)
-			//}
+			 
 		}
 
 		//fmt.Println(p.GetName() + " ended")
@@ -397,7 +394,7 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
-	<p>Note that output port `OUT` is optional in this component.	
+	<p>Note that output port `OUT` is optional in this component.	</p>
 
 <p>The scheduling rules for most FBP implementations are described in
 the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
@@ -406,7 +403,7 @@ the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
 <p>As good programming practice, we now feel that IIP ports should
 be closed after a receive has been executed, in case it is attached to
 an upstream component (rather than an IIP), and that component
-mistakenly sends more than one IP.</p>
+mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
 
 
 </article>
