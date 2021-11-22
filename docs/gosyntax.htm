@@ -268,8 +268,8 @@ func (subnet *Subnet1) Execute(p *core.Process) {
 	
 	
 <h3><a name="compcode"></a>Component Coding</h3>
-<h3><a name="samplecomp"></a>Sample Network</h3>
-<p>Here is an example of a GoFBP component - note that there are two main sections: <code>Setup</code>, which initializes the input and/or output ports, and <code>Execute</code>, which must always be present in a component definition.  In addition there will be the <code>import</code>s, and the input and/or output port definitions themselves.</p>
+<h3><a name="samplecomp"></a>Sample Component</h3>
+<p>Here is an example of a GoFBP component - note that there are two main sections: <code>Setup</code>, which initializes the input and/or output ports, and <code>Execute</code>, both of which must always be present in a component definition.  In addition there will be the <code>import</code>s, and the input and/or output port definitions themselves.</p>
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -321,7 +321,8 @@ func (rrsender *RoundRobinSender) Execute(p *core.Process) {
   </tbody>
 </table>
 
-	<p>By now, you should be familiar with the concept of "MustRun":  in GoFBP, this is achieved by including a line like <code> func (ComponentName) MustRun() {} </code> in the component code.  For example, in the case of the WriteFile component:
+	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a file writer or a counter component, you want T least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line like <code> func (ComponentName) MustRun() {} </code> in the component code.  
+		For example, in the case of the WriteFile component:
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -394,7 +395,7 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
-	<p>Note that output port `OUT` is optional in this component.	</p>
+	<p>Note that output port `OUT` is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, and do a "discard" otherwise.	</p>
 
 <p>The scheduling rules for most FBP implementations are described in
 the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
