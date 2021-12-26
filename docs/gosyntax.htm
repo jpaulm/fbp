@@ -268,7 +268,7 @@ func (subnet *Subnet1) Execute(p *core.Process) {
 	
 	
 <h3><a name="compcode"></a>Component Coding</h3>
-<h3><a name="samplecomp"></a>Sample Component</h3>
+<h4><a name="samplecomp"></a>Sample Component</h4>
 <p>Here is an example of a GoFBP component - note that there are two main sections: <code>Setup</code>, which initializes the input and/or output ports, and <code>Execute</code>, both of which must always be present in a component definition.  In addition there will be the <code>import</code>s, and the input and/or output port definitions themselves.</p>
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
@@ -321,8 +321,10 @@ func (rrsender *RoundRobinSender) Execute(p *core.Process) {
   </tbody>
 </table>
 
-	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a file writer or a counter component, you want T least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line like <code> func (ComponentName) MustRun() {} </code> in the component code.  
-		For example, in the case of the WriteFile component:
+	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a 
+file writer or a counter component, you want at least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line 
+		like <code> func (ComponentName) MustRun() {} </code> in the component code.  </p>
+<p> Here is the `WriteFile.go` component:
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -402,7 +404,8 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
-	<p>Note that output port `OUT` is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, and do a "discard" otherwise.	</p>
+	<p>Note that output port `OUT` is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
+and do a "discard" otherwise.	</p>
 
 <p>The scheduling rules for most FBP implementations are described in
 the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
@@ -413,7 +416,36 @@ be closed after a receive has been executed, in case it is attached to
 an upstream component (rather than an IIP), and that component
 mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
 
+<h4><a name="compapi"></a>Component API</h4>
+<p>All Component API calls will be prefixed by the name of the Process variable defined in the `Setup` or `Execute` function header, as appropriate, e.g. `p.Discard(pkt)`.</p>
+	<p>In the following list, `InputConn` and `OutputConn` are interfaces, so do not need the leading asterisk.</p>
+<p>Here is the list of API calls:
+<ul>
+<li>
+`func (p *Process) OpenInPort(s string) InputConn `
+</li><li>	
+`func (p *Process) OpenInArrayPort(s string) *InArrayPort` 
+	</li><li>
 
+`func (p *Process) OpenOutPort(s string) OutputConn `
+	</li><li>
+	
+`func (p *Process) OpenOutPortOptional(s string) OutputConn` 
+	</li><li>
+
+`func (p *Process) OpenOutArrayPort(s string) *OutArrayPort `
+	</li><li>
+
+`func (p *Process) Send(o OutputConn, pkt *Packet) bool ` (returns `false` if `Send` fails)
+	</li><li>
+
+`func (p *Process) Receive(c InputConn) *Packet ` (returns nil, when there's no more data)
+	</li><li>
+
+`func (p *Process) Close(c InputConn)` 
+
+</li>
+</ul></p>
 </article>
 </section>
 </div>
