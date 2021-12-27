@@ -324,7 +324,7 @@ func (rrsender *RoundRobinSender) Execute(p *core.Process) {
 	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a 
 file writer or a counter component, you want at least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line 
 		like <code> func (ComponentName) MustRun() {} </code> in the component code.  </p>
-<p> Here is the <code>WriteFile.go<code> component:
+<p> Here is the <code>WriteFile.go</code> component:
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -404,8 +404,8 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
-	<p>Note that output port <code>OUT<code> is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
-and do a "discard" otherwise.	</p>
+<p>Note that output port <code>OUT</code> is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
+or do a "discard" otherwise.	</p>
 
 <p>The scheduling rules for most FBP implementations are described in
 the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
@@ -417,8 +417,9 @@ an upstream component (rather than an IIP), and that component
 mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
 
 <h4><a name="compapi"></a>Component API</h4>
-<p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, e.g. <code>p.Discard(pkt)</code>.</p>
-	<p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
+<p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, 
+e.g. <code>p.Discard(pkt)</code>.</p>
+<p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
 <p>Here is the list of API calls:
 <ul>
 <li>
