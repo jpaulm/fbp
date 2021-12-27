@@ -138,7 +138,7 @@ and
     </tr>
   </tbody>
 </table>
-	<p>It should be pointed out that the "value" of an <code>Initialize</code> clause may be any type - examples usually show `string`s, for compatibility with common DrawFBP usage. <br>
+	<p>It should be pointed out that the "value" of an <code>Initialize</code> clause may be any type - examples usually show <code>string</code>s, for compatibility with common DrawFBP usage. <br>
 </p>
 	<p>The 5th parameter of <code>Connect</code> is the capacity of the connection.
 </p>
@@ -324,7 +324,7 @@ func (rrsender *RoundRobinSender) Execute(p *core.Process) {
 	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a 
 file writer or a counter component, you want at least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line 
 		like <code> func (ComponentName) MustRun() {} </code> in the component code.  </p>
-<p> Here is the `WriteFile.go` component:
+<p> Here is the <code>WriteFile.go<code> component:
 	<table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
@@ -404,7 +404,7 @@ func (writeFile *WriteFile) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
-	<p>Note that output port `OUT` is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
+	<p>Note that output port <code>OUT<code> is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
 and do a "discard" otherwise.	</p>
 
 <p>The scheduling rules for most FBP implementations are described in
@@ -417,32 +417,32 @@ an upstream component (rather than an IIP), and that component
 mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
 
 <h4><a name="compapi"></a>Component API</h4>
-<p>All Component API calls will be prefixed by the name of the Process variable defined in the `Setup` or `Execute` function header, as appropriate, e.g. `p.Discard(pkt)`.</p>
-	<p>In the following list, `InputConn` and `OutputConn` are interfaces, so do not need the leading asterisk.</p>
+<p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, e.g. <code>p.Discard(pkt)</code>.</p>
+	<p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
 <p>Here is the list of API calls:
 <ul>
 <li>
-`func (p *Process) OpenInPort(s string) InputConn `
+<code>func (p *Process) OpenInPort(s string) InputConn </code>
 </li><li>	
-`func (p *Process) OpenInArrayPort(s string) *InArrayPort` 
+<code>func (p *Process) OpenInArrayPort(s string) *InArrayPort</code> 
 	</li><li>
 
-`func (p *Process) OpenOutPort(s string) OutputConn `
+<code>func (p *Process) OpenOutPort(s string) OutputConn </code>
 	</li><li>
 	
-`func (p *Process) OpenOutPortOptional(s string) OutputConn` 
+<code>func (p *Process) OpenOutPortOptional(s string) OutputConn</code> 
 	</li><li>
 
-`func (p *Process) OpenOutArrayPort(s string) *OutArrayPort `
+<code>func (p *Process) OpenOutArrayPort(s string) *OutArrayPort </code>
 	</li><li>
 
-`func (p *Process) Send(o OutputConn, pkt *Packet) bool ` (returns `false` if `Send` fails)
+<code>func (p *Process) Send(o OutputConn, pkt *Packet) bool </code> (returns <code>false</code> if <code>Send</code> fails)
 	</li><li>
 
-`func (p *Process) Receive(c InputConn) *Packet ` (returns nil, when there's no more data)
+<code>func (p *Process) Receive(c InputConn) *Packet </code> (returns nil, when there's no more data)
 	</li><li>
 
-`func (p *Process) Close(c InputConn)` 
+<code>func (p *Process) Close(c InputConn)</code> 
 
 </li>
 </ul></p>
