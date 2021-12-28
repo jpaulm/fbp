@@ -420,7 +420,7 @@ mistakenly sends more than one IP.  (I may not have done that consistently for m
 <p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, 
 e.g. <code>p.Discard(pkt)</code>.</p>
 <p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
-<p>Here is the list of API calls:
+<p>Here is the list of the Process API calls:
 <ul>
 <li>
 <code>func (p *Process) OpenInPort(s string) InputConn </code>
@@ -447,6 +447,21 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 
 </li>
 </ul></p>
+	
+<p>The InPort API calls:
+<ul>
+<li>
+<code>func (c *InPort) receive(p *Process) *Packet </code>
+<code>func (c *InPort) Close()</code>
+</li><li>		
+<code>func (c *InPort) IsDrained() bool</code>
+</li><li>	
+<code>func (c *InPort) IsEmpty() bool </code>
+</li><li>	
+<code>func (c *InPort) IsClosed() bool  </code>
+</li><li>	
+<code>func (c *InPort) PktCount() int </code>
+</li></ul></p>	
 </article>
 </section>
 </div>
