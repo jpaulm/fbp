@@ -447,17 +447,24 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 
 </li>
 </ul></p>
-<!--	
-<p>The InPort API calls:
+<p>The InputArrayConn API call:
 <ul>
 <li>
-<code>func (c *InPort) Close()</code>
+ <code>GetArrayItem(i int) *InPort  </code> (returns input array item number i)
 </li><li>
-<code>func (c *InPort) IsClosed() bool  </code>
-</li><li>	
-<code>func (c *InPort) PktCount() int </code>
-</li></ul></p>	
--->
+ <code>ArrayLength() int	 </code>
+</li>	
+</ul></p> 	
+<p>The OutputArrayConn API call:
+<ul>
+<li>
+<code>GetItemWithFewestIPs() int</code>  (returns output array item number witth fewest IPs stacked up in it)
+</li><li>
+ <code>GetArrayItem(i int) *OutPort  </code> (returns array item number i)
+</li><li>
+ <code>ArrayLength() int </code>	
+</li>	
+</ul></p>	
 </article>
 </section>
 </div>
