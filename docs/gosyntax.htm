@@ -24,6 +24,7 @@ and Component API</h1>
   <ul>
     <li><a href="#sampnet">Sample Network</a></li>
     <li><a href="#subnet">Simple Subnet</a></li> <br/>  
+    <li><a href="#netapi">Network and Subnet Methods</a></li> <br/>  	  
   </ul>
   <li><a href="#compcode">Component Coding</a> </li>
   <ul>
@@ -63,40 +64,42 @@ be all that clear, a brief description is in order. &nbsp;At the end of
 this page, I have given an extremely
 simple GoFBP component.<br>
 					</p><p>
-Any GoFBP network definition starts as follows (preceded by any necessary imports, including <code>"github.com/jpaulm/gofbp/core"</code> and possibly 
-	<code>"testing"</code>):<br>
+Any GoFBP network definition starts as follows (preceded by any necessary imports, including <code>"github.com/jpaulm/gofbp/core"</code>): 
 <br>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
       <td bgcolor="#ffffff">
-      <pre><br>func Testxxxxxx(t *testing.T) { <br>
+      <pre>
+      func main() { {  
 	params, err := core.LoadXMLParams("../params.xml")
 	if err != nil {
 		panic(err)
 	}
-	net := core.NewNetwork("Merge", params)<br></pre>
-      
+	net := core.NewNetwork("Merge", params)
+	</pre>      
       </td>
     </tr>
   </tbody>
 </table>
 					<br>
-or
+or <br>
 					<br>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
       <td bgcolor="#ffffff">
-      <pre><br>func Testxxxxxx(t *testing.T) { <br>
-	net := core.NewNetwork("Merge", nil)<br></pre>
-      
+      <pre>
+      func main() {  
+	net := core.NewNetwork("Merge", nil)
+	</pre>      
       </td>
     </tr>
   </tbody>
 </table>
-
-	where <code>xxxxxx</code> is the FBP network name. The file name should be terminated with <code>_test.go</code>.
+<br>
+	where <code>"Merge"</code> is the FBP network name. 
+					</p>
 <p>The network definition is terminated with: </p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
@@ -279,11 +282,26 @@ func (subnet *Subnet1) Execute(p *core.Process) {
     </tr>
   </tbody>
 </table>	
+	
+<h3><a name="netapi"></a>Network and Subnet Methods</h3>
+	
+	<p>Network and subnet methods (except for <code>core.LoadXMLParams</code>) will be prefixed by the name of the Network variable obtained by the <code>NewNetwork</code> method call.  Here is the list of the methods:
+<ul>
+<li>
+<code>func core.LoadXMLParams(s string) *Params, error </code>
+</li><li>	
+<code>func core.NewNetwork(s string, p *Params) *Network</code> 
+	</li><li>
 
-	
-	
-
-	
+<code>func (n *Network) NewProc(s string, c &Component) *Process </code>
+	</li><li>
+<code>func (n *Network) Connect (p1 *Process, outport string, p2 *Process, inport string, capacity int) </code>
+	</li><li>
+<code>func (n *Network) Initialize (initValue interface {}, p2 *Process, inport string) </code>
+	</li><li>
+<code>func (n *Network) Run () </code>
+</li>
+</ul></p>	
 	
 <h3><a name="compcode"></a>Component Coding</h3>
 <h4><a name="samplecomp"></a>Sample Component</h4>
@@ -374,7 +392,7 @@ func (writeFile *WriteFile) Setup(p *core.Process) {
 //MustRun method 
 func (WriteFile) MustRun() {}
 
-//Execute method strts Process
+//Execute method starts Process
 func (writeFile *WriteFile) Execute(p *core.Process) {
 
 	icpkt := p.Receive(writeFile.iptIP)
