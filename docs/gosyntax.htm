@@ -72,31 +72,18 @@ Any GoFBP network definition starts as follows (preceded by any necessary import
       <td bgcolor="#ffffff">
       <pre>
       func main() { {  
-	params, err := core.LoadXMLParams("../params.xml")
-	if err != nil {
-		panic(err)
-	}
-	net := core.NewNetwork("Merge", params)
+	params, err := core.LoadXMLParams("params.xml")  // [optional]
+	if err != nil {                                  //  do.   
+		panic(err)                               //  do.
+	}                                                // do.
+	net := core.NewNetwork("Merge")
+	net.SetParams(params)      // [ optional]
 	</pre>      
       </td>
     </tr>
   </tbody>
 </table>
-					<br>
-or <br>
-					<br>
-<table width="100%" border="2" cellpadding="2">
-  <tbody>
-    <tr>
-      <td bgcolor="#ffffff">
-      <pre>
-      func main() {  
-	net := core.NewNetwork("Merge", nil)
-	</pre>      
-      </td>
-    </tr>
-  </tbody>
-</table>
+					
 <br>
 	where <code>"Merge"</code> is the FBP network name. 
 					</p>
@@ -288,9 +275,11 @@ func (subnet *Subnet1) Execute(p *core.Process) {
 	<p>Network and subnet methods (except for <code>core.LoadXMLParams</code>) will be prefixed by the name of the Network variable obtained by the <code>NewNetwork</code> method call.  Here is the list of the methods:
 <ul>
 <li>
-<code>func core.LoadXMLParams(s string) *Params, error </code>
+<code>func core.LoadXMLParams(s string) *Params, error </code>     (Params does not have to be declared)
 </li><li>	
-<code>func core.NewNetwork(s string, p *Params) *Network</code> 
+<code>func core.NewNetwork(s string) *Network</code> 
+	</li><li>	
+<code>func (n *Network) SetParams(p *Params) </code> 
 	</li><li>
 
 <code>func (n *Network) NewProc(s string, c &Component) *Process </code>
