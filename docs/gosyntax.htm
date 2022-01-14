@@ -62,22 +62,40 @@ using the Go component API.&nbsp;
 be all that clear, a brief description is in order. &nbsp;At the end of
 this page, I have given an extremely
 simple GoFBP component.<br>
+					</p><p>
+Any GoFBP network definition starts as follows (preceded by any necessary imports, including <code>"github.com/jpaulm/gofbp/core"</code> and possibly 
+	<code>"testing"</code>):<br>
 <br>
-Any GoFBP network definition starts as follows (preceded by any necessary imports, including <code>"testing"</code> and <code>"github.com/jpaulm/gofbp/core"</code>):<br>
-<br>
-</p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
       <td bgcolor="#ffffff">
       <pre><br>func Testxxxxxx(t *testing.T) { <br>
-	net := core.NewNetwork("xxxxxx")<br></pre>
-      <p> </p>
+	params, err := core.LoadXMLParams("../params.xml")
+	if err != nil {
+		panic(err)
+	}
+	net := core.NewNetwork("Merge", params)<br></pre>
+      
       </td>
     </tr>
   </tbody>
 </table>
-<p>
+					<br>
+or
+					<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><br>func Testxxxxxx(t *testing.T) { <br>
+	net := core.NewNetwork("Merge", nil)<br></pre>
+      
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 	where <code>xxxxxx</code> is the FBP network name. The file name should be terminated with <code>_test.go</code>.
 <p>The network definition is terminated with: </p>
 <table width="100%" border="2" cellpadding="2">
