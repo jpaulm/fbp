@@ -469,16 +469,18 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 	</li><li>
 
 <code>func (p *Process) Close(c InputConn)</code> 
-	</li><li>
+	</li>
+</ul>
+<p>Information Packet services (under Process) </p>
+<ul><li>
 	
 <code>func (p *Process) Create(x interface{}) *Packet</code> 
 	</li><li>
 	
-<code>func (p *Process) CreateBracket(pktType int32, s string) *Packet </code> 
-	</li><li>
-	
+<code>func (p *Process) CreateBracket(pktType int32, s string) *Packet </code> <br>
+	First parameter can be <code>core.OpenBracket</code> or <code>core.CloseBracket</code>; second parameter is required, but can be <code>""</code>
+	</li><li>	
 <code>func ((p *Process) Discard(pkt *Packet) </code> 
-
 </li>
 </ul></p>
 <p>The InputArrayConn API call:
