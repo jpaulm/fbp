@@ -82,7 +82,8 @@ Checking has been added (Aug., 2014) to make sure that all mandatory connections
 <h3><a name="GoFBP"></a>Go FBP Implementation </h3>
 <p>Go implementation of FBP - may be found as Open Source on <a href="https://github.com/jpaulm/gofbp">GoFBP</a> </p>
 <p>Go provides good compile-time checking, good performance, and a path to <a href="https://webassembly.org/">WebAssembly</a>.</p>
-<p><a href="https://github.com/jpaulm/drawfbp">DrawFBP</a> can now generate GoFBP network and subnet definitions - one minor tweak may be needed when generating networks that use subnets - see the documentation!</p>
+					<p>Material on the syntax of GoFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/gosyntax.htm">GoFBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/gofbp">GitHub</a>. </p>
+<p><a href="https://github.com/jpaulm/drawfbp">DrawFBP</a> can now generate GoFBP network and subnet definitions - one minor tweak may be needed when generating networks that use subnets - see the documentation.</p>
 <h3>Deadlock Handling in GoFBP</h3>
 
 <p>FBP deadlocks are well understood, and are handled by other FBP implementations on <code>https://github.com/jpaulm</code> . They also seem to be well detected by the Go scheduler - unfortunately, they are not so easy to troubleshoot, as Go deadlock detection is not "FBP-aware", and occurs before the GoFBP scheduler can analyze the process states to determine where the problem is occurring. See below.</p>
