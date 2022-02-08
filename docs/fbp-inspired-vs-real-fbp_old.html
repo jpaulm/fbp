@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- Based on Ashley theme by Brent Jackson (http://jxnblk.com) //-->
+<!-- Heavily modified by Mayuresh Kathe (http://kathe.in/) //-->
+<html lang="en">
+  <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Flow-based Programming :: Comparison</title>
+		<meta name="description" content="Official website for flow-based programming" />
+		<meta name="keywords" content="flow-based programming c c++ java c# lua paul morrison data flow dataflow componentry streams threads fbp flow-based distributed applications development multicore multithreading parallelism maintainability visual programming asynchronism asynchronous SOA MOM programming NoFlo dataflow simplicity productivity paradigm" />
+		<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
+		<meta name=viewport content='width=device-width, initial-scale=1'>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+	</head>
+	<body>
+		<header>
+			<h1>Flow-based Programming</h1>
+			<p align="center"><img src="panta.png" alt="Panta rhei" style="position:relative; bottom:-10px;"> <span style="font-size: 20px;font-style:italic">(Panta rhei)</span> <span style="font-size: 20px;"> - Everything flows.</span></p>
+
+		</header>
+
+		<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+					<h2>FBP vs. FBP-inspired Systems</h2>
+
+					<p>
+					
+					Some readers may have arrived at Flow-Based Programming (FBP) by way of <a href="http://noflojs.org/">NoFlo</a>, which is a JavaScript-based system motivated by my book <a href="https://www.amazon.com/Flow-Based-Programming-J-Paul-Morrison-ebook/dp/B004PLO66O">Flow-based Programming</a>, and which uses a number of the same terms and concepts.  This project, started by Henri Bergius in 2012, now called Flowhub,  implements a number of the 
+FBP concepts, and has been creating a significant
+buzz world-wide since then.  In the fall of 2016, Flowhub and other flow-based programming assets were purchased from <a href="https://thegrid.io/team/">The Grid</a>, and are now up and running as <a href="https://flowhub.io/about">Flowhub UG</a>, a company registered in Berlin, Germany.</p> 
+            
+      
+      <p> While a lot of credit is due the NoFlo team for bringing FBP to the attention of the computer world, what the developers of NoFlo call "FBP" in fact differs in a number of respects from FBP as it has evolved over the last 40+ years, and in fact operates on a completely different paradigm.  While NoFlo shares with FBP a number of technical and philosophical ideas, NoFlo is much more similar to what we now call "conventional" programming - procedural, algorithmic, one-action-at-a-time - and does not truly embody the "FBP paradigm shift", in which application development can be likened to designing a data processing "factory".   The latter is a very different way of looking at application development.</p>
+
+<p>Ali Razeen, at Duke University, has pointed out in an insightful 2015 note that a number of people have now built software which has the componentry and <a href="https://en.wikipedia.org/wiki/Configurable_modularity">"configurable modularity"</a> features of FBP, usually in combination with some visual representation, and assume they have built an FBP implementation.  He then goes on to say that these should not be viewed as true FBP implementations, as they are missing some key characteristics of true FBP - mainly, asynchronism and information packets with unique ownership and lifetime - and so typically miss out on the critical paradigm shift... and a number of its attendant benefits.   NoFlo and Node-RED are examples of this type of system.  Because of the proliferation of such packages, we will use the term "FBP-inspired" (as suggested by Joe Witt of HortonWorks) when it is necessary to distinguish between them and FBP proper.  You may also see the phrase "classical FBP" showing up from time to time, particularly in discussions with proponents of "FBP-inspired" systems.</p> 
+					
+					<p>John Cowan in the <a href="https://groups.google.com/forum/#!topic/flow-based-programming/qVscrouJIow">Google Group on FBP</a> says the following:</p> 
+<blockquote>The easiest way to understand the difference is to take the point of view of the component programmer.
+<br/><br/>
+In classical FBP, all components are autonomous.  They can read from any of their input ports whenever they want to, and can write to any of their output ports whenever they want to.  If the input port is empty or the output port full, the component waits transparently until things change.  This is a model familiar to all programmers, because it is exactly how files are processed.  A program does not sit in an event loop waiting for the OS to push the next block of a file at it, or send an event that says "Write your next block to the output file now".
+<br/><br/>
+In FBP-inspired systems, typically any component can write to a port whenever it wants, but components only have a single input port and sit waiting for a packet to be pushed to them.  This behavior allows a single-threaded implementation of the whole system, but each component is controlled by its upstream partner(s) rather than being autonomous.  This pattern has become very familiar to GUI programmers, whose programs typically are event loops because they need to be responsive to unpredictable user actions, but the program has to be turned inside out (an "inversion of control") which makes certain natural techniques like recursion difficult or impossible.
+</blockquote>
+
+<p>It should also be pointed out that FBP-inspired systems usually allow one output port to be connected to multiple input ports - this does not make any sense in a classical FBP system as it would be like being able to send the same package to several of your friends all at the same time!</p>					
+
+<p>NoFlo is based on <a href="http://en.wikipedia.org/wiki/Node.js">Node.js</a> and is written in JavaScript and CoffeeScript.  These languages basically support a single-threaded implementation, although they can achieve some asynchronism by the use of "callbacks".   Although NoFlo and its relatives can <i>simulate</i> asynchronism to some extent, only one thing is happening at a time, and they are limited to using only a single processor.  While it is very understandable that people will assume that adding configurable modularity, componentry and visual design onto conventional programming should result in a powerful combination, while not getting too far away from the conventional programming that they are used to, it is my feeling, backed up by several decades of experience, that this does not really result in an improved developer experience or more maintainable systems.</p>
+
+<p>We will be using the term "von Neumann paradigm" from time to time.  For those unfamiliar with the term, it refers to a computer design where a single instruction counter walks through a program accessing a uniform array of non-destructive-readout memory cells.  This has in fact been the standard computer architecture for several decades, but people are increasingly finding it inadequate for today's challenges, as shown by frequent cost and schedule overruns, weird bugs, and difficulty maintaining large applications.  More and more writers have started to point out that these problems derive in large part from the architecture itself.  Unfortunately programmers are exposed to this approach from the very start, and have a great deal of difficulty breaking loose from it! Ken Kan has pointed out this quote from Edsger Dijkstra (thanks, Ken!):  </p>
+<blockquote>
+<p>It is practically impossible to teach good programming to students that have had a prior exposure to BASIC: as potential programmers they are mentally mutilated beyond hope of regeneration.
+</blockquote>
+<p>With all due respect to Dijkstra, it's not just BASIC!  There is a basic problem with the von Neumann paradigm itself, but, because we have been taught since the '50s that you can do <i>anything</i> with it, this paradigm is very seldom questioned.  I have frequently detected a certain degree of nervousness on the part of many programmers encountering FBP for the first time, at not being able to control the exact timing of every event in a running application!  This is in part due to the very sensitive nature of the von Neumann storage model, and the fact that it confuses <i>data</i> with its storage <i>medium</i>.   </p>
+
+<p>I have been wrestling with how best to convey the difference between the old "von Neumann" storage mental model and that of Flow-Based Programming, and I am starting to think that the description in Chap. 3 of the book, "Flow-Based Programming", says it best.  Since it is a little long for this essay, I would ask the reader to click on <a href="concepts.html">Chap. 3 - Concepts</a> online, or look it up in their copy of the book - do a find on Fig. 3.1, and continue from there.
+</p>
+
+<p>We sometimes refer to FBP as a "new/old" paradigm, because in fact its approach and methodology has parallels with <a href="http://en.wikipedia.org/wiki/Unit_record_equipment">Unit Record</a> systems, which were used for the first data processing applications and were highly asynchronous and component-oriented.  When these applications started being replaced by computers, which seemed so much more powerful, a lot of useful concepts were lost... which FBP is now reintroducing.</p>
+
+<p>An application built using FBP may be thought of as a "data processing factory": a network of independent "machines", communicating by means of conveyor belts, across which travel structured chunks of data, which are modified by successive "machines" until they are output to files or discarded.  The various "machines" run in parallel, or interleaved, as determined by the number of processors in the machine.  It should be pointed out that this same image can be applied to networks of computers or other devices - Wayne Stevens pointed out that FBP provides a "consistent application view" from "maxi" to "mini".  Granted each FBP process is a von Neumann program, but it runs independently of all other processes, and so tends to be quite simple internally.  Almost all of the data that an FBP process deals with is held in "information packets" (IPs) or in method local storage.   Unlike in conventional programming, the programmer does not have to worry about controlling the exact sequence of events - all s/he needs to concentrate on is the transformations that apply to the data to convert the original inputs to the desired output. </p> 
+
+<p>More importantly, the ways data is viewed in FBP vs. conventional programming (as well as many FBP-inspired systems) are completely different: in FBP, data is managed in packets (IPs), which have a well-defined lifetime, from creation to destruction, and can only be owned by one process at a time, or be in transit between processes - just like real-life objects.  In conventional programming, data does not have a well-defined lifetime or clear ownership, as the data is confused with its storage medium.  This, in combination with the single-threaded restriction, leads to many of the weird bugs that bedevil today's complex systems, as it is so sensitive to the exact timing of events that a minor timing error can have catastrophic results!</p> 
+
+<p>FBP supports data processing applications (business or scientific), typically long-running and high volume, and, as we have shown, involves a way of thinking (the new "paradigm") that is fundamentally different from that of conventional programming.   This paradigm is actually more similar to engineering than to conventional programming, and, not surprisingly, involves a period of what might be called "apprenticeship", during which the practitioner is getting comfortable using its concepts.  Conventional programming, by comparison, is as if you gave an engineer a bunch of blueprints and some girders, and told him or her to go build a bridge!  It's not surprising that so many systems built using conventional technologies in recent years have suffered from cost overruns, logic glitches, etc., etc., and the problem is getting worse!</p> 
+
+<p>While data-oriented models have been used for application <i>design</i> for a number of years, up until now there was no easy way of converting these designs into running programs.  Programmers could indeed design systems using data-oriented thinking, but then had to laboriously convert these designs into procedural code.  In comparison, FBP provides a seamless transition from design to implementation, and our experience with it shows that it results in more maintainable and in fact better performing systems.  It also facilitates communication between designers, programmers, maintenance staff and users.  One large program written using an early ("green thread") implementation of FBP had been running in production for almost 40 years (as of the beginning of 2014), processing millions of transactions a night, while undergoing continuous maintenance during all that time, often by people who weren't even born when it was written!
+
+<p>While an FBP process is a "black box" component with its own internal environment and control thread, a NoFlo process is essentially a cloud of callbacks linked by instance variables.  By comparison, the FBP mental model <i>of a single process</i> is much simpler - indeed, very similar to that of conventional programming - as basically each process has a single high-level method, which can then call subroutines in the normal way, as each process has its own independent call stack.  There is then no confusion between the method's local storage and the process object's instance variables.  Henri Bergius was able to simulate many FBP-inspired characteristics on the Node.js infrastructure, but some rather basic, and necessary, FBP techniques have no obvious counterpart in NoFlo.  For instance, basic FBP business functions such as "Collate" require a process to be specific about which port it wants to receive from, and to be able to suspend until data arrives at that port - this function, or something similar, is being introduced gradually into NoFlo, but it logically requires a related architectural concept, missing from NoFlo, called "back pressure", where an upstream process will be suspended if the connection it feeds into becomes full.
+
+<p>In a major divergence from classical FBP, mentioned above, NoFlo lacks the concept of information packet (IP) "lifetimes", by which an IP is tracked from creation to destruction and can only be "owned" by a single process at a time, or be in transit between processes.  Conventional programming (and NoFlo) confuses the data as "object" with the "location" of the data.  This in fact is the reason so many subtle bugs show up in conventional programs.  This also explains the fact that NoFlo allows a single output port to connect to multiple input ports, implying automatic replication of data.  If data is seen as an "object" with a well-defined lifetime, this makes very little sense, as if you could have a single soft-drink bottle pass through two different machines at the same time!  
+	
+	<p> Conversely if your view of data is not as an <i>object</i>, you will see nothing wrong with this image.  Here is a description from Henri Bergius on how the basic send/receive linkage works in NoFlo:</p>
+
+<blockquote>The actual sending is a normal JavaScript event that triggers the connected inport's callback function. The inport puts the new IP into its buffer and notifies component, again via a callback</blockquote>
+
+<p>and with regard to "back pressure":</p>
+
+<blockquote>Right now the NoFlo buffers are only limited by system memory.
+
+<br>
+<br>Adding limits and backpressure is certainly something to consider down the line. Hasn't really been a consideration for things NoFlo is usually used for, though.</blockquote>
+
+<p><!--A consequence of this is that NoFlo requires that all data be processed by one node before being passed on to the next.  This becomes prohibitive if we are dealing with large volumes of data packets. -->   Back pressure is the only way I am aware of that allows "infinite" amounts of data to be processed using finite resources!  The NoFlo team tells me that they have been making changes to NoFlo to bring it closer to FBP, so we shall see what the future brings.
+</p>   
+
+<p>While NoFlo is appealing because of its ability to support both client- and server-side processing, thanks to Node.js, and because of JavaScript's close integration with HTML, it is still tied closely to "von Neumann thinking".  All existing implementations of FBP on my <a href="https://github.com/jpaulm">GitHub directory</a> can take advantage of multiple cores, with the exception of JSFBP.  Because of JavaScript's restriction to a single core, neither NoFlo nor JSFBP support CPU-intensive applications, which are in fact well supported by JavaFBP, C#FBP and C++FBP using <a href="http://www.boost.org/">Boost</a>.  It should be pointed out that the first FBP implementation used "green threads" with multiple stacks, so you could use the same programming style as we do in today's FBP implementations.  The underlying OS also supported asynchronous I/O, so, although we only had a single processor, performance was excellent - in fact run time was often better than with conventional programming, because, if a single process was suspended because of I/O, the whole job step did not have to be suspended, as is the case in conventional programming.</p>
+
+<!--<p>Because the NoFlo people use the term FBP so prominently when talking about NoFlo, we will also often prefix "FBP" with the term "classical" when it is necessary to distinguish it from NoFlo and other FBP-inspired frameworks.  A number of the latter are starting to appear, such as IBM's recent <a href="http://nodered.org/">Node-RED</a>, but, like NoFlo, these systems are different in important ways from classical FBP, based as they are on von Neumann thinking.  There is clearly common ground, but our experience shows that it is the FBP paradigm change that offers the most leverage for improved productivity and maintainability in application development.  Ken Kan, who has several years' experience with NoFlo, says:</p>
+<blockquote>
+<p>It is too easy to just make FBP work for JS, but what we really want to do is make JS work for FBP!</p>
+</blockquote> -->
+
+<p>Recently two colleagues and I have been working on an FBP implementation, written in JavaScript, called <a href="software.html#JSFBP">JSFBP</a>, based on <a href="https://github.com/laverdet/node-fibers">node-fibers</a>, a package developed by Marcel Laverdet, and therefore in turn on <a href="https://nodejs.org/en/">Node.js</a>.  This is actually a "green thread" implementation, as were the first two FBP implementations running on IBM mainframes.   However, "green threads" do not support multiple cores, a limitation shared by NoFlo, and I am told that JSFBP's dependence on "node-fibers" will likely prevent it from gaining wide acceptance.   However, this implementation is very much an FBP implementation, so I have made it available via <a href="https://github.com/jpaulm/jsfbp">GitHub</a>, as there may be a role for it in the future.</p>
+
+<p>
+In conclusion, I thought I would compare one commonly used component in classical FBP against the same function written in NoFlo.  The result is in <a href="concat.html">"Concat" Component</a>. </p>
+					
+					<p>For those wishing to gain experience with FBP, there is no substitute for reading the book (<a href="book.html">Flow-based Programming, 2nd edition</a>), and then starting to use one of the FBP implementations such as JavaFBP, C#FBP or JSFBP, or even the C++/Boost implementation currently under development, as described on the <a href="software.html">FBP</a> web site.  JavaFBP has the advantage of being closely integrated with a powerful diagramming tool, called <a href="software.html#DrawFBP">DrawFBP</a>, although DrawFBP can support any data flow language - and indeed can support high-level, language-independent, design as well.</p>
+
+<p> For the time being, users wishing to work with FBP can code up networks using <a href="software.html#JavaFBP">JavaFBP</a>, <a href="software.html#C#FBP">C#FBP</a> or <a href="software.html#CppFBP">CppFBP</a> by hand, or <a href="software.html#JSFBP">JSFBP</a>.  Alternatively, they can use the <a href="https://github.com/jpaulm/drawfbp">DrawFBP</a> drawing tool, written using Java Swing, which is also quite general, and can in fact generate networks for JavaFBP and C#FBP, as well as the .fbp notation used by NoFlo and CppFBP, plus NoFlo JSON networks.  If JavaFBP is chosen, DrawFBP can load any chosen components, display its description and ports, and even check whether all required ports are connected.</p>
+
+<!-- <p> DrawFBP does not support <i>run-time</i> network execution, the networks it generates are <i>complete</i> programs.   Its diagrams are stored in XML format, and additional generators can be added easily, or users can build their own generators using the XML format as input.  DrawFBP also has the capability of carving out a piece of a network and converting it into a subnet. </p> -->
+					
+<h3>FBP and multithreading</h3>
+<p>I recently wrote an article trying to describe the relationship between multithreading in programming languages and FBP, which clarified my thinking to some extent - see <a href="FBP-and-multithreading.html">FBP and multithreading</a>.  Feel free to disagree, however!  </p>				
+<h3>FBP and OO</h3>
+<p>For a discussion of the differences and similarities between FBP and OO, see <a href="oops.html">Comparison between FBP and Object-Oriented Programming</a> (Chapter 25 of the 2nd edition).
+</p>
+					<p><a href="https://jpaulm.github.io/fbp">Home</a></p>
+				</article>
+			</section>
+		</div>
+
+		<footer class="small wrap">	
+			<p class="small">Content Copyright &copy; J Paul Morrison. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

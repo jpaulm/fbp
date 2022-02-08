@@ -1,0 +1,434 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ 
+<head>
+  <meta http-equiv="content-type"  content="text/html; charset=ISO-8859-1">
+   <meta name=viewport content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title></title>
+</head>
+<body>
+<h1>Syntax of
+CppFBP (C++/Boost 
+Implementation of FBP)<br>
+and Component API</h1>
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+<br>
+<p><i>
+<p><div style="text-align: center">Under Construction!</div></p>
+<p>The THREADS package was converted to use
+Windows "fibres" and C++ a few years ago.  However, fibres did not seem sufficiently general, so this package is now in process of being converted to use <a href="http://www.boost.org/">Boost</a>, to take advantage of Boost multithreading.  The earlier, fibres-based, version is still available as a 
+<a  href="http://www.jpaulmorrison.com/fbp/THREADS_32.zip">zip file</a>. 
+</i></p>
+<h3>Contents</h3>
+<ul>
+  <li><a href="#gen">General</a></li>
+  <li>Component Coding </li>
+  <ul>
+    <li><a href="#samplecomp">Sample Component</a></li>
+    <!--<li><a href="#metadata">Component Metadata</a></li>-->
+    <li><a href="#compapi">Component API</a><br>
+    </li>
+  </ul>
+  <li><a href="#netspec">Network Definitions</a></li>
+ <!-- <ul>
+    <li><a href="#sampnet">Sample Network</a></li>
+    <li><a href="#simpnot">Simplified Notation</a></li>
+    <li><a href="#subnet">Simple Subnet</a></li>  
+  </ul> -->
+  
+</ul>
+<h3><a name="gen"></a>General </h3>
+<p>CppFBP is an enhanced version of the older C-based THREADS software, and has two different ways of defining networks:  
+<ul>
+
+<li>"fixed form" - this defines a network as a linked set of C structures.  Unlike the JavaFBP and C#FBP conventions, these are not the control blocks used by CppFBP to run, but are used to initialize them at run-time.   This separation is intended to allow changes to be made to the CppFBP internals, without requiring all users to change their network definitions.
+<br/><br/>
+<li>"free form" - this is a text-based notation, originally devised by Wayne Stevens, and now generally referred to as ".fbp notation", or the FBP DSL.  
+The <a href="http://noflojs.org/">NoFlo</a> project has adopted this notation, but also allows end-of-line to indicate the end of a "clause" (in addition to the comma). 
+</ul>
+<p>A program is included, named <code>Thxgen</code>, which can be used to convert free form network definitions into (runnable) fixed form definitions.  However, the free form notation can also be run directly, if you are willing to pay the price of decoding the free form every time.
+<h3><a name="samplecomp"></a>Sample Component </h3>
+
+<p>Under Visual C++ 2010 Express, for components, you will need to add the CppFBPCore/Headers file to Configuration Properties/C/C++/Additional Include Directories - plus $(LUA_INCLUDE) if you are going to be working with Lua.</p>
+<p>
+For networks, you will need to add the CppFBPCore/lib file to Configuration Properties/C/C++/Additional Include Directories for your component - plus $(BOOST_INCLUDE).  In addition, you will need to add the CppFBPCore/lib file and and CppFBPComponents/lib file to Configuration Properties/Linker/Additional Library Directories - plus $(BOOST_LIB).</p>
+
+<p>Here is a simple component written in C++ to copy IPs from IN to
+OUT.
+Let's call this rather unoriginally <code>ThCopy</code>. <br>
+</p>
+
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre><br>
+#include "StdAfx.h"
+#include "dllheader.h"
+
+#include <string.h>
+#include "compsvcs.h"
+// This component simply makes a shallow copy, drops the original, and 
+//   sends out the copy
+
+THRCOMP ThCopy(_anchor proc_anchor)
+{
+	void *ptr;
+	void *ptr2;
+	int value;
+	long size;
+	char *type;
+	port_ent port_tab[2];
+
+	value = dfsdfpt(proc_anchor, 2, port_tab,"IN","OUT");
+
+	value = dfsrecv(proc_anchor, &ptr, &port_tab[0], 0, &size, 
+&type);
+	while (value == 0) {
+		value = dfscrep(proc_anchor, &ptr2, size, type);
+		memcpy(ptr2,ptr,size);
+		dfsdrop(proc_anchor, &ptr);
+		value = dfssend(proc_anchor, &ptr2, &port_tab[1], 0); 		 
+		if (value != 0) {
+			dfsdrop(proc_anchor, &ptr2);
+			return(1);
+		}
+		value = dfsrecv(proc_anchor, &ptr, &port_tab[0], 0, 
+&size, &type);
+	}
+
+	return(0);
+}
+
+
+      <br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>The first action is always to initialize the port table using a call
+to<code><span style="font-family: 'times new roman',times,serif;"> </span>dfsdfpt</code>
+- the 2nd parameter of the call to&nbsp;<code>dfsdfpt</code>
+must match the dimension declared for the port table. This number must
+also match the number of port names specified in the parameters to&nbsp;<code>dfsdfpt</code>
+. Note:&nbsp;<code>dfsdfpt</code> modifies the port table, so this must not
+be defined as constant. </p>
+<p>The return statement causes deactivation (but not necessarily
+termination, as described above). The return code value on the return
+statement determines whether the process is willing to be reactivated:
+a value of 5 or greater forces termination even if data is available. </p>
+<h3><a name="compapi"></a>API Calls </h3>
+<p>Here are the API calls available to components in CppFBP: </p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>Create a Packet:<br>  value = dfscrep(proc_anchor, &amp;ptr, size, type);<br><br>Define ports:<br>  value = dfsdfpt(proc_anchor, port_count, port_tab);<br><br>Receive an IP:<br>  value = dfsrecv(proc_anchor, &amp;ptr, &amp;port_tab[port_no], <br>           elem_no, &amp;size, &amp;type);<br><br>Send an IP:<br>  value = dfssend(proc_anchor, &amp;ptr, &amp;port_tab[port_no], <br>           elem_no);<br><br>Drop an IP:<br>  value = dfsdrop(proc_anchor, &amp;ptr);<br><br>Pop an IP off the stack:<br>  value = dfspop(proc_anchor, &amp;ptr, &amp;size, &amp;type);<br><br>Push an IP onto the stack:<br>  value = dfspush(proc_anchor, &amp;ptr);<br><br>Close a port element:<br>  value = dfsclos(proc_anchor, &amp;port_tab[port_no], <br>           elem_no);<br>
+Count of elements in port:<br>  value = dfselct(proc_anchor, &amp;port_tab[port_no]);<br>
+Length of IP in bytes:<br>  long = dfsgsize(proc_anchor, &amp;ptr);
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>All the port-related calls now have a character form, where the port can be referenced using a character string - this entails some extra overhead at run-time, but facilitates interfacing with scripting languages such as Lua. In these cases, the original service name is suffixed with a 'c'.
+<h4>Parameters: </h4>
+<p>Note that the <code>ptr, size, type</code> and port table element
+parameters all have <code>&amp;</code>'s attached, except in the case of <code>dfscrep</code>
+, where only <code>ptr</code> has it. The <code>&amp;</code>'s are required
+because
+these parameters may be modified, and C parameters are all passed by
+value
+(except for strings and arrays). In some cases a particular service
+does
+not set them, but for consistency <code>&amp;</code>'s are used for all of
+them
+(except <code>dfscrep</code> ). </p>
+<p><code>port_count </code>and <code>elem_no</code> are all binary integer
+variables
+(<code>int</code>).&nbsp;<code>size</code> is binary long. <code>dfscrep</code> is
+restricted
+to a maximum of 64000 bytes. </p>
+<ul>
+  <li>
+    <p><code>proc_anchor</code>: a variable of type anchor (defined in <code>thxanch.h</code>)
+
+    </p>
+  </li>
+  <li>
+    <p><code>ptr</code>: a void pointer used to point at IPs </p>
+  </li>
+  <li>
+    <p><code>size</code>: a long variable containing the IP's size </p>
+  </li>
+  <li>
+    <p><code>type</code>: a null-terminated string of up to 32 chars </p>
+  </li>
+  <li>
+    <p><code>port_count</code>: parameter to <code>dfsdfpt</code> - must match
+the dimension of the defined <code>port_tab</code> array for this
+component </p>
+  </li>
+  <li>
+    <p><code>elem_no</code>: this specifies the element of the appropriate
+port to be used in a send, receive or close. These are only required
+for array-type ports, where they number up from 0. For non-array ports,
+this parameter must
+be 0. </p>
+  </li>
+  <li>
+    <p><code>port_tab</code>: this parameter is declared as an array of
+type <code>port_ent</code> (see below), where each element corresponds to
+one of the ports known to the
+component; the whole structure is passed to <code>dfsdfpt</code>, while
+specific elements of <code>port_tab</code> are passed to <code>send</code>, <code>receive</code>
+and <code>close</code> using <code> &amp;</code>. </p>
+  </li>
+  <li>
+    <p><code>port_name_n</code>: port name to be used by <code>dfsdfpt</code>;
+the number
+of these must match the <code>port_count</code> parameter </p>
+  </li>
+</ul>
+
+
+<p>After a call to <code>dfsdfpt</code>, <code>elem_count</code> in each <code>port_ent</code>
+instance will
+be set to the number of connected elements for that port, and <code>ret_code</code>
+will
+be set to 0 or 2, depending on whether that port was connected or not. </p>
+
+<h4>Service return codes: </h4>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>dfscrep:<br>	0	OK<br><br>dfsdfpt:<br>	0	OK - but some elements of port_tab may have their<br>		ret_code fields set to 2, meaning "port name not<br>		found"; a receive or send from or to such a <br>		port_tab element will result in a return code value<br>		of 2.  <br><br>dfsrecv:<br>	0	OK<br>	1	port element closed (end of data)<br>	2	port element not defined or not connected<br><br>dfssend:<br>	0	OK<br>	1	port element closed <br>	2	port element not defined or not connected<br><br>dfsdrop:<br>	0	OK<br><br>dfspop:<br>	0	OK<br>	2	stack empty<br><br>dfspush:<br>	0	OK<br><br>dfsclose:<br>	0	OK<br>	1	port element already closed <br>	2	port element not defined or not connected<br><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4>Limitations: </h4>
+<p>There is a limit of 4000 elements per array port. </p>
+<p>Working storage for a component should not exceed a few thousand
+bytes (including the working storage of any subroutines it calls). If
+the component needs more than this, it should use one of C's dynamic
+allocation functions (e.g. <code>malloc</code> or <code>calloc</code>) to
+allocate the additional storage. </p>
+
+<h3><a name="netspec"></a>Network Notation </h3>
+<h4>Fixed-Format Definition</h4>
+<p>As stated above, CppFBP supports two network definition notations: fixed form, and free form. </p>
+<p>Here is an example of a network in fixed form notation.  Note: the above structures are not the internal control blocks of
+CppFBP - they are an encoding of the free-form network specification
+notation. This separation will allow CppFBP to be extended in the
+future without
+requiring network definitions to be reprocessed.</p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>#include "thxdef.h"
+
+#include <stdio.h>
+#define FILE struct _iobuf
+
+/* This is not the CppFBP internal structure - this 
+is a structured representation of the free-form connection list
+*/
+void  CppFBP(label_ent* label_blk, bool dynam,  FILE * fp, bool timereq);
+
+
+THRCOMP ThFileWt(_anchor anch);
+THRCOMP ThCopy(_anchor anch);
+THRCOMP ThCopyNL(_anchor anch);
+THRCOMP ThFileRt(_anchor anch);
+
+#define TRACE true
+#define COMPOS true
+#define DYNAM true
+#define TIME_REQ true
+
+int cap = 2;
+int elem0 = 0;
+
+
+proc_ent P0 = {NULL, "Read", "ThFileRt", ThFileRt, NULL, NULL,  !TRACE, !COMPOS};
+proc_ent P1 = {&P0, "Show", "ThFileWt", ThFileWt, NULL, NULL, !TRACE, !COMPOS};
+proc_ent P2 = {&P1, "Copy", "ThCopyNL", ThCopyNL, NULL, NULL,  !TRACE, !COMPOS};
+//proc_ent P2 = {&P1, "Copy", "ThCopy", ThCopy, NULL, NULL,  !TRACE, !COMPOS;
+
+IIP I0 = {"C:\\Users\\Paul\\Documents\\Business\\THREADN\\POMPIERS.FIL"};
+IIP I2 = {"C:\\Users\\Paul\\Documents\\Business\\THREADN\\output.fil"};
+cnxt_ent C0 = {NULL, "!", "", 0, "Read", "OPT", elem0, &I0, 0};
+cnxt_ent C1 = {&C0, "Read", "OUT", elem0, "Copy", "IN", elem0, NULL, cap};
+cnxt_ent C2 = {&C1, "!", "", 0, "Show", "OPT", elem0, &I2, 0};
+cnxt_ent C3 = {&C2, "Copy", "OUT", elem0, "Show", "IN", elem0, NULL, cap};
+
+
+label_ent LABELTAB = {NULL, " ", "", &C3, &P2, 'L'};
+
+void main() {
+CppFBP(&LABELTAB, !DYNAM, NULL, TIME_REQ);  // time required
+}
+
+</pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An exclamation mark ("!") in the upstream process name of a connection (<code>cnxt_ent</code>) indicates an IIP-type connection.</p>
+<p>An asterisk ("*") as the port name of a connection indicates an automatic port (Chapter 13 of the 2nd Edition). </p>
+<h4><a name="freespec"></a>Free-Format Definition</h4>
+<p>The free-form alternative notation, an early form of which is described
+briefly in Chapter 22 of the 2nd edition, basically follows a "flow" style, where connections can be chained together until 
+a process has no output ports connected.  This constitutes the end of a "clause", and is indicated by a comma or end-of-line 
+(in both <a href="http://noflojs.org">NoFlo</a> and CppFBP). 
+</p> 
+<p>This free form notation can be converted to the fixed form notation, using <code>Thxgen</code>, or can be executed directly by CppFBP (interpretive mode).</p>
+<p>Here is an example:</p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>'data.fil'-&gt;OPT Reader(THFILERD) OUT -&gt; IN Selector(THSPLIT) MATCH -&gt; ... ,<br>Selector NOMATCH -&gt; ...<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>The general syntax for free-form network definitions is quite simple, and can be shown as
+follows (using a variant of the notation which has started to
+become popular for defining syntax): </p>
+<img alt="" src="Threads.gif" style="width: 590px; height: 506px;"><br>
+<p>"EOL" ("end of line") indicates the alternative NoFlo convention for "end of clause". The mark above "EOL" is meant to be a comma.
+</p>
+<p>Other symbols:
+<ul>
+<li>"Proc-name" represents a process name, optionally followed by the component name (in round brackets)
+<li>"Conn" represent an arrow, with optional capacity (in round brackets), e.g. <code>(30)</code> 
+<li>"IIP" represents a quoted string (using single quotes) - any internal quotes must be escaped
+<li>"Up-port" and "down-port" are from the point of view of the connection - they could also be called 
+"output port" and "input port", respectively
+</ul>
+</p>
+<p>An asterisk ("*") as the port name of a connection indicates an automatic port (Chapter 13 of the 2nd Edition). </p>
+<p>The main network may be followed by one or more subnets, which have
+basically the same notation (each one starting with a label and
+finishing
+with a semi-colon). However, subnets have to have additional notation
+describing
+how their external port names relate to their internal ones. Since this
+association
+is like an equivalence, we use the symbol <code>=&gt;</code> to indicate
+this relationship. Thus, </p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>, port-name-1 =&gt; port-name-2 process-A port-name-3,<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>indicates that <code>port-name-1</code> is an external input port of
+the subnet,
+while <code>port-name-2</code> is the corresponding input port of
+process-A. Similarly,
+</p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>, port-name-1 process-A port-name-2 =&gt; port-name-3,<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>indicates that <code>port-name-3</code> is an external output port of
+the subnet, while <code>port-name-2</code> is the corresponding output
+port of process-A.  </p>
+
+<!--
+<h4>Other syntactic elements:</h4>
+<img style="width: 709px; height: 407px;" alt="" src="IIP.gif"><br>
+<p>Quotes within the string must be escaped using backslash, as for other special characters. </p>
+<img style="width: 679px; height: 345px;" alt="" src="ports.gif"><br>
+<p><code>element-number</code> does not apply to the external port names of
+subnets. The asterisk indicates an automatic port (see Chapter 13 of the 2nd edition). </p>
+<img style="width: 615px; height: 252px;" alt="" src="conn.gif"><br>
+<p><code>capacity</code> does not apply to the external port names of
+subnets. </p>
+<img style="width: 651px; height: 248px;" alt="" src="Proc_name.gif"><br>
+-->
+<p>The component name can be specified on any occurrence of the process
+name. This can then be followed optionally by a question mark to indicate that tracing is desired. </p>
+<p>In Chapter 12 of the 2nd edition we alluded to the fact that we can specify that a
+process "must run at least once" - this is specified by means of an
+attribute file for the component, which has the name of the component,
+and an extension
+of <code>atr</code>, e.g. <code>thcount.atr</code>. These files must be
+provided by the supplier of
+a component, and must have a specific format. So far, only the "must
+run"
+attribute has been defined - it is specified by coding one of the
+character
+strings <code>must_run</code>, <code>Must_run</code> or <code>MUST_RUN</code>,
+with optional preceding blanks, in
+the attribute file for a given component. If no attribute file is found
+for a component, default values are assumed to apply (the default for
+the
+"must run" attribute is "need not run"). </p>
+
+<p>
+The fixed form network definition notation is a data-only C++ program, and specifies a network,
+together
+with all referenced subnets. Its importance is that this will be the
+source
+form for networks owned by customers, so CppFBP must guarantee that
+any
+enhancements to it will be upwards compatible. These guarantees are
+essentially
+encoded in the C headers which it uses: <code>thxiip.h</code>, <code>thxanch.h</code>
+and <code>thxscan.h</code>. </p>
+<!--
+<p><code>thxanch.c</code> has been given above. The other two are defined
+as follows: </p>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>thxiip.h<br><br>struct _IIP<br>   {<br>      int IIP_len;<br>      char datapart[512];<br>   };<br><br>typedef struct _IIP IIP;<br><br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="2" cellpadding="2" width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>thxscan.h<br><br>   struct _cnxt_ent {<br>     char upstream_name[32];      /* if 1st char is !,   */<br>     char upstream_port_name[32]; /* connxn points at IIP */<br>     int upstream_elem_no;<br>     char downstream_name[32];<br>     char downstream_port_name[32];<br>     int downstream_elem_no;<br>     union cnxt_union {IIP *IIPptr; void *connxn;} gen;<br>     int capacity;<br>     };<br><br>typedef struct _cnxt_ent cnxt_ent;<br><br>struct _label_ent {<br>	char label[32];<br>     char file[10];<br>	struct _cnxt_ent *cnxt_ptr;<br>	struct _proc_ent *proc_ptr;<br>     char ent_type;<br>	int proc_count;<br>	int cnxt_count;<br>	};<br><br>typedef struct _label_ent label_ent;<br><br>   struct _proc_ent {<br>     char proc_name[32];<br>     char comp_name[10];<br>     int (*faddr)();<br>     void *proc_block;<br>     int label_count;<br>     int trace;<br>     int composite;<br>     int must_run;<br>     };<br><br>typedef struct _proc_ent proc_ent;<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+-->
+
+</article>
+</section>
+</div>
+</body>
+</html>

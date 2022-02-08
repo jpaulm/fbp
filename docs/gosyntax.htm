@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ 
+<head>
+  <meta http-equiv="content-type"  content="text/html; charset=ISO-8859-1">
+   <meta name=viewport content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title></title>
+</head>
+<body>
+<h1>Syntax of
+GoFBP (Go Implementation of FBP)<br>
+and Component API</h1>
+<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+				
+
+<br>
+<h3>Contents</h3>
+<ul>
+  <li><a href="#gen">General</a></li>
+  <li><a href="#netdef">Network Definitions</a></li>
+  <ul>
+    <li><a href="#sampnet">Sample Network</a></li>
+    <li><a href="#subnet">Simple Subnet</a></li> <br/>  
+    <li><a href="#netapi">Network and Subnet Methods</a></li> <br/>  	  
+  </ul>
+  <li><a href="#compcode">Component Coding</a> </li>
+  <ul>
+    <li><a href="#samplecomp">Sample Component</a></li>
+    <li><a href="#compapi">Component API</a><br/>
+    </li>
+  </ul>
+</ul>
+<h3><a name="gen"></a>General </h3>
+<p>In my book, "Flow-Based Programming", I describe the syntax of
+the network specifications of various FBP dialects that were in
+existence when the book was written. GoFBP, the Go implementation
+of the FBP concepts, did not exist at that time, so this web page has
+been added describing the syntax of GoFBP network definitions.
+</p>
+<p>As described in my book, many non-trivial applications can be built
+using only the network definition language, so this web page starts
+with a description of the network definition language.&nbsp; A running
+program can be built up in layers, using GoFBP's <a href="#subnet">subnet</a>
+notation(<i>not yet implemented</i>).&nbsp; There is also a diagramming tool (<a
+ href="http://www.jpaulmorrison.com/fbp/#DrawFBP">DrawFBP</a>), which
+can be used to define the network graphically, and which can actually
+generate the network definitions (<i>not yet implemented</i>).&nbsp; <br>
+</p>
+<p>If new components have to be coded, they will be coded in Go,
+using the Go component API.&nbsp;
+</p>
+<p>The source code for the various constituents of GoFBP is now being held on a public <a href="https://github.com/jpaulm/gofbp">GitHub</a> project.  There is also a <a href="https://github.com/jpaulm/gofbp/blob/master/README.md">README</a> file on the GitHub web site.
+
+</p>
+
+
+<h3><a name="netdef"></a>Network Definitions<br>
+</h3>
+<p>Since the way the syntax relates to the underlying diagram may not
+be all that clear, a brief description is in order. &nbsp;At the end of
+this page, I have given an extremely
+simple GoFBP component.<br>
+					</p><p>
+Any GoFBP network definition starts as follows (preceded by any necessary imports, including <code>"github.com/jpaulm/gofbp/core"</code>): 
+<br>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>
+      func main() { {  
+	params, err := core.LoadXMLParams("params.xml")  // [optional]
+	if err != nil {                                  //  do.   
+		panic(err)                               //  do.
+	}                                                // do.
+	net := core.NewNetwork("Merge")
+	net.SetParams(params)      // [ optional]
+	</pre>      
+      </td>
+    </tr>
+  </tbody>
+</table>
+					
+<br>
+	where <code>"Merge"</code> is the FBP network name. 
+					</p>
+<p>The network definition is terminated with: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>}<br>	net.Run()<br>}<br>}<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>In between the beginning and the ending statements defining the
+network, you specify a list of connections, using the following
+methods, which I will refer to as "clauses": </p>
+<ul>
+  <li> <code>NewProc</code> - define an FBP
+"process" <br>
+  </li>
+  <li><code>Connect</code> - define a connection </li>
+  <li> <code>Initialize</code> - define a connection including an Initial
+Information Packet (IIP) </li>
+  </ul>
+<p>Every process <span style="font-style: italic;">must
+have a unique character string</span>
+identifying it, which allows other processes or initial
+information packets (IIPs) to be attached to it via a connection. </p>
+<p>The following method call:&nbsp;</p>
+<p> <code> NewProc</code></p>
+<p> returns a reference to a process.  This clause also specifies the name of the process code <code>.go</code> program  to be
+executed. Thus:</p>
+
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>     <br> proc1 := net.NewProc("xxxxxx", &testrtn.yyyyyy{})</br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p> where <code>xxxxxx</code> is a process name, and <code>yyyyyy</code> is the name of the <code>.go</code> program - the former has to be unique, but the latter doesn't have to be.
+
+
+<p>A <code>Connect</code> or <code>Initialize</code> clause will contain a reference to two or one process variables, as e.g. </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+	      <pre>
+               net.Connect(proc1, "OUT", proc3, "IN", 6)  
+and
+	       net.Initialize("15", proc1, "COUNT")
+	</pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+	<p>It should be pointed out that the "value" of an <code>Initialize</code> clause may be any type - examples usually show <code>string</code>s, for compatibility with common DrawFBP usage. <br>
+</p>
+	<p>The 5th parameter of <code>Connect</code> is the capacity of the connection.
+</p>
+	
+<p>The network definition is completed with the following: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre>   net.Run()
+}
+	</pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>	
+		
+<p>If an asterisk (<code>*</code>) is specified for the
+"from" port, this is called an "automatic output port", and indicates a
+signal generated when the "from"
+component instance terminates (actually the port is just closed, so no
+packet has to be disposed of).&nbsp; <br>
+</p>
+<p>If an asterisk (<code>*</code>) is specified for the "to" port,
+this is called an "automatic input port", and indicates a <i>delay</i>
+- the "to" component instance does not
+start until a signal or a close is received at this port.<br>
+</p>
+	
+<p>One last point: any number of "from" ports can be connected to a
+single "to" port; only one "to" port can ever be connected to a given
+"from" port.</p>
+	
+<h3><a name="sampnet"></a>Sample Network</h3>
+	<p> Here is a simple network (<code>main.go</code>) illustrating indexed ports: </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br> 
+package main
+
+import (	
+	
+	"github.com/jpaulm/gofbp/components/testrtn"
+	"github.com/jpaulm/gofbp/core"
+	
+)
+
+func main() {
+
+	net := core.NewNetwork("RRDist")
+
+	proc1 := net.NewProc("Sender", &testrtn.Sender{})
+
+	proc2 := net.NewProc("RoundRobinSender", &testrtn.RoundRobinSender{})
+
+	proc3a := net.NewProc("WriteToConsole", &testrtn.WriteToConsole{})
+	proc3b := net.NewProc("Receiver1", &testrtn.Receiver{})
+	proc3c := net.NewProc("Receiver2", &testrtn.Receiver{})
+
+	net.Initialize("15", proc1, "COUNT")
+	net.Connect(proc1, "OUT", proc2, "IN", 6)
+	net.Connect(proc2, "OUT[0]", proc3a, "IN", 6)
+	net.Connect(proc2, "OUT[1]", proc3b, "IN", 6)
+	net.Connect(proc2, "OUT[2]", proc3c, "IN", 6)
+
+	net.Run()
+
+}
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+	
+	<p>Note that array-type input and output ports are indicated in the <code>Connect</code> statements using square brackets.</p>
+
+<h3><a name="subnet"></a>Simple Subnet</h3>
+	<p> Here is a simple subnet (<code>subnets/subnet1.go</code>).  Note that the only <i>external</i> differences from regular networks are the presence of <code>type Subnet1 struct{}</code>, the use of <code>newSubnet</code> in place of <code>newNetwork</code> (and the presence of <code>SubIn</code> and/or <code>SubOut</code> components).  </p>
+<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br> 
+package subnets
+
+import (
+	"github.com/jpaulm/gofbp/components/testrtn"
+	"github.com/jpaulm/gofbp/core"
+)
+
+type Subnet1 struct{}
+
+func (subnet *Subnet1) Setup(p *core.Process) {}
+
+func (subnet *Subnet1) Execute(p *core.Process) {
+	net := core.NewSubnet("Subnet1", p)
+
+	proc1 := net.NewProc("SubIn", &core.SubIn{})
+
+	proc2 := net.NewProc("WriteToConsole1", &testrtn.WriteToConsole{})
+
+	proc3 := net.NewProc("SubOut", &core.SubOut{})
+
+	net.Initialize("IN", proc1, "NAME")
+	net.Connect(proc1, "OUT", proc2, "IN", 6)
+	net.Connect(proc2, "OUT", proc3, "IN", 6)
+	net.Initialize("OUT", proc3, "NAME")
+
+	net.Run()
+}
+
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>	
+	
+<h3><a name="netapi"></a>Network and Subnet Methods</h3>
+	
+	<p>Network and subnet methods (except for <code>core.LoadXMLParams</code>) will be prefixed by the name of the Network variable obtained by the <code>NewNetwork</code> method call.  Here is the list of the methods:
+<ul>
+<li>
+<code>func core.LoadXMLParams(s string) *Params, error </code>     (Params does not have to be declared)
+</li><li>	
+<code>func core.NewNetwork(s string) *Network</code> 
+	</li><li>	
+<code>func (n *Network) SetParams(p *Params) </code> 
+	</li><li>
+
+<code>func (n *Network) NewProc(s string, c &Component) *Process </code>
+	</li><li>
+<code>func (n *Network) Connect (p1 *Process, outport string, p2 *Process, inport string, capacity int) </code>
+	</li><li>
+<code>func (n *Network) Initialize (initValue interface {}, p2 *Process, inport string) </code>
+	</li><li>
+<code>func (n *Network) Run () </code>
+</li>
+</ul></p>	
+	
+<h3><a name="compcode"></a>Component Coding</h3>
+<h4><a name="samplecomp"></a>Sample Component</h4>
+<p>Here is an example of a GoFBP component - note that there are two main sections: <code>Setup</code>, which initializes the input and/or output ports, and <code>Execute</code>, both of which must always be present in a component definition.  In addition there will be the <code>import</code>s, and the input and/or output port definitions themselves.</p>
+	<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br> 
+package testrtn
+
+import (
+	"fmt"
+
+	"github.com/jpaulm/gofbp/core"
+)
+
+type RoundRobinSender struct {
+	ipt core.InputConn
+	out core.OutputArrayConn
+}
+
+func (rrsender *RoundRobinSender) Setup(p *core.Process) {
+	rrsender.ipt = p.OpenInPort("IN")
+	rrsender.out = p.OpenOutArrayPort("OUT")
+}
+
+func (rrsender *RoundRobinSender) Execute(p *core.Process) {
+
+	var i = 0
+
+	j := rrsender.out.ArrayLength()
+
+	for {
+		var pkt = p.Receive(rrsender.ipt)
+		if pkt == nil {
+			break
+		}
+		fmt.Println("Output: ", pkt.Contents)
+
+		opt := rrsender.out.GetArrayItem(i)
+
+		p.Send(opt, pkt)
+		i = (i + 1) % j
+	}
+
+}
+
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+	<p>By now, you should be familiar with the concept of "MustRun": normally processes only run if they have (non-IIP, i.e. dynamic) data to process, but in the case of a 
+file writer or a counter component, you want at least an empty file or a zero, respectively, to be written/emitted.  In GoFBP, this is achieved by including a line 
+		like <code> func (ComponentName) MustRun() {} </code> in the component code.  </p>
+<p> Here is the <code>WriteFile.go</code> component:
+	<table width="100%" border="2" cellpadding="2">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <pre> <br> 
+package io
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/jpaulm/gofbp/core"
+)
+
+// WriteFile type defines iptIP, ipt, and opt
+type WriteFile struct {
+	iptIP core.InputConn
+	ipt   core.InputConn
+	opt   core.OutputConn
+}
+
+//Setup method initializes Process
+func (writeFile *WriteFile) Setup(p *core.Process) {
+	writeFile.iptIP = p.OpenInPort("FILENAME")
+	writeFile.ipt = p.OpenInPort("IN")
+	writeFile.opt = p.OpenOutPortOptional("OUT")
+}
+
+//MustRun method 
+func (WriteFile) MustRun() {}
+
+//Execute method starts Process
+func (writeFile *WriteFile) Execute(p *core.Process) {
+
+	icpkt := p.Receive(writeFile.iptIP)
+	fname, ok := icpkt.Contents.(string)
+	if !ok {
+		panic("Parameter (file name) not a string")
+	}
+	p.Discard(icpkt)
+	p.Close(writeFile.iptIP)
+
+	f, err := os.Create(fname)
+	if err != nil {
+		panic("Unable to open file: " + fname)
+	}
+	defer f.Close()
+
+	for {
+		var pkt = p.Receive(writeFile.ipt)
+		if pkt == nil {
+			break
+		}
+
+		data := []byte(pkt.Contents.(string) + "\n")
+
+		_, err2 := f.Write(data)
+
+		if err2 != nil {
+			panic("Unable to write file: " + fname)
+		}
+
+		if !writeFile.opt.IsConnected() {
+			p.Discard(pkt)
+		} else {
+			p.Send(writeFile.opt, pkt)
+		}
+
+	}
+	fmt.Println(p.Name+": File", fname, "written")
+}
+
+
+<br></pre>
+      <p> </p>
+      </td>
+    </tr>
+  </tbody>
+</table>	
+<p>Note that output port <code>OUT</code> is optional in this component.  This means that the component has to test whether the port is connected, and do a "send" if it is, 
+or do a "discard" otherwise.	</p>
+
+<p>The scheduling rules for most FBP implementations are described in
+the chapter of my book called <a href="schedrls.htm">Scheduling Rules</a>.
+</p>
+
+<p>As good programming practice, we now feel that IIP ports should
+be closed after a receive has been executed, in case it is attached to
+an upstream component (rather than an IIP), and that component
+mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
+
+<h4><a name="compapi"></a>Component API</h4>
+<p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, 
+e.g. <code>p.Discard(pkt)</code>.</p>
+<p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
+<p>Here is the list of the Process API calls:
+<ul>
+<li>
+<code>func (p *Process) OpenInPort(s string) InputConn </code>
+</li><li>	
+<code>func (p *Process) OpenInArrayPort(s string) *InArrayPort</code> 
+	</li><li>
+
+<code>func (p *Process) OpenOutPort(s string) OutputConn </code>
+	</li><li>
+	
+<code>func (p *Process) OpenOutPortOptional(s string) OutputConn</code> 
+	</li><li>
+
+<code>func (p *Process) OpenOutArrayPort(s string) *OutArrayPort </code>
+	</li><li>
+
+<code>func (p *Process) Send(o OutputConn, pkt *Packet) bool </code> (returns <code>false</code> if <code>Send</code> fails)
+	</li><li>
+
+<code>func (p *Process) Receive(c InputConn) *Packet </code> (returns nil, when there's no more data)
+	</li><li>
+
+<code>func (p *Process) Close(c InputConn)</code> 
+	</li>
+</ul>
+<p>Information Packet services (under Process) </p>
+<ul><li>
+	
+<code>func (p *Process) Create(x interface{}) *Packet</code> 
+	</li><li>
+	
+<code>func (p *Process) CreateBracket(pktType int32, s string) *Packet </code> <br>
+	First parameter can be <code>core.OpenBracket</code> or <code>core.CloseBracket</code>; second parameter is required, but can be <code>""</code>
+	</li><li>	
+<code>func ((p *Process) Discard(pkt *Packet) </code> 
+</li>
+</ul></p>
+<p>The InputArrayConn API call:
+<ul>
+<li>
+ <code>GetArrayItem(i int) *InPort  </code> (returns input array item number i)
+</li><li>
+ <code>ArrayLength() int	 </code>
+</li>	
+</ul></p> 	
+<p>The OutputArrayConn API call:
+<ul>
+<li>
+<code>GetItemWithFewestIPs() int</code>  (returns output array item number witth fewest IPs stacked up in it)
+</li><li>
+ <code>GetArrayItem(i int) *OutPort  </code> (returns array item number i)
+</li><li>
+ <code>ArrayLength() int </code>	
+</li>	
+</ul></p>	
+</article>
+</section>
+</div>
+</body>
+</html>

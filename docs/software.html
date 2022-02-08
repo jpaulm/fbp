@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!-- Based on Ashley theme by Brent Jackson (http://jxnblk.com) //-->
+<!-- Heavily modified by Mayuresh Kathe (http://kathe.in/) //-->
+<html lang="en">
+  <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Flow-based Programming :: Software on FBP Website</title>
+		<meta name="description" content="Official website for flow-based programming" />
+		<meta name="keywords" content="flow-based programming c c++ java c# lua paul morrison data flow dataflow componentry streams threads fbp flow-based distributed applications development multicore multithreading parallelism maintainability visual programming asynchronism asynchronous SOA MOM programming dataflow simplicity productivity paradigm go golang iot" />
+		<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
+		<meta name=viewport content='width=device-width, initial-scale=1'>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+	</head>
+	<body>
+		<header>
+			<h1>Flow-based Programming</h1>
+			<p><img src="panta.png" alt="Panta rhei" style="position:relative; bottom:-10px;"> <span style="font-size: 20px;font-style:italic">(Panta rhei)</span> <span style="font-size: 20px;"> - Everything flows.</span></p>
+		</header>
+
+		<div class="content wrap">
+			<section class="posts">
+				<article class="post text">
+					<h2>Software on FBP Website</h2>
+					<p>JavaFBP uses Java threads, so it makes optimum use of all the processors on the machine running the application.  The C# and C++/Boost implementations (see below) also use their respective thread mechanisms. 
+ 
+					<h3><a name="JavaFBP"></a>JavaFBP</h3>
+					<p>John Cowan built the first Java implementation of the FBP concepts, which was also the first implementation to use native threads, allowing it to take advantage of all the processors on the computer.   This software, which has been undergoing continuous refinement and improvement during the years since, now called JavaFBP, is available as Open Source on <a href="https://github.com/jpaulm/javafbp/releases">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p> 
+<p>Material on the syntax of JavaFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/jsyntax.htm">JavaFBP Syntax and Component API</a>. </p> 
+
+<!--<p> The source code for the various constituents of JavaFBP is on SourceForge under Subversion (SVN) for the Flow-Based Programmming project: <a href="http://sourceforge.net/p/flow-based-pgmg/code/HEAD/tree/javaengine/trunk/">SVN for JavaFBP</a> .</p> -->
+
+<p>In earlier JavaFBP versions, the scheduler&nbsp;<span
+ style="color: rgb(0, 0, 153);"></span>presented an IIP
+to a component <span style="font-style: italic;">once per invocation</span>.
+This
+has
+been
+changed
+as
+of JavaFBP-2.6
+to <span style="font-style: italic;">once per
+activation</span>.&nbsp; In practice this will only affect
+"non-loopers" (components that
+get reactivated multiple times).&nbsp;&nbsp; <br>
+</p>
+<p>
+Checking has been added (Aug., 2014) to make sure that all input connections have been provided.  Since this was not being checked before, some users may have components that treat some input ports as optional.  To make this explicit, a new <code>optional</code>  parameter has been added to the <code>InPort</code> metadata.  If this causes any problems for current users, please let us know.</p>
+
+<p><a href="http://www.gradle.org/">Gradle</a> is now being used for packaging.  To build the project, make sure Gradle is installed, and then follow the instructions in the <a href="https://github.com/jpaulm/javafbp/blob/master/README.md">README file</a> for this project.
+
+<p>JavaFBP has just been promoted (Jul. 20, 2016) to <a href="http://search.maven.org/#search%7Cga%7C1%7Cjavafbp">Maven Central</a>. </p>
+
+<h4><a name="JavaFBPWS"></a>JavaFBP Web Sockets</h4>
+<p>A simple server written using JavaFBP can also be found  on GitHub.  The <a href="https://github.com/jpaulm/javafbp-websockets/">source code</a> includes generalized components for Websockets Receive and Respond: <code>WebSocketReceive.java</code> and <code>WebSocketRespond.java</code> respectively.  The former generates a substream for each incoming request from the client, comprising: 
+<ul><li>an open bracket, </li>
+<li>socket reference IP,</li> 
+<li>data IP and </li>
+<li>close bracket,</li></ul>
+<p>
+while the latter accepts a substream of any length, and returns to the client indicated by the first IP all the other contained IPs.</p> 
+<p>These two components are basically TooTallNate's <a href="https://github.com/TooTallNate/Java-WebSocket/tree/master/src/main/java/org/java_websocket">AutobahnServerTest</a> code, split into two processes, and require the <code>Java-WebSocket-1.3.0.jar</code> file, which is available on  Maven central.</p>  
+<p>There is also a video showing how this kind of application can be "grown" organically: https://youtu.be/IvTAexROKSA . </p>
+
+<h3><a name="C#FBP"></a>C#FBP</h3>
+<p>The C# implementation was originally created from the Java implementation by Amanda Ge using a conversion tool - it has since been extensively modified, but the two implementations are still fairly close.  Material on the syntax of C#FBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/csyntax.htm">C#FBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/csharpfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p>
+<p>In earlier C#FBP versions, the scheduler&nbsp;<span
+ style="color: rgb(0, 0, 153);"></span>presented an IIP
+to a component <span style="font-style: italic;">once per invocation</span>.
+This
+has
+been
+changed
+to <span style="font-style: italic;">once per
+activation</span>.&nbsp; In practice this will only affect
+"non-loopers" (components that
+get reactivated multiple times).&nbsp;&nbsp; <br>
+</p>
+<p>
+Checking has been added (Aug., 2014) to make sure that all mandatory connections have been provided.  Since this was not being checked before, some users may have components that treat some input ports as optional.  To make this explicit, a new <code>optional</code>  parameter will shortly be added to the <code>InPort</code> metadata.  If this causes any problems for current users, please let us know.</p>
+
+<h3><a name="GoFBP"></a>Go FBP Implementation </h3>
+<p>Go implementation of FBP - may be found as Open Source on <a href="https://github.com/jpaulm/gofbp">GoFBP</a> </p>
+<p>Go provides good compile-time checking, good performance, and a path to <a href="https://webassembly.org/">WebAssembly</a>.</p>
+					<p>Material on the syntax of GoFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/gosyntax.htm">GoFBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/gofbp">GitHub</a>. </p>
+<p><a href="https://github.com/jpaulm/drawfbp">DrawFBP</a> can now generate GoFBP network and subnet definitions - one minor tweak may be needed when generating networks that use subnets - see the documentation.</p>
+<h3>Deadlock Handling in GoFBP</h3>
+
+<p>FBP deadlocks are well understood, and are handled by other FBP implementations on <code>https://github.com/jpaulm</code> . They also seem to be well detected by the Go scheduler - unfortunately, they are not so easy to troubleshoot, as Go deadlock detection is not "FBP-aware", and occurs before the GoFBP scheduler can analyze the process states to determine where the problem is occurring. See below.</p>
+<p>As of the latest Release, a stand-alone program has been added, <code>analyze_deadlock.go</code>, which can be used to analyze the Go stack trace. Its <code>.exe</code> file can be found in the project bin directory. To analyze the deadlock, send the go test output to logfile, i.e. <br/> <code>go test -run ForceDeadlock -timeout 0ms &gt; logfile </code> <br/> then execute <br/> <code>bin\analyze_deadlock.exe</code><br/> The test must be run with <code>generate-gIds</code> set to <code>true</code> in <code>params.xml</code>.The output should be something like the following:
+<pre>
+Sender Goroutine no.: 19
+Counter Goroutine no.: 20
+Concat Goroutine no.: 21
+Process: Sender, Status: Send
+Process: Counter, Status: Send
+Process: Concat, Status: Receive
+</pre>
+This was generated by running <code>go test -run ForceDeadlock -count=1</code></p>
+<p>Now look at the list of goroutines involved, and add the component names to your diagram, together with the "state". Typically the deadlock will be "between" the goroutines waiting to Send and those waiting to Receive.</p>
+
+<p>In MS-DOS, you can do the above all on one line, as follows: 
+
+						<br>		<code>go test -run ForceDeadlock -count=1 > logfile & bin\analyze_deadlock.exe</code> 
+
+						<br>(Not sure if you can do this with PowerShell...?)		</p>				
+<h3><a name="CppFBP"></a>CppFBP and Lua Interface</h3>
+<p>The C implementation mentioned in the 1st edition of my book has been upgraded to use C++ and <a href="http://www.boost.org/">Boost</a>, and is now called CppFBP - it also contains an interface component supporting the <a href="http://www.lua.org/about.html">Lua</a> scripting language, allowing FBP processes to be implemented as Lua routines.</p>
+<p>Material on the syntax of CppFBP component and network definitions and the component API can be found at <a href="https://jpaulm.github.io/fbp/CppFBP.shtml">CppFBP Syntax and Component API</a>.  This implementation is available as Open Source on <a href="https://github.com/jpaulm/cppfbp">GitHub</a>.  An older version is still on <a href="http://sourceforge.net/projects/flow-based-pgmg/">SourceForge</a>, but is not being maintained.  </p>
+<p>A component has been built for CppFBP which allows components (loopers or non-loopers) to be written in the <a href="http://www.lua.org/">Lua</a> scripting language.  We are now able to write multithreaded networks whose infrastructure is CppFBP, and where selected processes can be implemented using Lua scripts - in this environment the same Lua script can even be executing on multiple threads.
+Be aware, however, that non-loopers can be much slower, owing to the overhead of firing up a Lua environment each time.</p> 
+<p>Some examples of Lua scripts running under the generalized CppFBP Lua component (called <code>ThLua</code>) are shown in <a href="https://jpaulm.github.io/fbp/thlua.html">CppFBP/Lua Interface</a>.
+<p> As Lua scripts communicate by way of character strings, if you need to pass more complex data structures through the network, you can also intermix CppFBP components in the same network - or other higher-level languages which play well with C++ and Boost.  
+</p>
+
+<p> This implementation is still under development (as of May, 2014), so there may be ongoing changes to the code and documentation.</p> 
+
+					<h3><a name="JSFBP"></a>JavaScript FBP Implementation (<b>Archived</b>)</h3>
+<p>JSFBP is a traditional, "classical" FBP implementation.  It can be used for batch processing, and possibly for server apps (it would support an approach similar to that shown on the cover of "Flow-Based programming", 2nd ed., similar to that used by Facebook's <a href="https://facebook.github.io/flux/docs/overview.html">Flux</a>), and should appeal to people who want to use the same language for both the client and the server sides.</p>
+
+<p>JSFBP only requires the addition of a small package on top of <a href="http://nodejs.org/">node.js</a>, <a href="https://github.com/laverdet/node-fibers">node-fibers</a>, which is easy to install.  I am informed by JavaScript experts that JavaScript has no plans to integrate <i>node-fibers</i> into its product evolution, for reasons that I find hard to understand, so JSFBP in its present form does not seem to be have good prospects for the long term.  Moreover, JavaScript (and therefore JSFBP) does not take advantage of multiple cores, so this lack needs to be addressed for JavaScript in general. </p>
+
+<p>JSFBP takes advantage of JavaScript's concept of functions as first-degree objects to allow applications to be built using "green threads".  JSFBP has an internal "Future Events Queue" which supports the green threads, and provides quite good performance (average 0.82 microsecs per send/receive pair) - the JavaScript events queue is only used for JavaScript asynchronous functions, as before.  Long-running functions such as reading and writing files must be implemented using callbacks, and this is supported by the JSFBP API.</p>
+
+<p>Just as in the case of the other "classical" implementations, every IP has a lifetime from "create" to "drop", and it is owned by one process at a time.  Once an IP has been "sent", it is no longer owned by the sending process, so it cannot be sent again by that process.  Of course the process can take a copy before that point, and create a new IP using it, but then that will be a different IP.  If the component wants to copy what I call an "IP tree", it can do that, but it is the component's responsibility, not the infrastructure's.</p>
+
+<p>This implementation is available on <a href="https://github.com/jpaulm/jsfbp">GitHub</a>.  You can also find an example of a simple JSFBP component in <a href="https://jpaulm.github.io/fbp/concat.html">Concat</a>.</p> 
+
+<h3><a name="DrawFBP"></a>DrawFBP</h3>
+					<p>A diagramming tool, called "DrawFBP", is also available on GitHub.  For more complete information, including <i>.jar</i> files, source code, instructions on using it, etc., click on <a href="https://github.com/jpaulm/drawfbp">DrawFBP</a>. </p> 
+
+<p>This tool is now available on Maven, so just go into <a href="https://search.maven.org/">Maven Search</a>, and search for DrawFBP, or click on the "shield" in the Readme.md file.  Download the .jar file from the most recent release in Maven, or alternatively from <a href="https://github.com/jpaulm/drawfbp/releases">DrawFBP Releases</a>, and execute it using the Java(TM) Platform SE binary.</p>
+					
+<p>The DrawFBP jar file contains the official <tt>JavaHelp</tt> module plus the <tt>geom2d</tt> package. </p>
+
+<p>DrawFBP supports a basic "block", representing any process or subnet (an FBP network with "sticky" connections), which can be given a process name - these should be unique within a diagram.  However, a block does not even need to be associated with a subnet or a simple component written in some programming language until the designer is ready to make implementation decisions.  The "subnet" capability allows the designer to do stepwise decomposition - clicking on a subnet block brings up a tab showing the subnet, so the designer can easily move between the different levels of a diagram.  </p>
+
+<p>DrawFBP can also generate runnable networks in JavaFBP, C#FBP (with some tweaks to add components),  NoFlo JSON, and the .fbp notation, originally developed by Wayne Stevens, and since adopted by the <a href="http://noflojs.org">NoFlo</a> project.   The user can compile and run Java and C# networks, compare diagrams, and, in the case of Java, display descriptions and port names of precoded and precompiled components. 
+</p>
+
+<!--<p>A <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBP-2.10.12.jar">jar file</a> for DrawFBP is available on my website.  There is also an <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBPInstaller-2.8.zip">installer file</a> on my web site, containing the latest jar file, plus the DrawFBP Help jar file, required to use DrawFBP's help facilities. </p>-->
+
+
+ <p>Diagrams are held in XML format, with an extension of <code>.drw</code>.  </p> 
+
+		<!--			<p>DrawFBP can also be run via <a href="http://www.jpaulmorrison.com/graphicsstuff/DrawFBP.jnlp">JWS</a> - however most likely you will be told to reduce your Java security level to 'medium' using your Java control panel, and even then you will probably get a message saying "Unknown publisher", on which you will have to click the accept button.  I am afraid I cannot afford to get a verified certificate for distributing free apps - maybe Verisign will ease up in the future!  </p>-->
+
+<p><div style="width:90%; margin:auto;"> <img src="https://jpaulm.github.io/fbp/MergeSortDisplay.png" alt="MergeSortDisplay" > </div></p>
+<p>Simple DrawFBP diagram, showing both source code, and component classes.</p>
+					<p><a href="https://jpaulm.github.io/fbp/index.html">Home</a></p>
+				</article>
+			</section>
+		</div>
+
+		<footer class="small wrap">	
+			<p class="small">Content Copyright &copy; J Paul Morrison. All rights reserved.</p>
+		</footer>
+	</body>
+</html>
