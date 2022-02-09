@@ -2,12 +2,11 @@
 
 <p>The GoFBP WebSockets support works very similarly to the corresponding JavaFBP facilities - see <a href="https://github.com/jpaulm/javafbp-websockets#readme">JavaFBP</a> - esp. the diagrams at the end.
 </p><p>
-This facility (two components in <a href="https://github.com/jpaulm/gofbp/tree/master/components/websocket">GoFBP WebSockets</a> ) may be thought of as a "kit" for building a wide variety of WebSocket applications. 
+This facility (two components in <a href="https://github.com/jpaulm/gofbp/tree/master/components/websocket">GoFBP WebSockets</a> ) may be thought of as a "kit" for building a wide variety of WebSocket applications. "request.go" fields requests from a client, while "respond.go" returns results back to the same user.  Both of these components use the FBP "substream" concept, where a substream is a series of Information Packets ("IPs"), surrounded by "bracket IPs" ("open" and "close"). "request.go" emits a series of substreams, each of which represents a "send" from the client, while "respond.go" expects a series of substreams, each of which will result in an HTML display. In between these two components may be a network of any degree of complexity... except that care must of course be taken to ensure that the IPs of a given substream not be allowed to become separated.  If this is a problem, substreams can be converted to FBP "tree" structures.
 </p><p>
-`request.go` fields requests from a client, while `respond.go` returns results back to the same user.  Both of these components use the FBP substream concept, where a substream is a series of Information Packets ("IPs"), surrounded by "bracket IPs" ("open" and "close").
-</p><p>
-Here is the "processing" component for this simple test case (we will assume that you are familiar with how to build a GoFBP component):
-<code>
+Eah substream comprises an "open bracket IP", followed by an IP referencing the WebSocket "Conn" struct, in turn followed by zero or more data IPs, followed by a "close bracket".</p><p>
+	Here is the "processing" component for this <i>very</i> simple test case (we will assume that you are familiar with how to build a GoFBP component):
+<pre>
 package components
 
 import (
@@ -60,5 +59,11 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 
 }
 
-</code>
+</pre>
+
+This is a simple "looping" component, where substreams are consumed and emitted until "Receive" returns a packet reference of "nil".  Two points:
+<ul><li>The IP after the "open bracket" is received and immediately output</li>
+<li>after the "close bracket" a check is made for the "@kill" signal - if there is one, it is immediately output; all components within this network must do this.</li>
+</ul>
+	
 </p>
