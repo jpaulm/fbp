@@ -1,10 +1,11 @@
-### GoFBP Concepts and Support for WebSockets
+<h1> GoFBP Concepts and Support for WebSockets </h1>
 
-The GoFBP WebSockets support works very similarly to the corresponding `JavaFBP` facilities - see https://github.com/jpaulm/javafbp-websockets#readme - esp. the diagrams at the end.
-
-This facility (two components in https://github.com/jpaulm/gofbp/tree/master/components/websocket ) may be thought of as a "kit" for building a wide variety of WebSocket applications. 
+<p>The GoFBP WebSockets support works very similarly to the corresponding JavaFBP facilities - see <a href="https://github.com/jpaulm/javafbp-websockets#readme">JavaFBP</a> - esp. the diagrams at the end.
+</p><p>
+This facility (two components in <a href="https://github.com/jpaulm/gofbp/tree/master/components/websocket">GoFBP WebSockets</a> ) may be thought of as a "kit" for building a wide variety of WebSocket applications. 
+</p><p>
 `request.go` fields requests from a client, while `respond.go` returns results back to the same user.  Both of these components use the FBP substream concept, where a substream is a series of Information Packets ("IPs"), surrounded by "bracket IPs" ("open" and "close").
-
+</p><p>
 Here is the "processing" component for this simple test case (we will assume that you are familiar with how to build a GoFBP component):
 <code>
 package components
@@ -60,3 +61,4 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 }
 
 </code>
+</p>
