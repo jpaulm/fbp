@@ -62,8 +62,9 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 </pre>
 
 This is a simple "looping" component, where substreams are consumed and emitted until "Receive" returns a packet reference of "nil".  Two points:
-<ul><li>The IP after the "open bracket" is received and immediately output</li>
-<li>after the "close bracket" a check is made for the "@kill" signal - if there is one, it is immediately output; all components within this network must do this.</li>
+<ul><li>The IP after the "open bracket" containing a reference to the WebSocket connection is received and immediately output</li>
+<li>after the "close bracket" is received, a check is made for the "@kill" signal IP: if there is one, it is immediately output.</li>
 </ul>
+Every process in the server network must do these two things.
 	
 </p>
