@@ -478,7 +478,10 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 	</li><li>
 	
 <code>func (p *Process) CreateBracket(pktType int32, s string) *Packet </code> <br>
-	First parameter can be <code>core.OpenBracket</code> or <code>core.CloseBracket</code>; second parameter is required, but can be <code>""</code>
+	First parameter can be <code>core.OpenBracket</code> or <code>core.CloseBracket</code>; second parameter is required, but can be a zero-length string, i.e. <code>""</code>
+</li><li>
+	
+<code>func (p *Process) CreateSignal(s string) *Packet </code> 
 	</li><li>	
 <code>func ((p *Process) Discard(pkt *Packet) </code> 
 </li>
