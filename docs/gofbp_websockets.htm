@@ -21,7 +21,7 @@
 This facility (two components in <a href="https://github.com/jpaulm/gofbp/tree/master/components/websocket">GoFBP WebSockets</a> ) may be thought of as a "kit" for building a wide variety of WebSocket applications. "request.go" fields requests from a client, while "respond.go" returns results back to the same user.  Both of these components use the FBP "substream" concept, where a substream is a series of Information Packets ("IPs"), surrounded by "bracket IPs" ("open" and "close"). "request.go" emits a series of substreams, each of which represents a "send" from the client, while "respond.go" expects a series of substreams, each of which will result in an HTML display. In between these two components may be a network of any degree of complexity... except that care must of course be taken to ensure that the IPs of a given substream not be allowed to become separated.  If this is a problem, substreams can be converted to FBP "tree" structures.
 </p><p>
 Eah substream comprises an "open bracket IP", followed by an IP referencing the WebSocket "Conn" struct, in turn followed by zero or more data IPs, followed by a "close bracket".</p><p>
-	Here is the "processing" component for this <i>very</i> simple test case (we will assume that you are familiar with how to build a GoFBP component):
+	Here is the "processing" component for this <i>very</i> simple test case (I will assume that you are familiar with how to build a GoFBP component).  It is a standard "looper" style of component, where substreams are consumed and emitted until "Receive" returns a packet reference of "nil" :
 <pre>
 package components
 
@@ -50,12 +50,13 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 		}
 		p.Send(wsansreq.out, pkt)
 
-		pkt = p.Receive(wsansreq.ipt) // connection
+		pkt = p.Receive(wsansreq.ipt) // WebSocket connection (this is copied by <code>request.go</code>)
 		p.Send(wsansreq.out, pkt)
 
-		pkt = p.Receive(wsansreq.ipt) //"namelist"
+		pkt = p.Receive(wsansreq.ipt) // this contains the client request string
 		p.Discard(pkt)
 
+                // some arbitrary logic - may involve multiple processes)
 		pkt = p.Create("line1")
 		p.Send(wsansreq.out, pkt)
 		pkt = p.Create("line2")
@@ -77,9 +78,9 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 
 </pre>
 
-This is a simple "looping" component, where substreams are consumed and emitted until "Receive" returns a packet reference of "nil".  Two points:
-<ul><li>The IP after the "open bracket" containing a reference to the WebSocket connection is received and immediately output</li>
-<li>after the "close bracket" is received, a check is made for the "@kill" signal IP: if there is one, it is immediately output.</li>
+Two points:
+<ul><li>The IP after the "open bracket", containing a reference to a copy of the WebSocket connection, is received and immediately output</li>
+<li>after the "close bracket" is received, a check has to be made for the "@kill" signal IP: if there is one, it is immediately output.</li>
 </ul>
 Every process in the server network must do these two things.
 	
