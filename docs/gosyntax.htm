@@ -442,7 +442,7 @@ an upstream component (rather than an IIP), and that component
 mistakenly sends more than one IP.  (I may not have done that consistently for my GoFBP components!)</p>
 
 <h4><a name="compapi"></a>Component API</h4>
-<p>All Component API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, 
+<p>All Process API calls will be prefixed by the name of the Process variable defined in the <code>Setup</code> or <code>Execute</code> function header, as appropriate, 
 e.g. <code>p.Discard(pkt)</code>.</p>
 <p>In the following list, <code>InputConn</code> and <code>OutputConn</code> are interfaces, so do not need the leading asterisk.</p>
 <p>Here is the list of the Process API calls:
@@ -494,7 +494,7 @@ e.g. <code>p.Discard(pkt)</code>.</p>
  <code>ArrayLength() int	 </code>
 </li>	
 </ul></p> 	
-<p>The OutputArrayConn API call:
+<p>The OutputArrayConn API calls:
 <ul>
 <li>
 <code>GetItemWithFewestIPs() int</code>  (returns output array item number witth fewest IPs stacked up in it)
@@ -504,6 +504,24 @@ e.g. <code>p.Discard(pkt)</code>.</p>
  <code>ArrayLength() int </code>	
 </li>	
 </ul></p>	
+<p>Network level calls (used when defining a network or subnet): </p>
+<ul><li>
+	<code>NewNetwork(netName string) *Network </code>
+	</li><li>
+	<code>NewProc(procName string, code Component) *Process </code>
+	</li><li>
+	<code>Connect(p1 *Process, outPort string, p2 *Process, inPort string, cap int) *InPort </code> <br>
+	May return a, InPort reference if this is neded, e.g. for a <code>SetDropOldest</code> call - see below 
+	</li><li>
+	<code>Initialize(i interface{}, p1 *Process, inPort string) </code>
+	</li><li>
+	<code>net := Run() </code>
+	</li><li>
+<code> SetDropOldest(i *InPort)</code> <br>
+	</li><li>
+<code> SetParams(p *Params)</code> 
+	</li>
+</ul></p>
 </article>
 </section>
 </div>
