@@ -4,17 +4,17 @@
 <html lang="en">
   <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Flow-based Programming :: Comparison</title>
-		<meta name="description" content="Official website for flow-based programming" />
+		<title>GoFBP Sample WebSocket Support</title>
+		<meta name="description" content="GoFBP Sample WebSocket Support" />
 		<meta name="keywords" content="flow-based programming c c++ java c# lua paul morrison data flow dataflow componentry streams threads fbp flow-based distributed applications development multicore multithreading parallelism maintainability visual programming asynchronism asynchronous SOA MOM programming NoFlo dataflow simplicity productivity paradigm" />
 		<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
-		<meta name=viewport content='width=device-width, initial-scale=1'>
+		<meta name=viewport content='width=1000, initial-scale=0.86'>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	</head>
 	<body>
 
-<h1> GoFBP Concepts and Support for WebSockets </h1>
+<h1> GoFBP Sample WebSockets Components </h1>
 
 <p>The GoFBP WebSockets support works very similarly to the corresponding JavaFBP facilities - see <a href="https://github.com/jpaulm/javafbp-websockets#readme">JavaFBP</a> - esp. the diagrams at the end.
 </p><p>
@@ -78,9 +78,10 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 
 </pre>
 
-Two points:
+This will output a substream for every substream it receives.  Two more points:
 <ul><li>The IP after the "open bracket", containing a reference to a copy of the WebSocket connection, is received and immediately output</li>
-<li>after the "close bracket" is received, a check has to be made for the "@kill" signal IP: if there is one, it is immediately output.</li>
+<li>after the "close bracket" is received, a check is made for the "@kill" signal IP: if there is one, it is immediately output.  Whether or not this happens, the code then 
+goes back and checks for another substream. </li>
 </ul>
 Every process in the server network must do these two things.
 	
