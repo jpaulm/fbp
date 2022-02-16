@@ -53,29 +53,43 @@ Concatenate is an example of a parameter-less FBP component.  Its logic is essen
      enddo
 </pre></p>
 <p>
-With small amounts of data, the lack of back pressure in most FBP-inspired products probably doesn't hurt, but in an actual real-world situation you could easily accumulate a few billion IPs waiting at element 2, which cannot be processed until end of stream is detected at element 0 and at element 1. In "classical" FBP, you don't "receive" any of them until you are ready to process them.  This works fine because, as well as selective receive, FBP has "back pressure", meaning that a sending process is suspended if the connection involved is full, so the processes generating the "element 2" data will just wait, without any special coding required on the part of the programmer.
+With small amounts of data, the lack of back pressure in most "FBP-inspired" products probably doesn't hurt, but in an actual real-world situation you could easily accumulate a few billion IPs waiting at element 2, which cannot be processed until end of stream is detected at element 0 and at element 1. In "classical" FBP, you don't "receive" any of them until you are ready to process them.  This works fine because, as well as selective receive, FBP has "back pressure", meaning that a sending process is suspended if the connection involved is full, so the processes generating the "element 2" data will just wait, without any special coding required on the part of the programmer.
 </p><p>
-Here is Concatenate in <a href="https://github.com/jpaulm/jsfbp">JSFBP</a>:
+Here is Concatenate Streams in <a href="https://github.com/jpaulm/gofbp">GoFBP</a>:
 </p><p><pre>
+package testrtn
 
-  'use strict';
+import (
+	"github.com/jpaulm/gofbp/core"
+)
 
-  module.exports = function concat() {
-    var array = this.openInputPortArray('IN');
-    var outport = this.openOutputPort('OUT');
-    var ip = null;
+type ConcatStr struct {
+	ipt core.InputArrayConn
+	opt core.OutputConn
+}
 
-    for (var i = 0; i < array.length; i++) {
-      while (true) {
-        ip = array[i].receive();
-        if (ip === null) {
-          break;
-        }
-        outport.send(ip);
-      }
-    }
-  };
+func (concatstr *ConcatStr) Setup(p *core.Process) {
+	concatstr.ipt = p.OpenInArrayPort("IN")
+	concatstr.opt = p.OpenOutPort("OUT")
+}
 
+func (concatstr *ConcatStr) Execute(p *core.Process) {
+
+	for i := 0; i < concatstr.ipt.ArrayLength(); i++ {
+
+		for {
+			inPort := concatstr.ipt.GetArrayItem(i)
+			if inPort == nil {
+				continue
+			}
+			var pkt = p.Receive(inPort)
+			if pkt == nil {
+				break
+			}
+			p.Send(concatstr.opt, pkt)
+		}
+	}
+}
 </pre>
 </p><p>	
 
