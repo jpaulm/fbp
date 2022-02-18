@@ -488,6 +488,9 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 </ul></p>
 <p>The InputArrayConn API call:
 <ul>
+	<li>
+ <code>GetArray() []*InPort  </code> (returns input array - this can be used with "range")
+</li>
 <li>
  <code>GetArrayItem(i int) *InPort  </code> (returns input array item number i)
 </li><li>
@@ -496,6 +499,9 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 </ul></p> 	
 <p>The OutputArrayConn API calls:
 <ul>
+		<li>
+ <code>GetArray() []*OutPort  </code> (returns output array - this can be used with "range")
+</li>
 <li>
 <code>GetItemWithFewestIPs() int</code>  (returns output array item number witth fewest IPs stacked up in it)
 </li><li>
