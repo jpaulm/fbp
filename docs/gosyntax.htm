@@ -85,7 +85,7 @@ Any GoFBP network definition starts as follows (preceded by any necessary import
 </table>
 					
 <br>
-	where <code>"Merge"</code> is the FBP network name. 
+	where <code>"Merge"</code> is the FBP network string name. 
 					</p>
 <p>The network definition is terminated with: </p>
 <table width="100%" border="2" cellpadding="2">
@@ -98,6 +98,8 @@ Any GoFBP network definition starts as follows (preceded by any necessary import
     </tr>
   </tbody>
 </table>
+				
+					
 <p>In between the beginning and the ending statements defining the
 network, you specify a list of connections, using the following
 methods, which I will refer to as "clauses": </p>
@@ -517,7 +519,7 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 	<code>NewProc(procName string, code Component) *Process </code>
 	</li><li>
 	<code>Connect(p1 *Process, outPort string, p2 *Process, inPort string, cap int) *InPort </code> <br>
-	May return a, InPort reference if this is neded, e.g. for a <code>SetDropOldest</code> call - see below 
+	May return an <code> InPort</code> reference if this is needed, e.g. for the <code>SetDropOldest</code> call - for an example, see <a href="https://github.com/jpaulm/gofbp/blob/master/testing/testdropoldest_test.go#L22">DropOldest Test</a> 
 	</li><li>
 	<code>Initialize(i interface{}, p1 *Process, inPort string) </code>
 	</li><li>
