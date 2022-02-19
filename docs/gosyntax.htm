@@ -481,7 +481,10 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 
 <h3><a name="subnet" id="Subnets"></a>Simple Subnet</h3>
 <p> A subnet is a network with "sticky" connections, but it also acts as a component, so it has both network API calls as well as component attributes.  This is why I have placed this at the end of this web page.  </p>
-	<p> Here is a simple subnet (<code>subnets/subnet1.go</code>).  Note that the only <i>external</i> differences from regular networks are the presence of <code>type Subnet1 struct{}</code>, together with <code>Setup</code> and <code>Execute</code> methods, the use of <code>newSubnet</code> in place of <code>newNetwork</code> (and the presence of <code>SubIn</code> and/or <code>SubOut</code> components).  The <code>Setup</code> method will be empty. </p>
+	<p> Here is a simple subnet (<code>subnets/subnet1.go</code>).  Note that the only <i>external</i> differences from regular networks are the 
+		presence of <code>type Subnet1 struct{}</code>, together with <code>Setup</code> and <code>Execute</code> methods, the use of <code>newSubnet</code> 
+		in place of <code>newNetwork</code> (and the presence of <code>SubIn</code> and/or <code>SubOut</code> components).  The <code>Setup</code> method 
+		will be empty, as its ports are "external". </p>
 <table width="100%" border="2" cellpadding="2">
   <tbody>
     <tr>
