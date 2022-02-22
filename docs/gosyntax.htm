@@ -459,25 +459,36 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 </li><li>
  <code>ArrayLength() int </code>	
 </li>	
-</ul></p>	
-<p>Network level calls (used when defining a network or subnet): </p>
+</ul></p>
+
+<p>Packet chaining calls (coded under Process): </p>
 <ul><li>
-	<code>NewNetwork(netName string) *Network </code>
+	<code>(p *Process) Attach(packet *Packet, chainName string, subpkt *Packet)</code>
 	</li><li>
-	<code>NewProc(procName string, code Component) *Process </code>
-	</li><li>
-	<code>Connect(p1 *Process, outPort string, p2 *Process, inPort string, cap int) *InPort </code> <br>
-	May return an <code> InPort</code> reference if this is needed, e.g. for the <code>SetDropOldest</code> call - for an example, see <a href="https://github.com/jpaulm/gofbp/blob/master/testing/testdropoldest_test.go#L22">DropOldest Test</a> 
-	</li><li>
-	<code>Initialize(i interface{}, p1 *Process, inPort string) </code>
-	</li><li>
-	<code>net := Run() </code>
-	</li><li>
-<code> SetDropOldest(i *InPort)</code> <br>
-	</li><li>
-<code> SetParams(p *Params)</code> 
+	<code>(p *Process) Detach(packet *Packet, chainName string, subpkt *Packet)</code>
 	</li>
 </ul></p>
+
+<p>Network level calls (used when defining a network or subnet): </p>
+<ul><li>
+	<code>net := NewNetwork(netName ...string) *Network </code> (if netName is omitted, NewNetwork will use the func name for the network)
+	</li><li>
+	<code>(n *Network)NewProc(procName string, code Component) *Process </code>
+	</li><li>
+	<code>(n *Network)Connect(p1 *Process, outPort string, p2 *Process, inPort string, cap int) *InPort </code> <br>
+	May return an <code> InPort</code> reference if this is needed, e.g. for the <code>SetDropOldest</code> call - for an example, see <a href="https://github.com/jpaulm/gofbp/blob/master/testing/testdropoldest_test.go#L22">DropOldest Test</a> 
+	</li><li>
+	<code>(n *Network)Initialize(i interface{}, p1 *Process, inPort string) </code>
+	</li><li>
+	<code>(n *Network)Run() </code>
+	</li><li>
+<code> (n *Network)SetDropOldest(i *InPort)</code> <br>
+	</li><li>
+<code> (n *Network) SetParams(p *Params)</code> 
+	</li>
+</ul></p>
+
+
 
 <h3><a name="subnet" id="Subnets"></a>Simple Subnet</h3>
 <p> A subnet is a network with "sticky" connections, but it also acts as a component, so it has both network API calls as well as component attributes.  This is why I have placed this at the end of this web page.  </p>
