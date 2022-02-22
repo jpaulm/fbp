@@ -473,7 +473,7 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 <ul><li>
 	<code>net := NewNetwork(netName ...string) *Network </code> (if netName is omitted, NewNetwork will use the func name for the network)
 	</li><li>
-	<code>(n *Network)NewProc(procName string, code Component) *Process </code>
+	<code>(n *Network)NewProc(procName string, code Component) *Process </code> (NewProc procNames must be unique)
 	</li><li>
 	<code>(n *Network)Connect(p1 *Process, outPort string, p2 *Process, inPort string, cap int) *InPort </code> <br>
 	May return an <code> InPort</code> reference if this is needed, e.g. for the <code>SetDropOldest</code> call - for an example, see <a href="https://github.com/jpaulm/gofbp/blob/master/testing/testdropoldest_test.go#L22">DropOldest Test</a> 
