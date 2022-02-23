@@ -462,15 +462,15 @@ e.g. <code>p.Discard(pkt)</code>.</p>
 </ul></p>
 
 <p>Packet chaining calls (coded under Process): </p>
-<ul><li><code>(p *Process) NewChain(pkt *Packet, name string) *Chain</code> </li>	
-<li><code>(p *Process) GetChain(pkt *Packet, name string) *Chain</code> </li>
+<ul><li><code>(p *Process) NewChain(pkt *Packet, name string) (*Chain, bool)</code> </li>	
+<li><code>(p *Process) GetChain(pkt *Packet, name string) (*Chain, bool)</code> </li>
 	<li>
 	<code>(p *Process) Attach(chn *Chain, subpkt *Packet)</code>
 	</li><li>
 	<code>(p *Process) Detach(chn *Chain, subpkt *Packet)</code>
 	</li>
 </ul></p>
-<p><code>Chain</code> has public attributes <code>First</code> and <code>Last</code>, referring to <code>Packet</code>s, and <code>Packet</code> has a public attribute <code>Next</code>, which can be used when "walking through" a chain. </p> 
+<p><code>Chain</code> has public attributes <code>First</code> and <code>Last</code>, referring to <code>Packet</code>s, and <code>Packet</code> has a public attribute <code>Next</code>, all of which can be used when "walking through" a chain. </p> 
 
 <p>Network level calls (used when defining a network or subnet): </p>
 <ul><li>
