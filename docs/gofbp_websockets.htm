@@ -48,15 +48,14 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 		if pkt == nil {
 			break
 		}
+		p.Send(wsansreq.out, pkt)  // this will be an open bracket
+
+		pkt = p.Receive(wsansreq.ipt) // connection
 		p.Send(wsansreq.out, pkt)
 
-		pkt = p.Receive(wsansreq.ipt) // WebSocket connection (this is copied by <code>request.go</code>)
-		p.Send(wsansreq.out, pkt)
-
-		pkt = p.Receive(wsansreq.ipt) // this contains the client request string
+		pkt = p.Receive(wsansreq.ipt) //"namelist"
 		p.Discard(pkt)
 
-                // some arbitrary logic - may involve multiple processes)
 		pkt = p.Create("line1")
 		p.Send(wsansreq.out, pkt)
 		pkt = p.Create("line2")
@@ -64,10 +63,10 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 		pkt = p.Create("line3")
 		p.Send(wsansreq.out, pkt)
 
-		pkt = p.Receive(wsansreq.ipt) // close bracket
+		pkt = p.Receive(wsansreq.ipt) // emit close bracket
 		p.Send(wsansreq.out, pkt)
 
-		pkt = p.Receive(wsansreq.ipt)
+		pkt = p.Receive(wsansreq.ipt)  // now test if a @kill was received: if not, go get next substream
 		if pkt.PktType == core.Signal && pkt.Contents.(string) == "@kill" {
 			p.Send(wsansreq.out, pkt)
 			pkt = p.Receive(wsansreq.ipt)
@@ -77,7 +76,7 @@ func (wsansreq *WSAnsReq) Execute(p *core.Process) {
 }
 
 </pre>
-
+		</p><p>
 This will output a substream for every substream it receives.  Two more points:
 <ul><li>The IP after the "open bracket", containing a reference to a copy of the WebSocket connection, is received and immediately output</li>
 <li>after the "close bracket" is received, a check is made for the "@kill" signal IP: if there is one, it is immediately output.  Whether or not this happens, the code then 
