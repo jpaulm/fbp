@@ -4,8 +4,8 @@
 <html lang="en">
   <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Flow-based Programming :: Comparison</title>
-		<meta name="description" content="Official website for flow-based programming" />
+		<title>Flow-based Programming :: Patterns</title>
+		<meta name="description" content="Patterns in flow-based programming" />
 		<meta name="keywords" content="flow-based programming c c++ java c# lua paul morrison data flow dataflow componentry streams threads fbp flow-based distributed applications development multicore multithreading parallelism maintainability visual programming asynchronism asynchronous SOA MOM programming NoFlo dataflow simplicity productivity paradigm" />
 		<link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
 		<meta name=viewport content='width=device-width, initial-scale=1'>
@@ -22,12 +22,12 @@
 		<div class="content wrap">
 			<section class="posts">
 				<article class="post text">
-<H2 ALIGN=CENTER><FONT COLOR="#000099">Patterns in Flow-Based
+<H2 ><FONT COLOR="#000099">Patterns in Flow-Based
 Programming</FONT></H2>
-<H3 ALIGN=CENTER><FONT COLOR="#000099">(Apr., 2005)</FONT></H3>
-<H4 ALIGN=CENTER><FONT COLOR="#000099">J. Paul Morrison</FONT></H4>
+<H3 ><FONT COLOR="#000099">(Apr., 2005)</FONT></H3>
+<H4 ><FONT COLOR="#000099">J. Paul Morrison</FONT></H4>
 <HR>
-<P ALIGN=LEFT><BR>In recent years, the concept of &quot;pattern&quot;
+<P ><BR>In recent years, the concept of &quot;pattern&quot;
 seems to be have caught the imagination of many in the information
 technology (IT) industry.&nbsp; This concept was developed
 extensively by C. Alexander, first in his seminal book &quot;Notes on
@@ -52,7 +52,7 @@ we are currently in computer application development.
                                                                      
                            
 </P>
-<P ALIGN=LEFT>Here is a quote from the 1994 book by the author of
+<P >Here is a quote from the 1994 book by the author of
 this paper, &quot;Flow-Based Programming&quot; (<A HREF="http://www.amazon.com/exec/obidos/ISBN%3D0442017715">ISBN
 0-442-01771-5)</A>:</P>
 <BLOCKQUOTE STYLE="text-align: left"><FONT COLOR="#000099">It is a
@@ -89,7 +89,7 @@ applications. The combination of more and more complex systems, the
 sheer difficulty of the medium programmers work in and the need for
 businesses to reduce overhead is resulting in more and more pressure
 on today's programming professionals.</FONT></BLOCKQUOTE>
-<P ALIGN=LEFT>Flow-Based Programming (FBP) is a technology that
+<P >Flow-Based Programming (FBP) is a technology that
 addresses these fundamental problems by breaking away from the purely
 sequential, von Neumann architectural style.&nbsp; In FBP, an
 application is composed of asynchronously running components,
@@ -114,7 +114,7 @@ which would allow us to take advantages of our natural skills.&nbsp;
 In FBP, these patterns are easily recognized, and in fact can be
 consciously manipulated at different levels. 
 </P>
-<P ALIGN=LEFT>In this paper, we will give examples of some of the
+<P >In this paper, we will give examples of some of the
 visual patterns that are found in&nbsp; FBP.&nbsp; This is only a
 subset, but our intent is to show how certain FBP patterns have
 characteristic visual shapes, and can in turn be used as building
@@ -122,14 +122,14 @@ blocks in increasingly complex applications.&nbsp; The paper will
 close with a description of one of Alexander's more compelling
 analogies, and a description of some of the lessons that can be drawn
 from it.</P>
-<P ALIGN=LEFT>Before continuing further, it is necessary to describe
+<P >Before continuing further, it is necessary to describe
 the major elements of FBP.&nbsp; The following diagram is a network
 or network fragment which should suffice to explain some of the main
 elements of FBP.</P>
-<P ALIGN=LEFT><IMG SRC="images/image002.jpg" NAME="graphics1" ALIGN=BOTTOM WIDTH=528 HEIGHT=295 BORDER=0>
+<P><IMG SRC="images/image002.jpg" NAME="graphics1" ALIGN=BOTTOM WIDTH=528 HEIGHT=295 BORDER=0>
 </P>
-<P ALIGN=LEFT>Diagram<SPAN STYLE="font-style: normal"> 1</SPAN></P>
-<P ALIGN=LEFT><I>A</I>, <I>B</I> and <I>C</I> are processors
+<P>Diagram<SPAN STYLE="font-style: normal"> 1</SPAN></P>
+<P ><I>A</I>, <I>B</I> and <I>C</I> are processors
 (threads) executing code components.&nbsp; These components are also
 often referred to as &quot;coroutines&quot;, or &quot;processes&quot;.&nbsp;
 In this paper, we will use the term &quot;processor&quot;, taken from
@@ -145,20 +145,20 @@ executed by one (or more) processors will often be referred to as a
 box&quot;, and can be used in an application without any knowledge of
 its internals.&nbsp; 
 </P>
-<P ALIGN=LEFT>Processors are connected by bounded buffers called
+<P>Processors are connected by bounded buffers called
 &quot;connections&quot;, across which travel structured chunks of
 data, called information packets (IPs), as stated above.&nbsp; The
 component code references a connection by a &quot;port name&quot;,
 and the same port name is used in a definition of which processors
 are connected to which connections, e.g. &quot;port A of processor X
 is connected to port B of processor Y&quot;.</P>
-<P ALIGN=LEFT>In the above diagram, <I>O1</I>, <I>O2</I>, and the two
+<P>In the above diagram, <I>O1</I>, <I>O2</I>, and the two
 <I>IN</I>s are ports connecting the connections <I>M</I> and <I>N</I>
 to their respective processes.&nbsp; Whether or not two processors
 share code, <I>B</I> and <I>C</I> are free to use the same port
 names, as port names only have meaning within the components
 referencing them (and at the network level, of course).</P>
-<P ALIGN=LEFT><I>M</I> and <I>N</I>&nbsp; are bounded buffers with a
+<P ><I>M</I> and <I>N</I>&nbsp; are bounded buffers with a
 fixed capacity in terms of the number of IPs that they can hold at
 any point in time.&nbsp; IP size is totally variable from 0 bytes up
 to the hardware limit. Restricting a connection to a limited number
@@ -171,7 +171,7 @@ problem known as &quot;livelock&quot;, and guarantees that all data
 will be processed. It should be stressed that the bounded buffer
 connections connecting processor ports are the <I>only</I> way these
 processors are allowed to communicate with each other.</P>
-<P ALIGN=LEFT>In Linda, a somewhat similar system described by
+<P >In Linda, a somewhat similar system described by
 Gelernter and Carriero in a number of papers, data chunks, known as
 &quot;tuples&quot; are allocated in &quot;tuple space&quot;. For
 similar reasons, in FBP, IPs are allocated in &quot;IP space&quot;,
@@ -231,9 +231,9 @@ describe this in more detail below.</P>
 streams via what FBP refers to as an &quot;array port&quot;, so we
 can represent the two-stream case as follows: 
 </P>
-<PRE STYLE="margin-bottom: 0.5cm; text-align: left">         <IMG SRC="images/diag2.jpg" NAME="graphics3" ALT="images/diag2" ALIGN=BOTTOM WIDTH=303 HEIGHT=206 BORDER=0></PRE><P ALIGN=LEFT>
+<PRE STYLE="margin-bottom: 0.5cm; text-align: left">         <IMG SRC="images/diag2.jpg" NAME="graphics3" ALT="images/diag2" ALIGN=BOTTOM WIDTH=303 HEIGHT=206 BORDER=0></PRE><P>
 Diagram 3</P>
-<P ALIGN=LEFT>The &quot;[0]&quot; and &quot;[1]&quot; indicate that
+<P>The &quot;[0]&quot; and &quot;[1]&quot; indicate that
 &quot;Collate&quot;'s port &quot;IN&quot; is an array port with 2
 elements. Clearly this can be generalized to any number of elements,
 from 1 upwards. 
